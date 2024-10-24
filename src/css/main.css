@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: azure;
+}
+#progressBar {
+    animation-iteration-count: infinite;
+    animation-name: progressBar;
+    animation-timing-function: linear;
+}
+
+@keyframes progressBar {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
