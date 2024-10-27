@@ -1,1 +1,1 @@
-export var defaultTimeProgressBar = 60.0;
+export var defaultTimeProgressBar = 10.0;

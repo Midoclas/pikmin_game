@@ -12,24 +12,20 @@ var ProgressBar = /** @class */ (function () {
     ProgressBar.prototype.setTimeProgressBar = function (timeProgressBar) {
         this.timeProgressBar = timeProgressBar;
         if (this.objectElement !== null) {
+            this.objectElement.style.animationName = "progressBar";
             this.objectElement.style.animationDuration = this.timeProgressBar + "s";
         }
-        this.repaint();
     };
     ProgressBar.prototype.getTimeProgressBar = function () {
         return this.timeProgressBar;
     };
-    ProgressBar.prototype.setProgressBar = function () {
+    ProgressBar.prototype.resetProgressBar = function () {
         if (this.objectElement !== null) {
             this.objectElement.style.animationDuration = this.timeProgressBar + "s";
+            this.objectElement.style.animationName = "";
+            this.objectElement.offsetHeight;
             this.objectElement.style.animationName = "progressBar";
         }
-        this.repaint();
-    };
-    ProgressBar.prototype.repaint = function () {
-        // if (this.objectElement !== null) {
-        //     this.objectElement.innerHTML = this.timeProgressBar.toString();
-        // }
     };
     return ProgressBar;
 }());

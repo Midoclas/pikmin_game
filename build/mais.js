@@ -1,2 +1,3 @@
 import Idle from "./Idle.js";
-var idle = new Idle();
+import Pikmin from "./Pikmin.js";
+var idle = new Idle(new Pikmin("pikmin_red"));

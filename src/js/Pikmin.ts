@@ -1,27 +1,43 @@
 
 
-class Pikmin {
+export default class Pikmin {
 
-    objectElement: string;
-    id: Int32Array;
+    id: string;
+    nbPikmin = 0;
 
-    constructor(objectElement: string, id: Int32Array) {
-        this.objectElement = objectElement;
-        this.id = id
+    constructor(id: string) {
+        this.id = id;
+        this.initStorage();
     }
 
     initStorage() {
-        var storedValue = localStorage.getItem("pikmin"+this.id);
-        if (storedValue === null) {
-            localStorage.setItem("pikmin"+this.id, "0");
+        var storedValue = localStorage.getItem(this.id);
+        if (storedValue !== null) {
+            this.setNbPikmin(parseInt(storedValue));
+            this.nbPikmin = parseInt(storedValue);
         }
+    }
+
+    save() {
+        localStorage.setItem(this.id, this.nbPikmin.toString());
     }
     
     getNbPikmin() {
-        return localStorage.getItem("pikmin"+this.id);
+        return this.nbPikmin;
     }
     
-    setNbPikmin(nb: Int32Array) {
-        localStorage.setItem("pikmin"+this.id, nb.toString());
+    setNbPikmin(nb: number) {
+        this.nbPikmin = nb;
+        this.save();
+    }
+
+    add(nb: number) {
+        this.nbPikmin += nb;
+        this.save();
+    }
+
+    remove(nb: number) {
+        this.nbPikmin -= nb;
+        this.save();
     }
 }
