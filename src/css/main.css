@@ -1,20 +1,74 @@
+:root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2a2a2a;
+    --bg-tertiary: #3a3a3a;
+    --bg-rainbow: linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 1) 0%,
+        rgba(255, 154, 0, 1) 10%,
+        rgba(208, 222, 33, 1) 20%,
+        rgba(79, 220, 74, 1) 30%,
+        rgba(63, 218, 216, 1) 40%,
+        rgba(47, 201, 226, 1) 50%,
+        rgba(28, 127, 238, 1) 60%,
+        rgba(95, 21, 242, 1) 70%,
+        rgba(186, 12, 248, 1) 80%,
+        rgba(251, 7, 217, 1) 90%,
+        rgba(255, 0, 0, 1) 100%
+    );
+}
+
 body {
     margin: 0;
     padding: 0;
-    background-color: #1a1a1a;
+    background-color: var(--bg-primary);
     color: azure;
 }
-#progressBar {
+
+#idle {
+    background-color: var(--bg-secondary);
+}
+
+.progressBarContainer {
+    background: var(--bg-rainbow);
+    height: 1rem;
+    margin: 0.5rem;
+    border-radius: 50rem;
+    display: flex;
+    justify-content: end;
+}
+
+.progressBar {
     animation-iteration-count: infinite;
     animation-name: progressBar;
     animation-timing-function: linear;
+    height: 100%;
+    background-color: #2a2a2a;
+    border-radius: 0 50rem 50rem 0;
+}
+
+.idleLoading {
+    background-image: url('../img/sprite.png');
+    background-position: -12px -5px;
+    width: 16px;
+    height: 48px;
+}
+
+.leaf::before {
+    content: "";
+    display: block;
+    margin-left: 6px;
+    background-image: url('../img/sprite.png');
+    background-position: -291px -161px;
+    width: 16px;
+    height: 13px;
 }
 
 @keyframes progressBar {
     0% {
-        width: 0;
+        width: 100%;
     }
     100% {
-        width: 100%;
+        width: 0;
     }
 }

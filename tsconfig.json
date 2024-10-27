@@ -1,0 +1,8 @@
+{
+  "include" : ["src/js"],
+  "compilerOptions": {
+    "outDir": "build",
+    "module": "es6",                                /* Specify what module code is generated. */
+    "strict": true,                                      /* Enable all strict type-checking options. */
+  }
+}

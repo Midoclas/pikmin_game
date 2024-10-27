@@ -10,17 +10,22 @@
 <body>
     <div class="container-fluid">
         <div class="row min-vh-100">
-            <div class="col-2 gx-0 border p-2 bg-primary" id="stockage">
+            <div class="col-2 gx-0 border p-2 bg-tertiary" id="stockage">
                 <div>Ici les différentes monaies</div>
                 <div>Ici les upgrade globales</div>
                 <div>Ici les donjons ?</div>
             </div>
-            <div class="col-10 gx-0 border">
-                <!-- <div class="bg-secondary">Ici les money diverses (A voir en responsive si on garde ça)</div> -->
-                <div class="bg-info">Ici le container principal</div>
+            <div class="col-10 gx-0 border text-center">
+                <div class="p-2 w-100" id="idle">
+                    <div class="idleLoading leaf mx-auto"></div>
+                    <div class="progressBarContainer">
+                        <div id="idleProgressBar" class="progressBar"></div>
+                    </div>
+                    <button class="btn btn-primary" id="getPikmin" type="button">Récolter</button>
+                </div>
             </div>
         </div>
     </div>
-    <script type="module" src="src/js/mais.js"></script>
+    <script type="module" src="build/mais.js"></script>
 </body>
 </html>

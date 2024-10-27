@@ -2,9 +2,10 @@
 
 class Pikmin {
 
-    objectElement;
+    objectElement: string;
+    id: Int32Array;
 
-    constructor(objectElement, id) {
+    constructor(objectElement: string, id: Int32Array) {
         this.objectElement = objectElement;
         this.id = id
     }
@@ -12,7 +13,7 @@ class Pikmin {
     initStorage() {
         var storedValue = localStorage.getItem("pikmin"+this.id);
         if (storedValue === null) {
-            localStorage.setItem("pikmin"+this.id, 0);
+            localStorage.setItem("pikmin"+this.id, "0");
         }
     }
     
@@ -20,9 +21,7 @@ class Pikmin {
         return localStorage.getItem("pikmin"+this.id);
     }
     
-    setNbPikmin(nb) {
-        localStorage.setItem("pikmin"+this.id, nb);
+    setNbPikmin(nb: Int32Array) {
+        localStorage.setItem("pikmin"+this.id, nb.toString());
     }
-
-    
 }

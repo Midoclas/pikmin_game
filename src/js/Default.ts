@@ -1,0 +1,1 @@
+export const defaultTimeProgressBar = 60.0;
