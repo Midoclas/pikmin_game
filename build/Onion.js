@@ -44,11 +44,18 @@ var Onion = /** @class */ (function () {
     }
     Onion.prototype.initHtml = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, html, parseHtml, error_1;
+            var existingElement, response, html, parseHtml, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
+                        if (!this.container) {
+                            return [2 /*return*/];
+                        }
+                        existingElement = this.container.querySelector('#' + this.id);
+                        if (existingElement) {
+                            existingElement.remove();
+                        }
                         return [4 /*yield*/, fetch("./src/views/onion.html")];
                     case 1:
                         response = _a.sent();
@@ -63,8 +70,7 @@ var Onion = /** @class */ (function () {
                         html = html.replace('{pikmin_upgrade}', this.pikmin.id_upgrade);
                         html = html.replace('{nb_pikmin}', this.pikmin.nbPikmin.toString());
                         parseHtml = new DOMParser().parseFromString(html, "text/html");
-                        console.log(parseHtml, parseHtml.documentElement);
-                        if (this.container && parseHtml.body.firstChild) {
+                        if (parseHtml.body.firstChild) {
                             this.container.appendChild(parseHtml.body.firstChild);
                             this.container.offsetHeight;
                         }

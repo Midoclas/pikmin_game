@@ -4,18 +4,23 @@ import Pikmin from "./Pikmin.js";
 
 export default class Idle extends ProgressBar {
 
-    pikmin: Pikmin;
+    pikmin: Pikmin|null;
     timeoutId = 0;
     isHarvestable = false;
     btn = document.getElementById("harvest");
 
-    constructor(pikmin: Pikmin) {
+    constructor(pikmin: Pikmin|null) {
         let query = "idleProgressBar";
         super(query, defaultTimeProgressBar);
         
         this.pikmin = pikmin;
-        this.initEventListener();
-        this.init();
+        if (this.pikmin !== null) {
+            this.initEventListener();
+            this.init();
+        } else {
+            this.repaint();
+        }
+        
     }
 
     initEventListener() {
@@ -26,6 +31,19 @@ export default class Idle extends ProgressBar {
 
     init() {
         this.plant();
+    }
+
+    setPikmin(pikmin: Pikmin) {
+        this.pikmin = pikmin;
+        this.initEventListener();
+        this.init();
+    }
+
+    resetIdle() {
+        this.pikmin = null;
+        this.isHarvestable = false;
+        this.timeoutId = 0;
+        this.repaint();
     }
 
     plant() {
@@ -39,7 +57,7 @@ export default class Idle extends ProgressBar {
     }
 
     harvest() {
-        if (this.isHarvestable) {
+        if (this.isHarvestable && this.pikmin !== null) {
             this.pikmin.add(1);
             this.plant();
         }

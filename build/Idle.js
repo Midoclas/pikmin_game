@@ -25,8 +25,13 @@ var Idle = /** @class */ (function (_super) {
         _this.isHarvestable = false;
         _this.btn = document.getElementById("harvest");
         _this.pikmin = pikmin;
-        _this.initEventListener();
-        _this.init();
+        if (_this.pikmin !== null) {
+            _this.initEventListener();
+            _this.init();
+        }
+        else {
+            _this.repaint();
+        }
         return _this;
     }
     Idle.prototype.initEventListener = function () {
@@ -39,6 +44,17 @@ var Idle = /** @class */ (function (_super) {
     Idle.prototype.init = function () {
         this.plant();
     };
+    Idle.prototype.setPikmin = function (pikmin) {
+        this.pikmin = pikmin;
+        this.initEventListener();
+        this.init();
+    };
+    Idle.prototype.resetIdle = function () {
+        this.pikmin = null;
+        this.isHarvestable = false;
+        this.timeoutId = 0;
+        this.repaint();
+    };
     Idle.prototype.plant = function () {
         var _this = this;
         this.isHarvestable = false;
@@ -50,7 +66,7 @@ var Idle = /** @class */ (function (_super) {
         }, this.timeProgressBar * 1000);
     };
     Idle.prototype.harvest = function () {
-        if (this.isHarvestable) {
+        if (this.isHarvestable && this.pikmin !== null) {
             this.pikmin.add(1);
             this.plant();
         }

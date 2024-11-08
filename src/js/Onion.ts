@@ -36,14 +36,10 @@ export default class Onion {
             html = html.replace('{pikmin_upgrade}', this.pikmin.id_upgrade);
             html = html.replace('{nb_pikmin}', this.pikmin.nbPikmin.toString());
             const parseHtml = new DOMParser().parseFromString(html, "text/html")
-            console.log(parseHtml, parseHtml.documentElement);
             if (parseHtml.body.firstChild) {
                 this.container.appendChild(parseHtml.body.firstChild);
                 this.container.offsetHeight;
             }
-            
-            
-
         } catch (error: any) {
             console.error(error.message);
         }
