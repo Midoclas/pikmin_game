@@ -5,7 +5,10 @@ export default abstract class ProgressBar {
 
     constructor(query: string , defaultStoredValue: any) {
         this.objectElement = document.getElementById(query);
-
+        if (this.objectElement) {
+            this.objectElement.style.width = "100%";
+        }
+        
         var storedValue = localStorage.getItem(defaultStoredValue);
         if (storedValue === null) {
             this.timeProgressBar = parseFloat(defaultStoredValue);
@@ -28,6 +31,7 @@ export default abstract class ProgressBar {
 
     resetProgressBar() {
         if (this.objectElement !== null) {
+            this.objectElement.style.width = "";
             this.objectElement.style.animationDuration = this.timeProgressBar+"s";
             this.objectElement.style.animationName = "";
             this.objectElement.offsetHeight;

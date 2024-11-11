@@ -1,86 +1,87 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _a, _Idle_instance;
 import { defaultTimeProgressBar } from "./Default.js";
 import ProgressBar from "./ElementsType/ProgressBar/ProgressBar.js";
-var Idle = /** @class */ (function (_super) {
-    __extends(Idle, _super);
-    function Idle(pikmin) {
-        var _this = this;
-        var query = "idleProgressBar";
-        _this = _super.call(this, query, defaultTimeProgressBar) || this;
-        _this.timeoutId = 0;
-        _this.isHarvestable = false;
-        _this.btn = document.getElementById("harvest");
-        _this.pikmin = pikmin;
-        if (_this.pikmin !== null) {
-            _this.initEventListener();
-            _this.init();
+class Idle extends ProgressBar {
+    constructor(onion) {
+        let query = "idleProgressBar";
+        super(query, defaultTimeProgressBar);
+        this.timeoutId = 0;
+        this.isHarvestable = false;
+        this.btn = document.getElementById("harvest");
+        this.onion = onion;
+        if (this.onion !== null) {
+            this.initEventListener();
+            this.init();
         }
         else {
-            _this.repaint();
+            this.repaint();
         }
-        return _this;
     }
-    Idle.prototype.initEventListener = function () {
-        var _this = this;
-        var _a;
-        (_a = this.btn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function () {
-            _this.harvest();
+    static get instance() {
+        if (!__classPrivateFieldGet(_a, _a, "f", _Idle_instance)) {
+            __classPrivateFieldSet(_a, _a, new _a(null), "f", _Idle_instance);
+        }
+        return __classPrivateFieldGet(_a, _a, "f", _Idle_instance);
+    }
+    initEventListener() {
+        var _b;
+        (_b = this.btn) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => {
+            this.harvest();
         });
-    };
-    Idle.prototype.init = function () {
+    }
+    init() {
         this.plant();
-    };
-    Idle.prototype.setPikmin = function (pikmin) {
-        this.pikmin = pikmin;
+    }
+    setOnion(onion) {
+        this.onion = onion;
         this.initEventListener();
         this.init();
-    };
-    Idle.prototype.resetIdle = function () {
-        this.pikmin = null;
+    }
+    resetIdle() {
+        this.onion = null;
         this.isHarvestable = false;
         this.timeoutId = 0;
         this.repaint();
-    };
-    Idle.prototype.plant = function () {
-        var _this = this;
+    }
+    plant() {
+        console.log("Je plant");
         this.isHarvestable = false;
         this.resetProgressBar();
         this.repaint();
-        this.timeoutId = setTimeout(function () {
-            _this.isHarvestable = true;
-            _this.repaint();
+        this.timeoutId = setTimeout(() => {
+            this.isHarvestable = true;
+            this.repaint();
         }, this.timeProgressBar * 1000);
-    };
-    Idle.prototype.harvest = function () {
-        if (this.isHarvestable && this.pikmin !== null) {
-            this.pikmin.add(1);
+    }
+    harvest() {
+        if (this.isHarvestable && this.onion !== null) {
+            this.onion.pikmin.add(1);
             this.plant();
+            this.onion.repaint();
         }
         return false;
-    };
-    Idle.prototype.repaint = function () {
-        var _a, _b;
+    }
+    repaint() {
+        var _b, _c;
         if (this.isHarvestable) {
-            (_a = this.btn) === null || _a === void 0 ? void 0 : _a.removeAttribute("disabled");
+            (_b = this.btn) === null || _b === void 0 ? void 0 : _b.removeAttribute("disabled");
         }
         else {
-            (_b = this.btn) === null || _b === void 0 ? void 0 : _b.setAttribute("disabled", "");
+            (_c = this.btn) === null || _c === void 0 ? void 0 : _c.setAttribute("disabled", "");
         }
-    };
-    return Idle;
-}(ProgressBar));
+    }
+}
+_a = Idle;
+_Idle_instance = { value: void 0 };
 export default Idle;

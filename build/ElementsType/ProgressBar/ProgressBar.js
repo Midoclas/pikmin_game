@@ -1,6 +1,9 @@
-var ProgressBar = /** @class */ (function () {
-    function ProgressBar(query, defaultStoredValue) {
+export default class ProgressBar {
+    constructor(query, defaultStoredValue) {
         this.objectElement = document.getElementById(query);
+        if (this.objectElement) {
+            this.objectElement.style.width = "100%";
+        }
         var storedValue = localStorage.getItem(defaultStoredValue);
         if (storedValue === null) {
             this.timeProgressBar = parseFloat(defaultStoredValue);
@@ -9,24 +12,23 @@ var ProgressBar = /** @class */ (function () {
             this.timeProgressBar = parseFloat(storedValue);
         }
     }
-    ProgressBar.prototype.setTimeProgressBar = function (timeProgressBar) {
+    setTimeProgressBar(timeProgressBar) {
         this.timeProgressBar = timeProgressBar;
         if (this.objectElement !== null) {
             this.objectElement.style.animationName = "progressBar";
             this.objectElement.style.animationDuration = this.timeProgressBar + "s";
         }
-    };
-    ProgressBar.prototype.getTimeProgressBar = function () {
+    }
+    getTimeProgressBar() {
         return this.timeProgressBar;
-    };
-    ProgressBar.prototype.resetProgressBar = function () {
+    }
+    resetProgressBar() {
         if (this.objectElement !== null) {
+            this.objectElement.style.width = "";
             this.objectElement.style.animationDuration = this.timeProgressBar + "s";
             this.objectElement.style.animationName = "";
             this.objectElement.offsetHeight;
             this.objectElement.style.animationName = "progressBar";
         }
-    };
-    return ProgressBar;
-}());
-export default ProgressBar;
+    }
+}

@@ -1,6 +1,6 @@
 # SCSS
 ```bash
-sass --watch src/css/bootstrap/custom.scss src/css/custom.css 
+sass --watch src/scss/custom.scss src/css/custom.css 
 ```
 
 # TypeScript

@@ -6,20 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="src/css/custom.css" rel="stylesheet">
+  <link href="src/css/assets.css" rel="stylesheet">
   <link href="src/css/main.css" rel="stylesheet">
 </head>
 <body>
     <div class="container-fluid">
         <div class="row min-vh-100">
-            <div class="col-2 gx-0 border p-2 bg-c-tertiary" id="stockage">
+            <div class="col-2 gx-0 position-fixed border p-2 bg-c-tertiary bottom-0 top-0" id="stockage">
                 <div>Ici les différentes monaies</div>
                 <div>Ici les upgrade globales</div>
                 <div>Ici les donjons ?</div>
             </div>
-            <div class="col-10 gx-0 border text-center">
-                <div class="p-2 w-100" id="idle">
-                    <div class="idleLoading leaf mx-auto"></div>
-                    <div class="progressBarContainer">
+            <div class="col-10 gx-0 offset-2 border text-center">
+                <div class="p-2 w-100 d-flex flex-column justify-content-end align-items-center" id="idle">
+                    <div class="pikmin_red_plant_animation mx-auto"></div>
+                    <div class="progressBarContainer w-100">
                         <div id="idleProgressBar" class="progressBar"></div>
                     </div>
                     <button class="btn btn-primary" id="harvest" type="button">Harvest</button>

@@ -1,0 +1,24 @@
+@mixin two-steps-keyframe ($name, $bgsx, $bgsy, $bgex, $bgey) {
+    @keyframes #{$name} {
+        from {
+            background-position: $bgsx $bgsy
+        }
+        to {
+            background-position: $bgex $bgey;
+        }
+    }
+}
+
+@mixin three-steps-keyframe ($name, $bgsx, $bgsy, $bgmx, $bgmy, $bgex, $bgey) {
+    @keyframes #{$name} {
+        from {
+            background-position: $bgsx $bgsy
+        }
+        50% {
+            background-position: $bgmx $bgmy;
+        }
+        to {
+            background-position: $bgex $bgey;
+        }
+    }
+}

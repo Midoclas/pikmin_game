@@ -1,0 +1,99 @@
+@use "mixin.scss";
+
+.pikmin {
+    width: 22px;
+    height: 50px;
+    background-image: url('../img/sprite.png');
+
+    &_red {
+        background-position: -9px -9px;
+        &_plant_animation {
+            width: 32px;
+            height: 35px;
+            background-image: url('../img/sprite.png');
+            animation: pikmin_red_plant_animation 0.5s infinite;
+            animation-timing-function: steps(3, jump-none);
+        }
+    }
+
+    &_yellow {
+        background-position: -100px -9px;
+        &_plant_animation {
+            background-image: url('../img/sprite.png');
+            animation: pikmin_yellow_plant_animation 0.5s infinite;
+            animation-timing-function: steps(3, jump-none);
+        }
+    }
+
+    &_blue {
+        background-position: -198px -8px;
+        &_plant_animation {
+            background-image: url('../img/sprite.png');
+            animation: pikmin_blue_plant_animation 0.5s infinite;
+            animation-timing-function: steps(3, jump-none);
+        }
+    }
+
+    &_purple {
+        background-position: -198px -8px;
+        &_plant_animation {
+            background-image: url('../img/sprite.png');
+            animation: pikmin_purple_plant_animation 0.5s infinite;
+            animation-timing-function: steps(3, jump-none);
+        }
+    }
+
+    &_white {
+        background-position: -198px -8px;
+        &_plant_animation {
+            background-image: url('../img/sprite.png');
+            animation: pikmin_white_plant_animation 0.5s infinite;
+            animation-timing-function: steps(3, jump-none);
+        }
+    }
+
+    &.leaf::before {
+        content: "";
+        display: block;
+        background-image: url('../img/sprite.png');
+        background-position: -289px -165px;
+        width: 16px;
+        height: 13px;
+        margin-left: 7px;
+    }
+}
+
+.onion {
+    background-image: url('../img/sprite.png');
+    animation-timing-function: steps(2, jump-none)!important;
+    width: 111px;
+    height: 113px;
+
+    &_pikmin_red_animation {
+        animation: onion_pikmin_red_animation 0.5s infinite;
+    }
+
+    &_pikmin_yellow_animation {
+        animation: onion_pikmin_yellow_animation 0.5s infinite;
+    }
+
+    &_pikmin_blue_animation {
+        animation: onion_pikmin_blue_animation 0.5s infinite;
+    }
+
+    &_pikmin_purple_animation {
+        animation: onion_pikmin_purple_animation 0.5s infinite;
+    }
+
+    &_pikmin_white_animation {
+        animation: onion_pikmin_white_animation 0.5s infinite;
+    }
+}
+
+@include mixin.two-steps-keyframe("onion_pikmin_red_animation", -715px, -9px, -715px, -133px);
+@include mixin.two-steps-keyframe("onion_pikmin_yellow_animation", -976px, -13px, -976px, -130px);
+@include mixin.two-steps-keyframe("onion_pikmin_blue_animation", -1235px, -13px, -1235px, -130px);
+@include mixin.two-steps-keyframe("onion_pikmin_purple_animation", -1490px, -11px, -1490px, -131px);
+@include mixin.two-steps-keyframe("onion_pikmin_white_animation", -1772px, -11px, -1772px, -128px);
+
+@include mixin.two-steps-keyframe("pikmin_red_plant_animation", -373px, -141px, -435px, -141px);

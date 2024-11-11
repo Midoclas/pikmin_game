@@ -1,26 +1,35 @@
 import { defaultTimeProgressBar } from "./Default.js";
 import ProgressBar from "./ElementsType/ProgressBar/ProgressBar.js"
-import Pikmin from "./Pikmin.js";
+import Onion from "./Onion.js";
 
 export default class Idle extends ProgressBar {
 
-    pikmin: Pikmin|null;
+    static #instance : Idle;
+    onion: Onion|null;
     timeoutId = 0;
     isHarvestable = false;
     btn = document.getElementById("harvest");
 
-    constructor(pikmin: Pikmin|null) {
+    constructor(onion: Onion|null) {
         let query = "idleProgressBar";
         super(query, defaultTimeProgressBar);
         
-        this.pikmin = pikmin;
-        if (this.pikmin !== null) {
+        this.onion = onion;
+        if (this.onion !== null) {
             this.initEventListener();
             this.init();
         } else {
             this.repaint();
         }
         
+    }
+
+    public static get instance(): Idle {
+        if (!Idle.#instance) {
+            Idle.#instance = new Idle(null);
+        }
+
+        return Idle.#instance;
     }
 
     initEventListener() {
@@ -33,20 +42,21 @@ export default class Idle extends ProgressBar {
         this.plant();
     }
 
-    setPikmin(pikmin: Pikmin) {
-        this.pikmin = pikmin;
+    setOnion(onion: Onion) {
+        this.onion = onion;
         this.initEventListener();
         this.init();
     }
 
     resetIdle() {
-        this.pikmin = null;
+        this.onion = null;
         this.isHarvestable = false;
         this.timeoutId = 0;
         this.repaint();
     }
 
     plant() {
+        console.log("Je plant");
         this.isHarvestable = false;
         this.resetProgressBar();
         this.repaint()
@@ -57,9 +67,10 @@ export default class Idle extends ProgressBar {
     }
 
     harvest() {
-        if (this.isHarvestable && this.pikmin !== null) {
-            this.pikmin.add(1);
+        if (this.isHarvestable && this.onion !== null) {
+            this.onion.pikmin.add(1);
             this.plant();
+            this.onion.repaint();
         }
         return false;
     }
