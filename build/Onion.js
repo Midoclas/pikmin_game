@@ -31,7 +31,6 @@ export default class Onion {
         (_a = this.selectOnionBtn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
             var _a;
             if (this.idle.onion == null || this.idle.onion.id !== this.id) {
-                console.log("Je passe ici");
                 this.idle.resetIdle();
                 this.idle.setOnion(this);
                 document.querySelectorAll(".selectOnion").forEach((nodeElem) => {
@@ -85,6 +84,23 @@ export default class Onion {
                     (_a = document.querySelector('.onionContainer[data-position="' + (position - 1) + '"]')) === null || _a === void 0 ? void 0 : _a.after(element);
                 }
             }
+        });
+    }
+    static landing() {
+        var onions = document.querySelectorAll('.onionContainer');
+        onions.forEach((element) => {
+            var positionAttr = element.getAttribute("data-position");
+            var position = 1;
+            if (positionAttr) {
+                position = parseInt(positionAttr);
+            }
+            setTimeout(() => {
+                var onionImgContainer = element.querySelector(".onionImgContainer");
+                onionImgContainer === null || onionImgContainer === void 0 ? void 0 : onionImgContainer.classList.add("landing");
+                onionImgContainer === null || onionImgContainer === void 0 ? void 0 : onionImgContainer.addEventListener("animationend", () => {
+                    onionImgContainer === null || onionImgContainer === void 0 ? void 0 : onionImgContainer.classList.add("top-0");
+                });
+            }, position * 500);
         });
     }
     repaint() {

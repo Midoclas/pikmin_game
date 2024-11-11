@@ -40,6 +40,7 @@ export default class Idle extends ProgressBar {
 
     init() {
         this.plant();
+        document.getElementById('idle-animation')?.classList.add('plant', this.onion?.pikmin.id+"_plant_animation", "mx-auto");
     }
 
     setOnion(onion: Onion) {
@@ -52,11 +53,14 @@ export default class Idle extends ProgressBar {
         this.onion = null;
         this.isHarvestable = false;
         this.timeoutId = 0;
+        var idleAnimation = document.getElementById('idle-animation');
+        if (idleAnimation !== null) {
+            idleAnimation.className = "";
+        }
         this.repaint();
     }
 
     plant() {
-        console.log("Je plant");
         this.isHarvestable = false;
         this.resetProgressBar();
         this.repaint()

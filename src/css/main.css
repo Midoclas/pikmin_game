@@ -32,11 +32,67 @@ p {
     border-radius: 0 50rem 50rem 0;
 }
 
+.landing {
+    animation-name: landingX, landingY, landingRotate;
+    animation-duration: 5s;
+    animation-timing-function: cubic-bezier(.5,.02,.57,.91), ease-out, cubic-bezier(.74,.23,.65,.84);
+}
+
 @keyframes progressBar {
     0% {
         width: 100%;
     }
     100% {
         width: 0;
+    }
+}
+
+@keyframes landingX {
+    from {
+        right: 0;
+        left: 0;
+    }
+    25% {
+        right: 125px;
+        left: -125px;
+    }
+    50% {
+        right: -75px;
+        left: 75px;
+    }
+    75% {
+        right: 25px;
+        left: -25px;
+    }
+    to {
+        right: 0;
+        left: 0;
+    }
+}
+
+@keyframes landingY {
+    from {
+        top: -1000px;
+    }
+
+    to {
+        top: 0;
+    }
+}
+
+@keyframes landingRotate {
+    from {
+    }
+    25% {
+        transform: rotate(20deg);
+    }
+    50% {
+        transform: rotate(-10deg);
+    }
+    75% {
+        transform: rotate(3deg);
+    }
+    to {
+        transform: rotate(0deg);
     }
 }

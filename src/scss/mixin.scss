@@ -22,3 +22,37 @@
         }
     }
 }
+
+@mixin eight-steps-keyframe ($name, $bg1x, $bg1y, $bg2x, $bg2y, $bg3x, $bg3y) {
+    @keyframes #{$name} {
+        from {
+            background-position: $bg1x $bg1y;
+        }
+        12.5% {
+            background-position: $bg2x $bg2y;
+        }
+        25% {
+            background-position: $bg3x $bg3y;
+        }
+        37.5% {
+            background-position: $bg2x $bg2y;
+            transform: scaleX(1);
+        }
+        50% {
+            transform: scaleX(-1);
+            background-position: $bg1x $bg1y;
+        }
+        62.5% {
+            background-position: $bg2x $bg2y;
+        }
+        75% {
+            background-position: $bg3x $bg3y;
+        }
+        87.5% {
+            background-position: $bg2x $bg2y;
+        }
+        to {
+            background-position: $bg1x $bg1y;
+        }
+    }
+}

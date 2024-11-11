@@ -41,7 +41,9 @@ class Idle extends ProgressBar {
         });
     }
     init() {
+        var _b, _c;
         this.plant();
+        (_b = document.getElementById('idle-animation')) === null || _b === void 0 ? void 0 : _b.classList.add('plant', ((_c = this.onion) === null || _c === void 0 ? void 0 : _c.pikmin.id) + "_plant_animation", "mx-auto");
     }
     setOnion(onion) {
         this.onion = onion;
@@ -52,10 +54,13 @@ class Idle extends ProgressBar {
         this.onion = null;
         this.isHarvestable = false;
         this.timeoutId = 0;
+        var idleAnimation = document.getElementById('idle-animation');
+        if (idleAnimation !== null) {
+            idleAnimation.className = "";
+        }
         this.repaint();
     }
     plant() {
-        console.log("Je plant");
         this.isHarvestable = false;
         this.resetProgressBar();
         this.repaint();

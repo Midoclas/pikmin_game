@@ -1,66 +1,43 @@
-@use "mixin.scss";
+@use "mixin";
+@use "mapping";
+@use "sass:list";
+
+$delay-pikmin-animation: 1s;
+$delay-pikmin-plant-animation: 0.5s;
+$delay-onion-animation: 0.2s;
 
 .pikmin {
     width: 22px;
-    height: 50px;
+    height: 51px;
     background-image: url('../img/sprite.png');
+    animation-timing-function: steps(1)!important;
+    background-position: 50% 100%;
 
-    &_red {
-        background-position: -9px -9px;
-        &_plant_animation {
-            width: 32px;
-            height: 35px;
-            background-image: url('../img/sprite.png');
-            animation: pikmin_red_plant_animation 0.5s infinite;
-            animation-timing-function: steps(3, jump-none);
+    @each $pikmin, $value in mapping.$pikmins {
+        &_#{$pikmin} {
+            animation: pikmin_#{$pikmin}_animation $delay-pikmin-animation infinite;
+            &_plant_animation {
+                animation: pikmin_#{$pikmin}_plant_animation $delay-pikmin-plant-animation infinite;
+            }
         }
     }
 
-    &_yellow {
-        background-position: -100px -9px;
-        &_plant_animation {
-            background-image: url('../img/sprite.png');
-            animation: pikmin_yellow_plant_animation 0.5s infinite;
-            animation-timing-function: steps(3, jump-none);
-        }
-    }
+    // &.leaf::before {
+    //     content: "";
+    //     display: block;
+    //     background-image: url('../img/sprite.png');
+    //     background-position: -289px -165px;
+    //     width: 16px;
+    //     height: 13px;
+    //     margin-left: 7px;
+    // }
+}
 
-    &_blue {
-        background-position: -198px -8px;
-        &_plant_animation {
-            background-image: url('../img/sprite.png');
-            animation: pikmin_blue_plant_animation 0.5s infinite;
-            animation-timing-function: steps(3, jump-none);
-        }
-    }
-
-    &_purple {
-        background-position: -198px -8px;
-        &_plant_animation {
-            background-image: url('../img/sprite.png');
-            animation: pikmin_purple_plant_animation 0.5s infinite;
-            animation-timing-function: steps(3, jump-none);
-        }
-    }
-
-    &_white {
-        background-position: -198px -8px;
-        &_plant_animation {
-            background-image: url('../img/sprite.png');
-            animation: pikmin_white_plant_animation 0.5s infinite;
-            animation-timing-function: steps(3, jump-none);
-        }
-    }
-
-    &.leaf::before {
-        content: "";
-        display: block;
-        background-image: url('../img/sprite.png');
-        background-position: -289px -165px;
-        width: 16px;
-        height: 13px;
-        margin-left: 7px;
-    }
+.plant {
+    width: 32px;
+    height: 31px;
+    background-image: url('../img/sprite.png');
+    animation-timing-function: steps(3, jump-none)!important;
 }
 
 .onion {
@@ -69,31 +46,52 @@
     width: 111px;
     height: 113px;
 
-    &_pikmin_red_animation {
-        animation: onion_pikmin_red_animation 0.5s infinite;
-    }
-
-    &_pikmin_yellow_animation {
-        animation: onion_pikmin_yellow_animation 0.5s infinite;
-    }
-
-    &_pikmin_blue_animation {
-        animation: onion_pikmin_blue_animation 0.5s infinite;
-    }
-
-    &_pikmin_purple_animation {
-        animation: onion_pikmin_purple_animation 0.5s infinite;
-    }
-
-    &_pikmin_white_animation {
-        animation: onion_pikmin_white_animation 0.5s infinite;
+    @each $pikmin, $value in mapping.$pikmins {
+        &_pikmin_#{$pikmin}_animation {
+            animation: onion_pikmin_#{$pikmin}_animation $delay-onion-animation infinite;
+        }
     }
 }
 
-@include mixin.two-steps-keyframe("onion_pikmin_red_animation", -715px, -9px, -715px, -133px);
-@include mixin.two-steps-keyframe("onion_pikmin_yellow_animation", -976px, -13px, -976px, -130px);
-@include mixin.two-steps-keyframe("onion_pikmin_blue_animation", -1235px, -13px, -1235px, -130px);
-@include mixin.two-steps-keyframe("onion_pikmin_purple_animation", -1490px, -11px, -1490px, -131px);
-@include mixin.two-steps-keyframe("onion_pikmin_white_animation", -1772px, -11px, -1772px, -128px);
+.onionImgContainer {
+    top: -1000px;
+}
 
-@include mixin.two-steps-keyframe("pikmin_red_plant_animation", -373px, -141px, -435px, -141px);
+@each $onion, $value in mapping.$onion {
+    $data: list.nth($value, 1);
+    $sprite: list.nth($data, 2);
+    @include mixin.two-steps-keyframe(
+        "onion_pikmin_#{$onion}_animation",
+        list.nth($sprite, 1),
+        list.nth($sprite, 2),
+        list.nth($sprite, 3), 
+        list.nth($sprite, 4)
+    )
+}
+
+@each $pikmin, $value in mapping.$pikmins {
+    $data: list.nth($value, 2);
+    $sprite: list.nth($data, 2);
+    
+    @include mixin.two-steps-keyframe(
+        "pikmin_#{$pikmin}_plant_animation",
+        list.nth($sprite, 1),
+        list.nth($sprite, 2),
+        list.nth($sprite, 3), 
+        list.nth($sprite, 4)
+    )
+}
+
+@each $pikmin, $value in mapping.$pikmins {
+    $data: list.nth($value, 1);
+    $sprite: list.nth($data, 2);
+    @include mixin.eight-steps-keyframe(
+        "pikmin_#{$pikmin}_animation",
+        list.nth($sprite, 1),
+        list.nth($sprite, 2),
+        list.nth($sprite, 3), 
+        list.nth($sprite, 4),
+        list.nth($sprite, 5),
+        list.nth($sprite, 6)
+    )
+}

@@ -15,5 +15,5 @@ function initOnion() {
     new Onion(new Pikmin("pikmin_white"), 5);
     setTimeout(() => {
         Onion.sort();
-    }, 50);
+    }, 100);
 }

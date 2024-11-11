@@ -25,12 +25,12 @@ export default class Onion {
     async init() {
         await this.initHtml();
         this.initEventListener();
+        Onion.landing();
     }
 
     initEventListener() {
         this.selectOnionBtn?.addEventListener("click", () => {
             if (this.idle.onion == null || this.idle.onion.id !== this.id) {
-                console.log("Je passe ici");
                 this.idle.resetIdle();
                 this.idle.setOnion(this);
                 document.querySelectorAll(".selectOnion").forEach((nodeElem) => {
@@ -85,6 +85,24 @@ export default class Onion {
                     document.querySelector('.onionContainer[data-position="'+(position-1)+'"]')?.after(element);
                 }
             }
+        });
+    }
+
+    static landing() {
+        var onions = document.querySelectorAll('.onionContainer');
+        onions.forEach((element) => {
+            var positionAttr = element.getAttribute("data-position");
+            var position = 1
+            if (positionAttr) {
+                position = parseInt(positionAttr);
+            }
+            setTimeout(() => {
+                var onionImgContainer = element.querySelector(".onionImgContainer");
+                onionImgContainer?.classList.add("landing");
+                onionImgContainer?.addEventListener("animationend", () => {
+                    onionImgContainer?.classList.add("top-0")
+                });
+            }, position*500)
         });
     }
 
