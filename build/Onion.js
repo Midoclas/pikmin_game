@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import Idle from "./Idle.js";
 export default class Onion {
     constructor(pikmin, position) {
+        this.nbPikmin = 0;
         this.container = document.getElementById("onion");
         this.idle = Idle.instance;
         this.position = position;
@@ -20,11 +21,37 @@ export default class Onion {
         this.id = 'onion_' + this.pikmin.id;
         this.init();
     }
+    save(id, value) {
+        localStorage.setItem(id, value);
+    }
+    getNbPikmin() {
+        return this.nbPikmin;
+    }
+    setNbPikmin(nb) {
+        this.nbPikmin = nb;
+        this.save(this.pikmin.id, this.nbPikmin.toString());
+    }
+    add(nb) {
+        this.nbPikmin += nb;
+        this.save(this.pikmin.id, this.nbPikmin.toString());
+    }
+    remove(nb) {
+        this.nbPikmin -= nb;
+        this.save(this.pikmin.id, this.nbPikmin.toString());
+    }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
+            this.initStorage();
             yield this.initHtml();
             this.initEventListener();
+            Onion.landing();
         });
+    }
+    initStorage() {
+        var storedValue = localStorage.getItem(this.pikmin.id);
+        if (storedValue !== null) {
+            this.setNbPikmin(parseInt(storedValue));
+        }
     }
     initEventListener() {
         var _a;
@@ -58,7 +85,7 @@ export default class Onion {
                 html = html.replaceAll('{onion_id}', this.id)
                     .replaceAll('{pikmin_id}', this.pikmin.id)
                     .replaceAll('{pikmin_upgrade}', this.pikmin.id_upgrade)
-                    .replaceAll('{nb_pikmin}', this.pikmin.nbPikmin.toString())
+                    .replaceAll('{nb_pikmin}', this.nbPikmin.toString())
                     .replaceAll('{position}', this.position.toString());
                 const parseHtml = new DOMParser().parseFromString(html, "text/html");
                 if (parseHtml.body.firstChild) {
@@ -107,7 +134,7 @@ export default class Onion {
         if (this.selfContainer) {
             var nbPikmin = this.selfContainer.querySelector(".nbPikmin");
             if (nbPikmin) {
-                nbPikmin.innerHTML = this.pikmin.getNbPikmin().toString();
+                nbPikmin.innerHTML = this.getNbPikmin().toString();
             }
         }
     }

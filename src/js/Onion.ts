@@ -1,9 +1,10 @@
-import Pikmin from "./Pikmin.js";
+import Pikmin from "./Pikmin/Pikmin.js";
 import Idle from "./Idle.js";
 
 export default class Onion {
     
     capacity: number;
+    nbPikmin = 0;
     pikmin: Pikmin;
     position: number;
     id: string;
@@ -22,10 +23,41 @@ export default class Onion {
         this.init();
     }
 
+    save(id: string, value: string) {
+        localStorage.setItem(id, value);
+    }
+
+    getNbPikmin() {
+        return this.nbPikmin;
+    }
+    
+    setNbPikmin(nb: number) {
+        this.nbPikmin = nb;
+        this.save(this.pikmin.id, this.nbPikmin.toString());
+    }
+
+    add(nb: number) {
+        this.nbPikmin += nb;
+        this.save(this.pikmin.id, this.nbPikmin.toString());
+    }
+
+    remove(nb: number) {
+        this.nbPikmin -= nb;
+        this.save(this.pikmin.id, this.nbPikmin.toString());
+    }
+
     async init() {
+        this.initStorage();
         await this.initHtml();
         this.initEventListener();
         Onion.landing();
+    }
+
+    initStorage() {
+        var storedValue = localStorage.getItem(this.pikmin.id);
+        if (storedValue !== null) {
+            this.setNbPikmin(parseInt(storedValue));
+        }
     }
 
     initEventListener() {
@@ -61,7 +93,7 @@ export default class Onion {
             html = html.replaceAll('{onion_id}', this.id)
                 .replaceAll('{pikmin_id}', this.pikmin.id)
                 .replaceAll('{pikmin_upgrade}', this.pikmin.id_upgrade)
-                .replaceAll('{nb_pikmin}', this.pikmin.nbPikmin.toString())
+                .replaceAll('{nb_pikmin}', this.nbPikmin.toString())
                 .replaceAll('{position}', this.position.toString());
             const parseHtml = new DOMParser().parseFromString(html, "text/html")
             if (parseHtml.body.firstChild) {
@@ -110,7 +142,7 @@ export default class Onion {
         if (this.selfContainer) {
             var nbPikmin = this.selfContainer.querySelector(".nbPikmin");
             if (nbPikmin) {
-                nbPikmin.innerHTML = this.pikmin.getNbPikmin().toString();
+                nbPikmin.innerHTML = this.getNbPikmin().toString();
             }
         }
     }
