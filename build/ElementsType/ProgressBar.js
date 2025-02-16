@@ -1,13 +1,24 @@
 export default class ProgressBar {
-    constructor(query, timeProgressBarIndex) {
+    constructor(query, timeProgressBarIndex, infinit) {
         this.timeProgressBar = 0;
         this.objectElement = document.getElementById(query);
+        this.timeProgressBarIndex = timeProgressBarIndex;
+        this.isInfinit = infinit;
         if (this.objectElement) {
             this.objectElement.style.width = "100%";
         }
-        var storedValue = localStorage.getItem(timeProgressBarIndex);
+        this.initStorage();
+        this.setInfinit();
+    }
+    initStorage() {
+        let storedValue = localStorage.getItem(this.timeProgressBarIndex);
         if (storedValue) {
             this.timeProgressBar = parseFloat(storedValue);
+        }
+    }
+    setInfinit() {
+        if (this.isInfinit && this.objectElement !== null) {
+            this.objectElement.style.animationIterationCount = "infinite";
         }
     }
     setTimeProgressBar(timeProgressBar) {

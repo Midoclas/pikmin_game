@@ -11,11 +11,16 @@ export default class LocalStorageManager {
         this.initOnionStorage();
         this.initPikminStorage();
         this.initElementStorage();
+        this.initGlobal();
     }
 
     reset() {
         localStorage.clear();
         window.location.reload();
+    }
+
+    initGlobal() {
+        localStorage.setItem("money", objectLocalStorage.global.money.toString());
     }
 
     initOnionStorage() {
@@ -34,6 +39,9 @@ export default class LocalStorageManager {
                     localStorage.setItem("pikmin_"+key+"_lock", lock.toString());
                 }
                 localStorage.setItem("pikmin_"+key+"_grow_time", objectLocalStorage.pikmin[key as keyof typeof objectLocalStorage.pikmin].grow_time.toString());
+                localStorage.setItem("pikmin_"+key+"_attack", objectLocalStorage.pikmin[key as keyof typeof objectLocalStorage.pikmin].attack.toString());
+                localStorage.setItem("pikmin_"+key+"_defense", objectLocalStorage.pikmin[key as keyof typeof objectLocalStorage.pikmin].defense.toString());
+                localStorage.setItem("pikmin_"+key+"_life_point", objectLocalStorage.pikmin[key as keyof typeof objectLocalStorage.pikmin].life_point.toString());
             });
     }
 

@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import Idle from "./Idle.js";
+import * as GlobalEvent from "./GlobalEvent.js";
 export default class Onion {
     constructor(pikmin, position) {
         this.nbPikmin = 0;
@@ -48,7 +49,7 @@ export default class Onion {
         });
     }
     initStorage() {
-        var storedValue = localStorage.getItem(this.pikmin.id);
+        let storedValue = localStorage.getItem(this.pikmin.id);
         if (storedValue !== null) {
             this.setNbPikmin(parseInt(storedValue));
         }
@@ -68,14 +69,20 @@ export default class Onion {
         });
         (_c = (_b = this.selfContainer) === null || _b === void 0 ? void 0 : _b.querySelector(".attack_upgrade")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => {
             this.pikmin.upgradeAttack();
+            document.dispatchEvent(GlobalEvent.moneyRefresh);
             this.repaint();
         });
         (_e = (_d = this.selfContainer) === null || _d === void 0 ? void 0 : _d.querySelector(".defense_upgrade")) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
             this.pikmin.upgradeDefense();
+            document.dispatchEvent(GlobalEvent.moneyRefresh);
             this.repaint();
         });
         (_g = (_f = this.selfContainer) === null || _f === void 0 ? void 0 : _f.querySelector(".life_point_upgrade")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", () => {
             this.pikmin.upgradeLifePoint();
+            document.dispatchEvent(GlobalEvent.moneyRefresh);
+            this.repaint();
+        });
+        document.addEventListener("moneyRefresh", () => {
             this.repaint();
         });
     }

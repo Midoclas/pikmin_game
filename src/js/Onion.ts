@@ -1,5 +1,7 @@
 import Pikmin from "./Pikmin/Pikmin.js";
 import Idle from "./Idle.js";
+import * as GlobalEvent from "./GlobalEvent.js";
+import Context from "./Context.js";
 
 export default class Onion {
     
@@ -8,16 +10,23 @@ export default class Onion {
     pikmin: Pikmin;
     position: number;
     id: string;
-    selectOnionBtn : HTMLElement|null;
     container = document.getElementById("onion");
     selfContainer : HTMLElement|null;
+    selectOnionBtn : HTMLElement|null;
+    upgradeAttackBtn: HTMLElement|null;
+    upgradeDefenseBtn: HTMLElement|null;
+    upgradeLifePointBtn: HTMLElement|null
     idle = Idle.instance;
+    context = Context.instance;
 
     constructor(pikmin: Pikmin, position: number) {
         this.position = position;
         this.capacity = 0;
-        this.selectOnionBtn = null;
         this.selfContainer = null;
+        this.selectOnionBtn = null;
+        this.upgradeAttackBtn = null;
+        this.upgradeDefenseBtn = null;
+        this.upgradeLifePointBtn = null;
         this.pikmin = pikmin;
         this.id = 'onion_'+this.pikmin.id;
         this.init();
@@ -54,7 +63,7 @@ export default class Onion {
     }
 
     initStorage() {
-        var storedValue = localStorage.getItem(this.pikmin.id);
+        let storedValue = localStorage.getItem(this.pikmin.id);
         if (storedValue !== null) {
             this.setNbPikmin(parseInt(storedValue));
         }
@@ -71,16 +80,22 @@ export default class Onion {
                 this.selectOnionBtn?.setAttribute("disabled", "");
             }
         })
-        this.selfContainer?.querySelector(".attack_upgrade")?.addEventListener("click", () => {
+        this.upgradeAttackBtn?.addEventListener("click", () => {
             this.pikmin.upgradeAttack();
+            document.dispatchEvent(GlobalEvent.moneyRefresh);
             this.repaint();
         })
-        this.selfContainer?.querySelector(".defense_upgrade")?.addEventListener("click", () => {
+        this.upgradeDefenseBtn?.addEventListener("click", () => {
             this.pikmin.upgradeDefense();
+            document.dispatchEvent(GlobalEvent.moneyRefresh);
             this.repaint();
         })
-        this.selfContainer?.querySelector(".life_point_upgrade")?.addEventListener("click", () => {
+        this.upgradeLifePointBtn?.addEventListener("click", () => {
             this.pikmin.upgradeLifePoint();
+            document.dispatchEvent(GlobalEvent.moneyRefresh);
+            this.repaint();
+        })
+        document.addEventListener("moneyRefresh", () => {
             this.repaint();
         })
     }
@@ -114,7 +129,13 @@ export default class Onion {
             if (parseHtml.body.firstChild) {
                 this.container.appendChild(parseHtml.body.firstChild);
                 this.selfContainer = document.getElementById(this.id);
-                this.selectOnionBtn = document.querySelector("#"+this.id+" .selectOnion");
+                if (this.selfContainer !== null) {
+                    this.selectOnionBtn = this.selfContainer.querySelector(".selectOnion");
+                    this.upgradeAttackBtn = this.selfContainer.querySelector(".attack_upgrade");
+                    this.upgradeDefenseBtn = this.selfContainer.querySelector(".defense_upgrade");
+                    this.upgradeLifePointBtn = this.selfContainer.querySelector(".life_point_upgrade");
+                }
+                
                 this.container.offsetHeight;
             }
         } catch (error: any) {

@@ -1,16 +1,31 @@
 export default abstract class ProgressBar {
 
     timeProgressBar = 0;
+    timeProgressBarIndex: any
+    isInfinit: boolean;
     objectElement: HTMLElement | null;
 
-    constructor(query: string , timeProgressBarIndex: any) {
+    constructor(query: string , timeProgressBarIndex: any, infinit: boolean) {
         this.objectElement = document.getElementById(query);
+        this.timeProgressBarIndex = timeProgressBarIndex;
+        this.isInfinit = infinit;
         if (this.objectElement) {
             this.objectElement.style.width = "100%";
         }
-        var storedValue = localStorage.getItem(timeProgressBarIndex);
+        this.initStorage();
+        this.setInfinit();
+    }
+
+    initStorage() {
+        let storedValue = localStorage.getItem(this.timeProgressBarIndex);
         if (storedValue) {
             this.timeProgressBar = parseFloat(storedValue);
+        }
+    }
+
+    setInfinit() {
+        if (this.isInfinit && this.objectElement !== null) {
+            this.objectElement.style.animationIterationCount = "infinite";
         }
     }
 

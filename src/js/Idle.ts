@@ -12,7 +12,7 @@ export default class Idle extends ProgressBar {
 
     constructor(onion: Onion|null) {
         let query = "idleProgressBar";
-        super(query, objectLocalStorage.elementType.progressBar.timeProgressBar);
+        super(query, objectLocalStorage.elementType.progressBar.timeProgressBar, false);
         
         this.onion = onion;
         if (this.onion !== null) {

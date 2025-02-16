@@ -15,7 +15,7 @@ import ProgressBar from "./ElementsType/ProgressBar.js";
 class Idle extends ProgressBar {
     constructor(onion) {
         let query = "idleProgressBar";
-        super(query, objectLocalStorage.elementType.progressBar.timeProgressBar);
+        super(query, objectLocalStorage.elementType.progressBar.timeProgressBar, false);
         this.timeoutId = 0;
         this.isHarvestable = false;
         this.btn = document.getElementById("harvest");

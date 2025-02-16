@@ -1,3 +1,7 @@
+type Global = {
+    money: number;
+}
+
 type Pikmin = {
     [key: string]: { default: number; grow_time: number; attack: number; defense: number; life_point: number; lock?: number};
 };
@@ -10,12 +14,16 @@ type ElementType = {
 };
 
 type ObjectLocalStorage = {
+    global: Global;
     pikmin: Pikmin;
     onion: Onion;
     elementType: ElementType;
 };
 
 export const objectLocalStorage: ObjectLocalStorage = {
+    global: {
+        "money": 0
+    },
     pikmin: {
         pikmin_red: {
             "default": 0,

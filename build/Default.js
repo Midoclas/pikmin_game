@@ -1,4 +1,7 @@
 export const objectLocalStorage = {
+    global: {
+        "money": 0
+    },
     pikmin: {
         pikmin_red: {
             "default": 0,
