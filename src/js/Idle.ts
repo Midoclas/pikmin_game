@@ -1,5 +1,5 @@
-import { defaultTimeProgressBar } from "./Default.js";
-import ProgressBar from "./ElementsType/ProgressBar/ProgressBar.js"
+import { objectLocalStorage } from "./Default.js";
+import ProgressBar from "./ElementsType/ProgressBar.js"
 import Onion from "./Onion.js";
 
 export default class Idle extends ProgressBar {
@@ -12,7 +12,7 @@ export default class Idle extends ProgressBar {
 
     constructor(onion: Onion|null) {
         let query = "idleProgressBar";
-        super(query, defaultTimeProgressBar);
+        super(query, objectLocalStorage.elementType.progressBar.timeProgressBar);
         
         this.onion = onion;
         if (this.onion !== null) {
@@ -45,6 +45,7 @@ export default class Idle extends ProgressBar {
 
     setOnion(onion: Onion) {
         this.onion = onion;
+        this.setTimeProgressBar(onion.pikmin.growTime);
         this.initEventListener();
         this.init();
     }

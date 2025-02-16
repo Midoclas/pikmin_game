@@ -8,10 +8,11 @@
                 <div class="pikmin {pikmin_id} {pikmin_upgrade}"></div>
                 <p class="pt-3 ps-1">x <span class="nbPikmin">{nb_pikmin}</span></p>
             </div>
-            
-            <p>Some stat : 1</p>
-            <p>Some stat : 2</p>
-            <p>Some stat : 3</p>
+            <div class="text-start">
+                <p><i class="fa-solid fa-fw fa-heart"></i> : <span class="life_point">{life_point}</span><button class="ms-2 mb-2 btn btn-outline-primary btn-sm life_point_upgrade"><i class="fa-solid fa-coins text-warning"></i></button></p>
+                <p><i class="fa-solid fa-fw fa-hand-fist"></i> : <span class="attack">{attack}</span><button class="ms-2 mb-2 btn btn-outline-primary btn-sm attack_upgrade"><i class="fa-solid fa-coins text-warning"></i></button></p>
+                <p><i class="fa-solid fa-fw fa-shield"></i> : <span class="defense">{defense}</span><button class="ms-2 mb-2 btn btn-outline-primary btn-sm defense_upgrade"><i class="fa-solid fa-coins text-warning"></i></button></p>
+            </div>
         </div>
         <button class="text-center btn btn-primary btn-sm selectOnion">Plant</button>
     </div>

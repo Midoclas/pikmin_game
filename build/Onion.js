@@ -54,7 +54,7 @@ export default class Onion {
         }
     }
     initEventListener() {
-        var _a;
+        var _a, _b, _c, _d, _e, _f, _g;
         (_a = this.selectOnionBtn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
             var _a;
             if (this.idle.onion == null || this.idle.onion.id !== this.id) {
@@ -65,6 +65,18 @@ export default class Onion {
                 });
                 (_a = this.selectOnionBtn) === null || _a === void 0 ? void 0 : _a.setAttribute("disabled", "");
             }
+        });
+        (_c = (_b = this.selfContainer) === null || _b === void 0 ? void 0 : _b.querySelector(".attack_upgrade")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => {
+            this.pikmin.upgradeAttack();
+            this.repaint();
+        });
+        (_e = (_d = this.selfContainer) === null || _d === void 0 ? void 0 : _d.querySelector(".defense_upgrade")) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
+            this.pikmin.upgradeDefense();
+            this.repaint();
+        });
+        (_g = (_f = this.selfContainer) === null || _f === void 0 ? void 0 : _f.querySelector(".life_point_upgrade")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", () => {
+            this.pikmin.upgradeLifePoint();
+            this.repaint();
         });
     }
     initHtml() {
@@ -86,7 +98,10 @@ export default class Onion {
                     .replaceAll('{pikmin_id}', this.pikmin.id)
                     .replaceAll('{pikmin_upgrade}', this.pikmin.id_upgrade)
                     .replaceAll('{nb_pikmin}', this.nbPikmin.toString())
-                    .replaceAll('{position}', this.position.toString());
+                    .replaceAll('{position}', this.position.toString())
+                    .replaceAll('{attack}', this.pikmin.attack.toString())
+                    .replaceAll('{life_point}', this.pikmin.lifePoint.toString())
+                    .replaceAll('{defense}', this.pikmin.defense.toString());
                 const parseHtml = new DOMParser().parseFromString(html, "text/html");
                 if (parseHtml.body.firstChild) {
                     this.container.appendChild(parseHtml.body.firstChild);
@@ -133,8 +148,20 @@ export default class Onion {
     repaint() {
         if (this.selfContainer) {
             var nbPikmin = this.selfContainer.querySelector(".nbPikmin");
+            var attack = this.selfContainer.querySelector(".attack");
+            var lifePoint = this.selfContainer.querySelector(".life_point");
+            var defense = this.selfContainer.querySelector(".defense");
             if (nbPikmin) {
                 nbPikmin.innerHTML = this.getNbPikmin().toString();
+            }
+            if (attack) {
+                attack.innerHTML = this.pikmin.getAttack().toString();
+            }
+            if (lifePoint) {
+                lifePoint.innerHTML = this.pikmin.getLifePoint().toString();
+            }
+            if (defense) {
+                defense.innerHTML = this.pikmin.getDefense().toString();
             }
         }
     }

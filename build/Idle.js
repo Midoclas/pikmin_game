@@ -10,12 +10,12 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
 var _a, _Idle_instance;
-import { defaultTimeProgressBar } from "./Default.js";
-import ProgressBar from "./ElementsType/ProgressBar/ProgressBar.js";
+import { objectLocalStorage } from "./Default.js";
+import ProgressBar from "./ElementsType/ProgressBar.js";
 class Idle extends ProgressBar {
     constructor(onion) {
         let query = "idleProgressBar";
-        super(query, defaultTimeProgressBar);
+        super(query, objectLocalStorage.elementType.progressBar.timeProgressBar);
         this.timeoutId = 0;
         this.isHarvestable = false;
         this.btn = document.getElementById("harvest");
@@ -47,6 +47,7 @@ class Idle extends ProgressBar {
     }
     setOnion(onion) {
         this.onion = onion;
+        this.setTimeProgressBar(onion.pikmin.growTime);
         this.initEventListener();
         this.init();
     }

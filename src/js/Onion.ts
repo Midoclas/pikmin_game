@@ -71,6 +71,18 @@ export default class Onion {
                 this.selectOnionBtn?.setAttribute("disabled", "");
             }
         })
+        this.selfContainer?.querySelector(".attack_upgrade")?.addEventListener("click", () => {
+            this.pikmin.upgradeAttack();
+            this.repaint();
+        })
+        this.selfContainer?.querySelector(".defense_upgrade")?.addEventListener("click", () => {
+            this.pikmin.upgradeDefense();
+            this.repaint();
+        })
+        this.selfContainer?.querySelector(".life_point_upgrade")?.addEventListener("click", () => {
+            this.pikmin.upgradeLifePoint();
+            this.repaint();
+        })
     }
 
     async initHtml() {
@@ -94,7 +106,10 @@ export default class Onion {
                 .replaceAll('{pikmin_id}', this.pikmin.id)
                 .replaceAll('{pikmin_upgrade}', this.pikmin.id_upgrade)
                 .replaceAll('{nb_pikmin}', this.nbPikmin.toString())
-                .replaceAll('{position}', this.position.toString());
+                .replaceAll('{position}', this.position.toString())
+                .replaceAll('{attack}', this.pikmin.attack.toString())
+                .replaceAll('{life_point}', this.pikmin.lifePoint.toString())
+                .replaceAll('{defense}', this.pikmin.defense.toString());
             const parseHtml = new DOMParser().parseFromString(html, "text/html")
             if (parseHtml.body.firstChild) {
                 this.container.appendChild(parseHtml.body.firstChild);
@@ -141,8 +156,20 @@ export default class Onion {
     repaint() {
         if (this.selfContainer) {
             var nbPikmin = this.selfContainer.querySelector(".nbPikmin");
+            var attack = this.selfContainer.querySelector(".attack");
+            var lifePoint = this.selfContainer.querySelector(".life_point");
+            var defense = this.selfContainer.querySelector(".defense");
             if (nbPikmin) {
                 nbPikmin.innerHTML = this.getNbPikmin().toString();
+            }
+            if (attack) {
+                attack.innerHTML = this.pikmin.getAttack().toString();
+            }
+            if (lifePoint) {
+                lifePoint.innerHTML = this.pikmin.getLifePoint().toString();
+            }
+            if (defense) {
+                defense.innerHTML = this.pikmin.getDefense().toString();
             }
         }
     }

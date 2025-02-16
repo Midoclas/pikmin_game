@@ -1,18 +1,15 @@
 export default abstract class ProgressBar {
 
-    timeProgressBar: number;
+    timeProgressBar = 0;
     objectElement: HTMLElement | null;
 
-    constructor(query: string , defaultStoredValue: any) {
+    constructor(query: string , timeProgressBarIndex: any) {
         this.objectElement = document.getElementById(query);
         if (this.objectElement) {
             this.objectElement.style.width = "100%";
         }
-        
-        var storedValue = localStorage.getItem(defaultStoredValue);
-        if (storedValue === null) {
-            this.timeProgressBar = parseFloat(defaultStoredValue);
-        } else {
+        var storedValue = localStorage.getItem(timeProgressBarIndex);
+        if (storedValue) {
             this.timeProgressBar = parseFloat(storedValue);
         }
     }
