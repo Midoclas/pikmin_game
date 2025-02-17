@@ -8,10 +8,8 @@ import WhitePikmin from "./Pikmin/WhitePikmin.js";
 import LocalStorageManager from "./LocalStorageManager.js";
 
 var idle;
-var unlocked;
 var isGameExist = localStorage.getItem("is_game_exist");
 var localStorageManager = new LocalStorageManager();
-var event: Event;
 init();
 
 function init() {
@@ -19,8 +17,6 @@ function init() {
         localStorageManager.initStorage();
     }
     idle = Idle.instance;
-    event = new Event("moneyRefresh");
-    console.log("event créé");
     initOnion();
 }
 

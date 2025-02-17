@@ -15,7 +15,7 @@ export default class Context {
     }
 
     initStorage() {
-        let moneyStoredValue = localStorage.get("money");
+        let moneyStoredValue = localStorage.getItem("money");
         if (moneyStoredValue !== null) {
             this.setMoney(parseInt(moneyStoredValue));
         }

@@ -1,7 +1,12 @@
+# Dependencies
+```bash
+npm install
+```
+
 # SCSS
 ```bash
-sass --watch src/scss/custom.scss src/css/custom.css 
-sass --watch src/scss/assets.scss src/css/assets.css
+sass src/scss/custom.scss src/css/custom.css 
+sass src/scss/assets.scss src/css/assets.css
 ```
 
 # TypeScript

@@ -8,18 +8,14 @@ import PurplePikmin from "./Pikmin/PurplePikmin.js";
 import WhitePikmin from "./Pikmin/WhitePikmin.js";
 import LocalStorageManager from "./LocalStorageManager.js";
 var idle;
-var unlocked;
 var isGameExist = localStorage.getItem("is_game_exist");
 var localStorageManager = new LocalStorageManager();
-var event;
 init();
 function init() {
     if (!isGameExist) {
         localStorageManager.initStorage();
     }
-    idle = new Idle(null);
-    event = new Event("moneyRefresh");
-    console.log("event créé");
+    idle = Idle.instance;
     initOnion();
 }
 function initOnion() {

@@ -1,4 +1,3 @@
-"use strict";
 var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
@@ -23,7 +22,7 @@ class Context {
         return __classPrivateFieldGet(_a, _a, "f", _Context_instance);
     }
     initStorage() {
-        let moneyStoredValue = localStorage.get("money");
+        let moneyStoredValue = localStorage.getItem("money");
         if (moneyStoredValue !== null) {
             this.setMoney(parseInt(moneyStoredValue));
         }
@@ -45,3 +44,4 @@ class Context {
 }
 _a = Context;
 _Context_instance = { value: void 0 };
+export default Context;
