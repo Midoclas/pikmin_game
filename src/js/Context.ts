@@ -1,3 +1,5 @@
+import { moneyRefresh } from "./GlobalEvent.js";
+
 export default class Context {
     static #instance: Context;
     money = 0;
@@ -32,6 +34,7 @@ export default class Context {
     setMoney(value: number) {
         this.money = value;
         this.save("money", this.money.toString());
+        document.dispatchEvent(moneyRefresh);
     }
 
     addMoney(value: number) {

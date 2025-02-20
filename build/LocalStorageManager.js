@@ -1,13 +1,22 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import { objectLocalStorage } from "./Default.js";
 export default class LocalStorageManager {
-    constructor() {
-    }
     initStorage() {
-        localStorage.setItem("is_game_exist", "1");
-        this.initOnionStorage();
-        this.initPikminStorage();
-        this.initElementStorage();
-        this.initGlobal();
+        return __awaiter(this, void 0, void 0, function* () {
+            localStorage.setItem("is_game_exist", "1");
+            this.initOnionStorage();
+            this.initPikminStorage();
+            this.initElementStorage();
+            this.initGlobal();
+        });
     }
     reset() {
         localStorage.clear();
@@ -25,15 +34,11 @@ export default class LocalStorageManager {
     initPikminStorage() {
         Object.keys(objectLocalStorage.pikmin)
             .map((key) => {
-            localStorage.setItem("pikmin_" + key, objectLocalStorage.pikmin[key].default.toString());
-            let lock = objectLocalStorage.pikmin[key].lock;
-            if (lock) {
-                localStorage.setItem("pikmin_" + key + "_lock", lock.toString());
+            const pikminData = objectLocalStorage.pikmin[key];
+            for (const data in pikminData.dynamic) {
+                const value = pikminData.dynamic[data];
+                localStorage.setItem("pikmin_" + key + "_" + data, value.toString());
             }
-            localStorage.setItem("pikmin_" + key + "_grow_time", objectLocalStorage.pikmin[key].grow_time.toString());
-            localStorage.setItem("pikmin_" + key + "_attack", objectLocalStorage.pikmin[key].attack.toString());
-            localStorage.setItem("pikmin_" + key + "_defense", objectLocalStorage.pikmin[key].defense.toString());
-            localStorage.setItem("pikmin_" + key + "_life_point", objectLocalStorage.pikmin[key].life_point.toString());
         });
     }
     initElementStorage() {

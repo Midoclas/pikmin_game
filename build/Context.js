@@ -10,6 +10,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
 var _a, _Context_instance;
+import { moneyRefresh } from "./GlobalEvent.js";
 class Context {
     constructor() {
         this.money = 0;
@@ -36,6 +37,7 @@ class Context {
     setMoney(value) {
         this.money = value;
         this.save("money", this.money.toString());
+        document.dispatchEvent(moneyRefresh);
     }
     addMoney(value) {
         this.money += value;

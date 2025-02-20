@@ -1,6 +1,6 @@
 import { objectLocalStorage } from "./Default.js";
 import ProgressBar from "./ElementsType/ProgressBar.js"
-import Onion from "./Onion.js";
+import Onion from "./Onion/Onion.js";
 
 export default class Idle extends ProgressBar {
 
