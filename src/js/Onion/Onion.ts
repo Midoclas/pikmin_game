@@ -1,9 +1,9 @@
 import Pikmin from "../Pikmin/Pikmin.js";
-import Idle from "../Idle.js";
+import Idle from "../Gameplay/Idle.js";
 import * as GlobalEvent from "../GlobalEvent.js";
 import Context from "../Context.js";
 import PikminMap from "../Pikmin/PikminMap.js";
-import { moneyRefresh } from "../GlobalEvent.js";
+import { moneyRefresh, onionRender } from "../GlobalEvent.js";
 
 export default class Onion {
     
@@ -22,6 +22,7 @@ export default class Onion {
     upgradeLifePointBtn: HTMLElement|null
     unlockBtn: HTMLElement|null;
 
+    pikminInstanceIdle= localStorage.getItem("idle_pikmin_instance");
     idle = Idle.instance;
     context = Context.instance;
 
@@ -62,8 +63,11 @@ export default class Onion {
     }
 
     async init() {
+        if (this.pikminInstanceIdle === this.pikmin.id) {
+            Idle.instance.setOnion(this);
+        }
         this.initStorage();
-        await this.initHtml();
+        await this.render();
         this.initEventListener();
         Onion.landing();
     }
@@ -111,13 +115,13 @@ export default class Onion {
         })
     }
 
-    async initHtml() {
+    async render() {
 
         try {
             if (!this.container) {
-                return;
+                throw new Error(`Response status: element does not exist`);
             }
-            var existingElement = this.container.querySelector('#'+this.id)
+            var existingElement = this.container.querySelector('#'+this.id);
             if (existingElement) {
                 existingElement.remove();
             }
@@ -180,6 +184,8 @@ export default class Onion {
         } catch (error: any) {
             console.error(error.message);
         }
+        console.log("Je suis rendu");
+        document.dispatchEvent(onionRender);
     }
 
     static sort() {

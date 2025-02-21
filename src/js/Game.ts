@@ -1,5 +1,5 @@
 import Context from "./Context.js";
-import { moneyRefresh } from "./GlobalEvent.js";
+import GameplayInterface from "./Gameplay/GameplayInterface.js";
 
 export default class Game {
 
@@ -20,6 +20,10 @@ export default class Game {
         document.addEventListener("moneyRefresh", () => {
             this.repaint();
         })
+    }
+
+    changeGameplay(gameplay: GameplayInterface) {
+        console.log(gameplay);
     }
 
     repaint() {

@@ -14,6 +14,9 @@ export default class Game {
             this.repaint();
         });
     }
+    changeGameplay(gameplay) {
+        console.log(gameplay);
+    }
     repaint() {
         this.moneyElement.forEach((e) => {
             e.innerHTML = this.context.getMoney().toString();

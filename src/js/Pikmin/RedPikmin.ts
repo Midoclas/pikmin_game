@@ -6,6 +6,6 @@ export default class RedPikmin extends Pikmin {
     nextUnlock = new YellowPikmin();
 
     constructor() {
-        super("pikmin_red");
+        super("RedPikmin");
     }
 }

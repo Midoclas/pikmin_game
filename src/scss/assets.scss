@@ -13,14 +13,6 @@ $delay-onion-animation: 0.2s;
     animation-timing-function: steps(1)!important;
     background-position: 50% 100%;
 
-    @each $pikmin, $value in mapping.$pikmins {
-        &_#{$pikmin} {
-            animation: pikmin_#{$pikmin}_animation $delay-pikmin-animation infinite;
-            &_plant_animation {
-                animation: pikmin_#{$pikmin}_plant_animation $delay-pikmin-plant-animation infinite;
-            }
-        }
-    }
 
     // &.leaf::before {
     //     content: "";
@@ -30,6 +22,15 @@ $delay-onion-animation: 0.2s;
     //     width: 29px;
     //     height: 13px;
     // }
+}
+
+@each $pikmin, $value in mapping.$pikmins {
+    .#{$pikmin} {
+        animation: #{$pikmin}_animation $delay-pikmin-animation infinite;
+        &_plant_animation {
+            animation: #{$pikmin}_plant_animation $delay-pikmin-plant-animation infinite;
+        }
+    }
 }
 
 .plant {
@@ -46,8 +47,8 @@ $delay-onion-animation: 0.2s;
     height: 113px;
 
     @each $pikmin, $value in mapping.$pikmins {
-        &_pikmin_#{$pikmin}_animation {
-            animation: onion_pikmin_#{$pikmin}_animation $delay-onion-animation infinite;
+        &_#{$pikmin}_animation {
+            animation: onion_#{$pikmin}_animation $delay-onion-animation infinite;
         }
     }
 }
@@ -60,7 +61,7 @@ $delay-onion-animation: 0.2s;
     $data: list.nth($value, 1);
     $sprite: list.nth($data, 2);
     @include mixin.two-steps-keyframe(
-        "onion_pikmin_#{$onion}_animation",
+        "onion_#{$onion}_animation",
         list.nth($sprite, 1),
         list.nth($sprite, 2),
         list.nth($sprite, 3), 
@@ -73,7 +74,7 @@ $delay-onion-animation: 0.2s;
     $sprite: list.nth($data, 2);
     
     @include mixin.two-steps-keyframe(
-        "pikmin_#{$pikmin}_plant_animation",
+        "#{$pikmin}_plant_animation",
         list.nth($sprite, 1),
         list.nth($sprite, 2),
         list.nth($sprite, 3), 
@@ -85,7 +86,7 @@ $delay-onion-animation: 0.2s;
     $data: list.nth($value, 1);
     $sprite: list.nth($data, 2);
     @include mixin.eight-steps-keyframe(
-        "pikmin_#{$pikmin}_animation",
+        "#{$pikmin}_animation",
         list.nth($sprite, 1),
         list.nth($sprite, 2),
         list.nth($sprite, 3), 

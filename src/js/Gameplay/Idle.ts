@@ -1,8 +1,8 @@
-import { objectLocalStorage } from "./Default.js";
-import ProgressBar from "./ElementsType/ProgressBar.js"
-import Onion from "./Onion/Onion.js";
+import ProgressBar from "../ElementsType/ProgressBar.js"
+import Onion from "../Onion/Onion.js";
+import GameplayInterface from "./GameplayInterface.js";
 
-export default class Idle extends ProgressBar {
+export default class Idle extends ProgressBar implements GameplayInterface {
 
     static #instance : Idle;
     onion: Onion|null;
@@ -12,11 +12,11 @@ export default class Idle extends ProgressBar {
 
     constructor(onion: Onion|null) {
         let query = "idleProgressBar";
-        super(query, objectLocalStorage.elementType.progressBar.timeProgressBar, false);
-        
+        super(query, false);
+
         this.onion = onion;
+        this.initEventListener();
         if (this.onion !== null) {
-            this.initEventListener();
             this.init();
         } else {
             this.repaint();
@@ -33,8 +33,26 @@ export default class Idle extends ProgressBar {
     }
 
     initEventListener() {
+        super.initEventListener();
+
         this.btn?.addEventListener("click", () => {
-            this.harvest();
+            if (this.onion !== null) {
+                this.harvest();
+            }
+        })
+
+        this.objectElement?.addEventListener("animationend", () => {
+            if (this.onion !== null) {
+                this.isHarvestable = true;
+                this.repaint();
+            }
+        })
+
+        window.addEventListener("beforeunload", () => {
+            if (this.onion?.pikmin.id) {
+                localStorage.setItem("idle-pikmin-instance", this.onion?.pikmin.id)
+            }
+            this.destructor();
         })
     }
 
@@ -45,8 +63,11 @@ export default class Idle extends ProgressBar {
 
     setOnion(onion: Onion) {
         this.onion = onion;
+        if (localStorage.getItem("idle_pikmin_instance") !== this.onion.pikmin.id) {
+            this.progression = "";
+        }
+        localStorage.setItem("idle_pikmin_instance", this.onion.pikmin.id);
         this.setTimeProgressBar(onion.pikmin.growTime);
-        this.initEventListener();
         this.init();
     }
 
@@ -64,17 +85,14 @@ export default class Idle extends ProgressBar {
     plant() {
         this.isHarvestable = false;
         this.resetProgressBar();
-        this.repaint()
-        this.timeoutId = setTimeout(() => {
-            this.isHarvestable = true;
-            this.repaint();
-        }, this.timeProgressBar*1000);    
+        this.repaint() 
     }
 
     harvest() {
         if (this.isHarvestable && this.onion !== null) {
             this.onion.add(1);
             this.plant();
+            this.progression = "";
             this.onion.repaint();
         }
         return false;

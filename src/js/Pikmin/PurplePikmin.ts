@@ -6,6 +6,6 @@ export default class PurplePikmin extends Pikmin {
     nextUnlock = new WhitePikmin();
 
     constructor() {
-        super("pikmin_purple");
+        super("PurplePikmin");
     }
 }

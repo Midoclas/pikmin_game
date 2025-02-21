@@ -7,16 +7,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import Idle from "../Idle.js";
+import Idle from "../Gameplay/Idle.js";
 import * as GlobalEvent from "../GlobalEvent.js";
 import Context from "../Context.js";
 import PikminMap from "../Pikmin/PikminMap.js";
-import { moneyRefresh } from "../GlobalEvent.js";
+import { moneyRefresh, onionRender } from "../GlobalEvent.js";
 export default class Onion {
     constructor(pikmin, position) {
         this.container = document.getElementById("onion");
         this.capacity = 0;
         this.nbPikmin = 0;
+        this.pikminInstanceIdle = localStorage.getItem("idle_pikmin_instance");
         this.idle = Idle.instance;
         this.context = Context.instance;
         this.position = position;
@@ -50,8 +51,11 @@ export default class Onion {
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
+            if (this.pikminInstanceIdle === this.pikmin.id) {
+                Idle.instance.setOnion(this);
+            }
             this.initStorage();
-            yield this.initHtml();
+            yield this.render();
             this.initEventListener();
             Onion.landing();
         });
@@ -99,11 +103,11 @@ export default class Onion {
             this.repaint();
         });
     }
-    initHtml() {
+    render() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (!this.container) {
-                    return;
+                    throw new Error(`Response status: element does not exist`);
                 }
                 var existingElement = this.container.querySelector('#' + this.id);
                 if (existingElement) {
@@ -162,6 +166,8 @@ export default class Onion {
             catch (error) {
                 console.error(error.message);
             }
+            console.log("Je suis rendu");
+            document.dispatchEvent(onionRender);
         });
     }
     static sort() {

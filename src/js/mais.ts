@@ -1,7 +1,8 @@
-import Idle from "./Idle.js"; 
+import Idle from "./Gameplay/Idle.js"; 
 import Onion from "./Onion/Onion.js";
 import LocalStorageManager from "./LocalStorageManager.js";
 import Game from "./Game.js";
+import Treasure from "./Gameplay/Treasure.js";
 
 var idle;
 var game;

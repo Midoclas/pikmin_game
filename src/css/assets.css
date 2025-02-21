@@ -5,35 +5,40 @@
   animation-timing-function: steps(1) !important;
   background-position: 50% 100%;
 }
-.pikmin_red {
-  animation: pikmin_red_animation 1s infinite;
+
+.RedPikmin {
+  animation: RedPikmin_animation 1s infinite;
 }
-.pikmin_red_plant_animation {
-  animation: pikmin_red_plant_animation 0.5s infinite;
+.RedPikmin_plant_animation {
+  animation: RedPikmin_plant_animation 0.5s infinite;
 }
-.pikmin_yellow {
-  animation: pikmin_yellow_animation 1s infinite;
+
+.YellowPikmin {
+  animation: YellowPikmin_animation 1s infinite;
 }
-.pikmin_yellow_plant_animation {
-  animation: pikmin_yellow_plant_animation 0.5s infinite;
+.YellowPikmin_plant_animation {
+  animation: YellowPikmin_plant_animation 0.5s infinite;
 }
-.pikmin_blue {
-  animation: pikmin_blue_animation 1s infinite;
+
+.BluePikmin {
+  animation: BluePikmin_animation 1s infinite;
 }
-.pikmin_blue_plant_animation {
-  animation: pikmin_blue_plant_animation 0.5s infinite;
+.BluePikmin_plant_animation {
+  animation: BluePikmin_plant_animation 0.5s infinite;
 }
-.pikmin_purple {
-  animation: pikmin_purple_animation 1s infinite;
+
+.PurplePikmin {
+  animation: PurplePikmin_animation 1s infinite;
 }
-.pikmin_purple_plant_animation {
-  animation: pikmin_purple_plant_animation 0.5s infinite;
+.PurplePikmin_plant_animation {
+  animation: PurplePikmin_plant_animation 0.5s infinite;
 }
-.pikmin_white {
-  animation: pikmin_white_animation 1s infinite;
+
+.WhitePikmin {
+  animation: WhitePikmin_animation 1s infinite;
 }
-.pikmin_white_plant_animation {
-  animation: pikmin_white_plant_animation 0.5s infinite;
+.WhitePikmin_plant_animation {
+  animation: WhitePikmin_plant_animation 0.5s infinite;
 }
 
 .plant {
@@ -49,27 +54,27 @@
   width: 111px;
   height: 113px;
 }
-.onion_pikmin_red_animation {
-  animation: onion_pikmin_red_animation 0.2s infinite;
+.onion_RedPikmin_animation {
+  animation: onion_RedPikmin_animation 0.2s infinite;
 }
-.onion_pikmin_yellow_animation {
-  animation: onion_pikmin_yellow_animation 0.2s infinite;
+.onion_YellowPikmin_animation {
+  animation: onion_YellowPikmin_animation 0.2s infinite;
 }
-.onion_pikmin_blue_animation {
-  animation: onion_pikmin_blue_animation 0.2s infinite;
+.onion_BluePikmin_animation {
+  animation: onion_BluePikmin_animation 0.2s infinite;
 }
-.onion_pikmin_purple_animation {
-  animation: onion_pikmin_purple_animation 0.2s infinite;
+.onion_PurplePikmin_animation {
+  animation: onion_PurplePikmin_animation 0.2s infinite;
 }
-.onion_pikmin_white_animation {
-  animation: onion_pikmin_white_animation 0.2s infinite;
+.onion_WhitePikmin_animation {
+  animation: onion_WhitePikmin_animation 0.2s infinite;
 }
 
 .onionImgContainer {
   top: -1000px;
 }
 
-@keyframes onion_pikmin_red_animation {
+@keyframes onion_RedPikmin_animation {
   from {
     background-position: -715px -9px;
   }
@@ -77,7 +82,7 @@
     background-position: -715px -133px;
   }
 }
-@keyframes onion_pikmin_yellow_animation {
+@keyframes onion_YellowPikmin_animation {
   from {
     background-position: -976px -13px;
   }
@@ -85,7 +90,7 @@
     background-position: -976px -130px;
   }
 }
-@keyframes onion_pikmin_blue_animation {
+@keyframes onion_BluePikmin_animation {
   from {
     background-position: -1235px -13px;
   }
@@ -93,7 +98,7 @@
     background-position: -1235px -130px;
   }
 }
-@keyframes onion_pikmin_purple_animation {
+@keyframes onion_PurplePikmin_animation {
   from {
     background-position: -1490px -11px;
   }
@@ -101,7 +106,7 @@
     background-position: -1490px -131px;
   }
 }
-@keyframes onion_pikmin_white_animation {
+@keyframes onion_WhitePikmin_animation {
   from {
     background-position: -1772px -11px;
   }
@@ -109,7 +114,7 @@
     background-position: -1772px -128px;
   }
 }
-@keyframes pikmin_red_plant_animation {
+@keyframes RedPikmin_plant_animation {
   from {
     background-position: -373px -141px;
   }
@@ -117,7 +122,7 @@
     background-position: -435px -141px;
   }
 }
-@keyframes pikmin_yellow_plant_animation {
+@keyframes YellowPikmin_plant_animation {
   from {
     background-position: -465px -141px;
   }
@@ -125,7 +130,7 @@
     background-position: -527px -141px;
   }
 }
-@keyframes pikmin_blue_plant_animation {
+@keyframes BluePikmin_plant_animation {
   from {
     background-position: -557px -186px;
   }
@@ -133,7 +138,7 @@
     background-position: -619px -186px;
   }
 }
-@keyframes pikmin_purple_plant_animation {
+@keyframes PurplePikmin_plant_animation {
   from {
     background-position: -373px -231px;
   }
@@ -141,7 +146,7 @@
     background-position: -435px -231px;
   }
 }
-@keyframes pikmin_white_plant_animation {
+@keyframes WhitePikmin_plant_animation {
   from {
     background-position: -557px -141px;
   }
@@ -149,7 +154,7 @@
     background-position: -619px -141px;
   }
 }
-@keyframes pikmin_red_animation {
+@keyframes RedPikmin_animation {
   from {
     background-position: -7px -9px;
   }
@@ -180,7 +185,7 @@
     background-position: -7px -9px;
   }
 }
-@keyframes pikmin_yellow_animation {
+@keyframes YellowPikmin_animation {
   from {
     background-position: -98px -9px;
   }
@@ -211,7 +216,7 @@
     background-position: -98px -9px;
   }
 }
-@keyframes pikmin_blue_animation {
+@keyframes BluePikmin_animation {
   from {
     background-position: -196px -8px;
   }
@@ -242,7 +247,7 @@
     background-position: -196px -8px;
   }
 }
-@keyframes pikmin_purple_animation {
+@keyframes PurplePikmin_animation {
   from {
     background-position: -11px -153px;
   }
@@ -273,7 +278,7 @@
     background-position: -11px -153px;
   }
 }
-@keyframes pikmin_white_animation {
+@keyframes WhitePikmin_animation {
   from {
     background-position: -98px -154px;
   }

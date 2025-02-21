@@ -3,10 +3,10 @@ export const objectLocalStorage = {
         money: 3500
     },
     pikmin: {
-        pikmin_red: {
+        RedPikmin: {
             dynamic: {
                 lock: 0,
-                grow_time: 10,
+                grow_time: 10000,
                 attack: 3,
                 life_point: 10,
                 defense: 1,
@@ -16,10 +16,10 @@ export const objectLocalStorage = {
                 unlock_cost: 1000,
             }
         },
-        pikmin_yellow: {
+        YellowPikmin: {
             dynamic: {
                 lock: 1,
-                grow_time: 20,
+                grow_time: 20000,
                 attack: 1,
                 life_point: 10,
                 defense: 3,
@@ -29,10 +29,10 @@ export const objectLocalStorage = {
                 unlock_cost: 1000,
             }
         },
-        pikmin_blue: {
+        BluePikmin: {
             dynamic: {
                 lock: 1,
-                grow_time: 30,
+                grow_time: 30000,
                 attack: 1,
                 life_point: 20,
                 defense: 1,
@@ -42,10 +42,10 @@ export const objectLocalStorage = {
                 unlock_cost: 1000,
             }
         },
-        pikmin_purple: {
+        PurplePikmin: {
             dynamic: {
                 lock: 1,
-                grow_time: 50,
+                grow_time: 50000,
                 attack: 5,
                 life_point: 30,
                 defense: 5,
@@ -55,10 +55,10 @@ export const objectLocalStorage = {
                 unlock_cost: 1000,
             }
         },
-        pikmin_white: {
+        WhitePikmin: {
             dynamic: {
                 lock: 1,
-                grow_time: 100,
+                grow_time: 100000,
                 attack: 1,
                 life_point: 10,
                 defense: 1,

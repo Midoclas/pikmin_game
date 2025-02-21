@@ -1,20 +1,52 @@
 export default class ProgressBar {
-    constructor(query, timeProgressBarIndex, infinit) {
+    constructor(query, infinit) {
         this.timeProgressBar = 0;
+        this.startTime = 0;
+        this.progression = "";
+        this.firstIteration = true;
         this.objectElement = document.getElementById(query);
-        this.timeProgressBarIndex = timeProgressBarIndex;
         this.isInfinit = infinit;
         if (this.objectElement) {
             this.objectElement.style.width = "100%";
         }
         this.initStorage();
-        this.setInfinit();
+        this.initEventListener();
+    }
+    destructor() {
+        if (localStorage.getItem("is_game_exist") !== null) {
+            this.saveCurrentAnimation();
+        }
+    }
+    saveCurrentAnimation() {
+        let curTime = (new Date()).getTime();
+        if (this.progression.length > 0) {
+            curTime += parseInt(this.progression);
+        }
+        let timePassed = curTime - this.startTime;
+        console.log(this.progression);
+        console.log(timePassed, timePassed + parseInt(this.progression));
+        let progression = 0;
+        if (timePassed > this.timeProgressBar) {
+            progression = this.timeProgressBar - 1;
+        }
+        else {
+            progression = timePassed;
+        }
+        localStorage.setItem("element_progress_bar_progression", progression.toString());
     }
     initStorage() {
-        let storedValue = localStorage.getItem(this.timeProgressBarIndex);
+        let storedValue = localStorage.getItem("element_progress_bar_time_progress_bar");
         if (storedValue) {
             this.timeProgressBar = parseFloat(storedValue);
         }
+        let progressionStoredValue = localStorage.getItem("element_progress_bar_progression");
+        this.progression = progressionStoredValue ? progressionStoredValue : "";
+    }
+    initEventListener() {
+        var _a;
+        (_a = this.objectElement) === null || _a === void 0 ? void 0 : _a.addEventListener("animationstart", () => {
+            this.startTime = (new Date()).getTime();
+        });
     }
     setInfinit() {
         if (this.isInfinit && this.objectElement !== null) {
@@ -25,7 +57,7 @@ export default class ProgressBar {
         this.timeProgressBar = timeProgressBar;
         if (this.objectElement !== null) {
             this.objectElement.style.animationName = "progressBar";
-            this.objectElement.style.animationDuration = this.timeProgressBar + "s";
+            this.objectElement.style.animationDuration = this.timeProgressBar.toString() + 'ms';
         }
     }
     getTimeProgressBar() {
@@ -34,8 +66,16 @@ export default class ProgressBar {
     resetProgressBar() {
         if (this.objectElement !== null) {
             this.objectElement.style.width = "";
-            this.objectElement.style.animationDuration = this.timeProgressBar + "s";
             this.objectElement.style.animationName = "";
+            if (this.firstIteration && this.progression.length > 0) {
+                this.firstIteration = false;
+                this.objectElement.style.animationDelay = -parseInt(this.progression) + 'ms';
+                localStorage.removeItem("element_progress_bar_progression");
+            }
+            else {
+                this.objectElement.style.animationDuration = this.timeProgressBar.toString() + 'ms';
+                this.objectElement.style.animationDelay = '0ms';
+            }
             this.objectElement.offsetHeight;
             this.objectElement.style.animationName = "progressBar";
         }

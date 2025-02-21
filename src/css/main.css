@@ -16,6 +16,10 @@ p {
     height: 40vh;
 }
 
+#onion_unlock {
+    min-height: 225px;
+}
+
 .progressBarContainer {
     background: var(--rainbow);
     height: 1rem;
