@@ -4,11 +4,11 @@ import { PikminType } from "./Typage.js";
 export default class LocalStorageManager {
 
     async initStorage() {
-        localStorage.setItem("is_game_exist", "1");
         this.initOnionStorage();
         this.initPikminStorage();
         this.initElementStorage();
         this.initGlobal();
+        localStorage.setItem("is_game_exist", "1");
     }
 
     reset() {

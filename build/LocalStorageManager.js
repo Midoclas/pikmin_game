@@ -11,11 +11,11 @@ import { objectLocalStorage } from "./Default.js";
 export default class LocalStorageManager {
     initStorage() {
         return __awaiter(this, void 0, void 0, function* () {
-            localStorage.setItem("is_game_exist", "1");
             this.initOnionStorage();
             this.initPikminStorage();
             this.initElementStorage();
             this.initGlobal();
+            localStorage.setItem("is_game_exist", "1");
         });
     }
     reset() {

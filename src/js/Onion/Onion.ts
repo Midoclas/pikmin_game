@@ -1,9 +1,9 @@
 import Pikmin from "../Pikmin/Pikmin.js";
 import Idle from "../Gameplay/Idle.js";
-import * as GlobalEvent from "../GlobalEvent.js";
 import Context from "../Context.js";
 import PikminMap from "../Pikmin/PikminMap.js";
-import { moneyRefresh, onionRender } from "../GlobalEvent.js";
+import { moneyRefresh } from "../GlobalEvent.js";
+import Game from "../Game.js";
 
 export default class Onion {
     
@@ -23,7 +23,6 @@ export default class Onion {
     unlockBtn: HTMLElement|null;
 
     pikminInstanceIdle= localStorage.getItem("idle_pikmin_instance");
-    idle = Idle.instance;
     context = Context.instance;
 
     constructor(pikmin: Pikmin, position: number) {
@@ -63,13 +62,18 @@ export default class Onion {
     }
 
     async init() {
-        if (this.pikminInstanceIdle === this.pikmin.id) {
-            Idle.instance.setOnion(this);
-        }
         this.initStorage();
         await this.render();
+        if (this.pikminInstanceIdle === this.pikmin.id) {
+            if (Game.instance.gameplay instanceof Idle) {
+                Game.instance.gameplay.setOnion(this);
+            }
+            
+            this.selectOnionBtn?.setAttribute("disabled", "");
+        }
         this.initEventListener();
-        Onion.landing();
+        
+        Onion.landing();    
     }
 
     initStorage() {
@@ -79,15 +83,16 @@ export default class Onion {
         }
     }
 
-    initEventListener() {
+    async initEventListener() {
         this.selectOnionBtn?.addEventListener("click", () => {
-            if (this.idle.onion == null || this.idle.onion.id !== this.id) {
-                this.idle.resetIdle();
-                this.idle.setOnion(this);
-                document.querySelectorAll(".selectOnion").forEach((nodeElem) => {
-                    nodeElem.removeAttribute("disabled");
-                })
-                this.selectOnionBtn?.setAttribute("disabled", "");
+            if (Game.instance.gameplay instanceof Idle) {
+                if (Game.instance.gameplay.onion == null || Game.instance.gameplay.onion.id !== this.id) {
+                    Game.instance.gameplay.setOnion(this);
+                    document.querySelectorAll(".selectOnion").forEach((nodeElem) => {
+                        nodeElem.removeAttribute("disabled");
+                    })
+                    this.selectOnionBtn?.setAttribute("disabled", "");
+                }
             }
         })
         this.upgradeAttackBtn?.addEventListener("click", () => {
@@ -107,9 +112,10 @@ export default class Onion {
                 new Onion(this.pikmin.nextUnlock, this.pikmin.nextUnlock.position);
                 this.pikmin.nextUnlock.unlock();
                 this.context.addMoney(-this.pikmin.nextUnlock.unlockCost);
-                document.dispatchEvent(GlobalEvent.moneyRefresh);
+                document.dispatchEvent(moneyRefresh);
             }
         });
+
         document.addEventListener("moneyRefresh", () => {
             this.repaint();
         })
@@ -118,6 +124,7 @@ export default class Onion {
     async render() {
 
         try {
+            // this.container = document.getElementById("onion");
             if (!this.container) {
                 throw new Error(`Response status: element does not exist`);
             }
@@ -127,8 +134,8 @@ export default class Onion {
             }
 
             var domParser = new DOMParser();
-            
-            const onionHtml = await fetch("./src/views/onion.html");
+
+            const onionHtml = await fetch("./src/views/onion/onion.html");
             if (!onionHtml.ok) {
                 throw new Error(`Response status: ${onionHtml.status}`);
             }
@@ -144,7 +151,7 @@ export default class Onion {
                 .replaceAll('{life_point}', this.pikmin.lifePoint.toString())
                 .replaceAll('{defense}', this.pikmin.defense.toString());
             const parseHtml = domParser.parseFromString(html, "text/html");
-            
+
             if (parseHtml.body.firstChild) {
                 this.container.appendChild(parseHtml.body.firstChild);
                 this.selfContainer = document.getElementById(this.id);
@@ -159,7 +166,7 @@ export default class Onion {
             }
             document.querySelectorAll('#onion_unlock').forEach(e => e.remove());
             if (this.pikmin.nextUnlock !== null && this.pikmin.nextUnlock.lock) {
-                const unlockHtml = await fetch("./src/views/onionUpgrade.html");
+                const unlockHtml = await fetch("./src/views/onion/onionUpgrade.html");
                 if (!unlockHtml.ok) {
                     throw new Error(`Response status: ${unlockHtml.status}`);
                 }
@@ -184,8 +191,6 @@ export default class Onion {
         } catch (error: any) {
             console.error(error.message);
         }
-        console.log("Je suis rendu");
-        document.dispatchEvent(onionRender);
     }
 
     static sort() {
@@ -201,7 +206,7 @@ export default class Onion {
         });
     }
 
-    static initOnion() {
+    static async initOnion() {
         let pikminMap = new PikminMap();
         for (const key in pikminMap.mapping) {
             if (pikminMap.mapping.hasOwnProperty(key)) {

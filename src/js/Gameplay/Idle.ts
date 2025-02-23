@@ -4,37 +4,38 @@ import GameplayInterface from "./GameplayInterface.js";
 
 export default class Idle extends ProgressBar implements GameplayInterface {
 
-    static #instance : Idle;
     onion: Onion|null;
-    timeoutId = 0;
     isHarvestable = false;
-    btn = document.getElementById("harvest");
+    gameplayContainer: null|HTMLElement;
+    btn: null|HTMLElement;
 
-    constructor(onion: Onion|null) {
+    constructor() {
         let query = "idleProgressBar";
         super(query, false);
 
-        this.onion = onion;
-        this.initEventListener();
-        if (this.onion !== null) {
-            this.init();
-        } else {
-            this.repaint();
-        }
-        
+        this.gameplayContainer = document.getElementById("gameplay_content");
+        this.btn = null;
+        this.onion = null;
+        this.init();
     }
 
-    public static get instance(): Idle {
-        if (!Idle.#instance) {
-            Idle.#instance = new Idle(null);
-        }
+    async init()  {
+        await this.render();
+        this.initElementType();
+        await Onion.initOnion();
+        this.initEventListener();
+        this.repaint(); 
+    }
 
-        return Idle.#instance;
+    async destructor(): Promise<void> {
+        if (this.onion?.pikmin.id) {
+            localStorage.setItem("idle-pikmin-instance", this.onion?.pikmin.id)
+        };
+        await super.destructor();
+        this.firstIteration = true;
     }
 
     initEventListener() {
-        super.initEventListener();
-
         this.btn?.addEventListener("click", () => {
             if (this.onion !== null) {
                 this.harvest();
@@ -49,32 +50,30 @@ export default class Idle extends ProgressBar implements GameplayInterface {
         })
 
         window.addEventListener("beforeunload", () => {
-            if (this.onion?.pikmin.id) {
-                localStorage.setItem("idle-pikmin-instance", this.onion?.pikmin.id)
-            }
             this.destructor();
         })
+
+        super.initEventListener();
     }
 
-    init() {
+    start() {
         this.plant();
         document.getElementById('idle-animation')?.classList.add('plant', this.onion?.pikmin.id+"_plant_animation", "mx-auto");
     }
 
     setOnion(onion: Onion) {
+        this.resetIdle();
         this.onion = onion;
         if (localStorage.getItem("idle_pikmin_instance") !== this.onion.pikmin.id) {
             this.progression = "";
         }
-        localStorage.setItem("idle_pikmin_instance", this.onion.pikmin.id);
         this.setTimeProgressBar(onion.pikmin.growTime);
-        this.init();
+        this.start();
     }
 
     resetIdle() {
         this.onion = null;
         this.isHarvestable = false;
-        this.timeoutId = 0;
         var idleAnimation = document.getElementById('idle-animation');
         if (idleAnimation !== null) {
             idleAnimation.className = "";
@@ -96,6 +95,35 @@ export default class Idle extends ProgressBar implements GameplayInterface {
             this.onion.repaint();
         }
         return false;
+    }
+
+    async render() {
+        try {
+            if (!this.gameplayContainer) {
+                throw new Error(`Response status: element does not exist`);
+            }
+            this.gameplayContainer.innerHTML = "";
+
+            var domParser = new DOMParser();
+            
+            const idleGameplayHtml = await fetch("./src/views/gameplay/idle.html");
+            if (!idleGameplayHtml.ok) {
+                throw new Error(`Response status: ${idleGameplayHtml.status}`);
+            }
+
+            var html = await idleGameplayHtml.text();
+
+            const parseHtml = domParser.parseFromString(html, "text/html");
+            
+            if (parseHtml.body.firstChild) {
+                this.gameplayContainer.appendChild(parseHtml.body.firstChild);
+                if (this.gameplayContainer !== null) {
+                    this.btn = this.gameplayContainer.querySelector("#harvest");
+                }
+            }       
+        } catch (error: any) {
+            console.error(error.message);
+        }
     }
 
     repaint() {

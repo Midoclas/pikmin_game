@@ -2,7 +2,7 @@ import { ObjectLocalStorageType } from "./Typage"
 
 export const objectLocalStorage: ObjectLocalStorageType = {
     global: {
-        money: 3500
+        money: 1000000
     },
     pikmin: {
         RedPikmin: {
@@ -15,7 +15,7 @@ export const objectLocalStorage: ObjectLocalStorageType = {
             },
             static: {
                 position: 1,
-                unlock_cost: 1000,
+                unlock_cost: 500,
             }
         },
         YellowPikmin: {
@@ -41,7 +41,7 @@ export const objectLocalStorage: ObjectLocalStorageType = {
             },
             static: {
                 position: 3,
-                unlock_cost: 1000,
+                unlock_cost: 2000,
             }
         },
         PurplePikmin: {
@@ -54,7 +54,7 @@ export const objectLocalStorage: ObjectLocalStorageType = {
             },
             static: {
                 position: 4,
-                unlock_cost: 1000,
+                unlock_cost: 5000,
             }
         },
         WhitePikmin: {
@@ -67,7 +67,7 @@ export const objectLocalStorage: ObjectLocalStorageType = {
             },
             static: {
                 position: 5,
-                unlock_cost: 1000,
+                unlock_cost: 10000,
             }
         },
     },

@@ -7,18 +7,17 @@ export default abstract class ProgressBar {
     startTime = 0;
     progression = "";
     firstIteration = true;
+    query: string;
 
     constructor(query: string, infinit: boolean) {
-        this.objectElement = document.getElementById(query);
+        this.query = query;
+        this.objectElement = null;
         this.isInfinit = infinit;
-        if (this.objectElement) {
-            this.objectElement.style.width = "100%";
-        }
-                this.initStorage();
+        this.initStorage();
         this.initEventListener();
     }
 
-    destructor() {
+    async destructor() {
         if (localStorage.getItem("is_game_exist") !== null) {
             this.saveCurrentAnimation();
         }
@@ -43,12 +42,17 @@ export default abstract class ProgressBar {
         localStorage.setItem("element_progress_bar_progression", progression.toString());
     }
 
+    initElementType() {
+        this.objectElement = document.getElementById(this.query);
+    }
+
     initStorage() {
         let storedValue = localStorage.getItem("element_progress_bar_time_progress_bar");
         if (storedValue) {
             this.timeProgressBar = parseFloat(storedValue);
         }
         let progressionStoredValue = localStorage.getItem("element_progress_bar_progression");
+        console.log(progressionStoredValue);
         this.progression = progressionStoredValue ? progressionStoredValue : "";
     }
 
@@ -66,10 +70,6 @@ export default abstract class ProgressBar {
 
     setTimeProgressBar(timeProgressBar: number) {
         this.timeProgressBar = timeProgressBar;
-        if (this.objectElement !== null) {
-            this.objectElement.style.animationName = "progressBar";
-            this.objectElement.style.animationDuration = this.timeProgressBar.toString()+'ms';
-        }
     }
 
     getTimeProgressBar() {
@@ -81,12 +81,12 @@ export default abstract class ProgressBar {
         if (this.objectElement !== null) {
             this.objectElement.style.width = "";
             this.objectElement.style.animationName = "";
+            this.objectElement.style.animationDuration = this.timeProgressBar.toString()+'ms';
             if (this.firstIteration && this.progression.length > 0) {
                 this.firstIteration = false;
                 this.objectElement.style.animationDelay = -parseInt(this.progression)+'ms';
                 localStorage.removeItem("element_progress_bar_progression");
             } else {
-                this.objectElement.style.animationDuration = this.timeProgressBar.toString()+'ms';
                 this.objectElement.style.animationDelay = '0ms';
             }
             this.objectElement.offsetHeight;

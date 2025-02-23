@@ -8,17 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import Idle from "../Gameplay/Idle.js";
-import * as GlobalEvent from "../GlobalEvent.js";
 import Context from "../Context.js";
 import PikminMap from "../Pikmin/PikminMap.js";
-import { moneyRefresh, onionRender } from "../GlobalEvent.js";
+import { moneyRefresh } from "../GlobalEvent.js";
+import Game from "../Game.js";
 export default class Onion {
     constructor(pikmin, position) {
         this.container = document.getElementById("onion");
         this.capacity = 0;
         this.nbPikmin = 0;
         this.pikminInstanceIdle = localStorage.getItem("idle_pikmin_instance");
-        this.idle = Idle.instance;
         this.context = Context.instance;
         this.position = position;
         this.selfContainer = null;
@@ -51,11 +50,15 @@ export default class Onion {
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.pikminInstanceIdle === this.pikmin.id) {
-                Idle.instance.setOnion(this);
-            }
+            var _a;
             this.initStorage();
             yield this.render();
+            if (this.pikminInstanceIdle === this.pikmin.id) {
+                if (Game.instance.gameplay instanceof Idle) {
+                    Game.instance.gameplay.setOnion(this);
+                }
+                (_a = this.selectOnionBtn) === null || _a === void 0 ? void 0 : _a.setAttribute("disabled", "");
+            }
             this.initEventListener();
             Onion.landing();
         });
@@ -67,45 +70,49 @@ export default class Onion {
         }
     }
     initEventListener() {
-        var _a, _b, _c, _d, _e;
-        (_a = this.selectOnionBtn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-            var _a;
-            if (this.idle.onion == null || this.idle.onion.id !== this.id) {
-                this.idle.resetIdle();
-                this.idle.setOnion(this);
-                document.querySelectorAll(".selectOnion").forEach((nodeElem) => {
-                    nodeElem.removeAttribute("disabled");
-                });
-                (_a = this.selectOnionBtn) === null || _a === void 0 ? void 0 : _a.setAttribute("disabled", "");
-            }
-        });
-        (_b = this.upgradeAttackBtn) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => {
-            this.pikmin.upgradeAttack();
-            document.dispatchEvent(moneyRefresh); //tmp
-        });
-        (_c = this.upgradeDefenseBtn) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => {
-            this.pikmin.upgradeDefense();
-            document.dispatchEvent(moneyRefresh); //tmp
-        });
-        (_d = this.upgradeLifePointBtn) === null || _d === void 0 ? void 0 : _d.addEventListener("click", () => {
-            this.pikmin.upgradeLifePoint();
-            document.dispatchEvent(moneyRefresh); //tmp
-        });
-        (_e = this.unlockBtn) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
-            if (this.pikmin.nextUnlock !== null && this.context.getMoney() >= this.pikmin.nextUnlock.unlockCost) {
-                new Onion(this.pikmin.nextUnlock, this.pikmin.nextUnlock.position);
-                this.pikmin.nextUnlock.unlock();
-                this.context.addMoney(-this.pikmin.nextUnlock.unlockCost);
-                document.dispatchEvent(GlobalEvent.moneyRefresh);
-            }
-        });
-        document.addEventListener("moneyRefresh", () => {
-            this.repaint();
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b, _c, _d, _e;
+            (_a = this.selectOnionBtn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+                var _a;
+                if (Game.instance.gameplay instanceof Idle) {
+                    if (Game.instance.gameplay.onion == null || Game.instance.gameplay.onion.id !== this.id) {
+                        Game.instance.gameplay.setOnion(this);
+                        document.querySelectorAll(".selectOnion").forEach((nodeElem) => {
+                            nodeElem.removeAttribute("disabled");
+                        });
+                        (_a = this.selectOnionBtn) === null || _a === void 0 ? void 0 : _a.setAttribute("disabled", "");
+                    }
+                }
+            });
+            (_b = this.upgradeAttackBtn) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => {
+                this.pikmin.upgradeAttack();
+                document.dispatchEvent(moneyRefresh); //tmp
+            });
+            (_c = this.upgradeDefenseBtn) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => {
+                this.pikmin.upgradeDefense();
+                document.dispatchEvent(moneyRefresh); //tmp
+            });
+            (_d = this.upgradeLifePointBtn) === null || _d === void 0 ? void 0 : _d.addEventListener("click", () => {
+                this.pikmin.upgradeLifePoint();
+                document.dispatchEvent(moneyRefresh); //tmp
+            });
+            (_e = this.unlockBtn) === null || _e === void 0 ? void 0 : _e.addEventListener("click", () => {
+                if (this.pikmin.nextUnlock !== null && this.context.getMoney() >= this.pikmin.nextUnlock.unlockCost) {
+                    new Onion(this.pikmin.nextUnlock, this.pikmin.nextUnlock.position);
+                    this.pikmin.nextUnlock.unlock();
+                    this.context.addMoney(-this.pikmin.nextUnlock.unlockCost);
+                    document.dispatchEvent(moneyRefresh);
+                }
+            });
+            document.addEventListener("moneyRefresh", () => {
+                this.repaint();
+            });
         });
     }
     render() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                // this.container = document.getElementById("onion");
                 if (!this.container) {
                     throw new Error(`Response status: element does not exist`);
                 }
@@ -114,7 +121,7 @@ export default class Onion {
                     existingElement.remove();
                 }
                 var domParser = new DOMParser();
-                const onionHtml = yield fetch("./src/views/onion.html");
+                const onionHtml = yield fetch("./src/views/onion/onion.html");
                 if (!onionHtml.ok) {
                     throw new Error(`Response status: ${onionHtml.status}`);
                 }
@@ -142,7 +149,7 @@ export default class Onion {
                 }
                 document.querySelectorAll('#onion_unlock').forEach(e => e.remove());
                 if (this.pikmin.nextUnlock !== null && this.pikmin.nextUnlock.lock) {
-                    const unlockHtml = yield fetch("./src/views/onionUpgrade.html");
+                    const unlockHtml = yield fetch("./src/views/onion/onionUpgrade.html");
                     if (!unlockHtml.ok) {
                         throw new Error(`Response status: ${unlockHtml.status}`);
                     }
@@ -166,8 +173,6 @@ export default class Onion {
             catch (error) {
                 console.error(error.message);
             }
-            console.log("Je suis rendu");
-            document.dispatchEvent(onionRender);
         });
     }
     static sort() {
@@ -184,15 +189,17 @@ export default class Onion {
         });
     }
     static initOnion() {
-        let pikminMap = new PikminMap();
-        for (const key in pikminMap.mapping) {
-            if (pikminMap.mapping.hasOwnProperty(key)) {
-                new Onion(pikminMap.mapping[key], pikminMap.mapping[key].position);
+        return __awaiter(this, void 0, void 0, function* () {
+            let pikminMap = new PikminMap();
+            for (const key in pikminMap.mapping) {
+                if (pikminMap.mapping.hasOwnProperty(key)) {
+                    new Onion(pikminMap.mapping[key], pikminMap.mapping[key].position);
+                }
             }
-        }
-        setTimeout(() => {
-            this.sort();
-        }, 100);
+            setTimeout(() => {
+                this.sort();
+            }, 100);
+        });
     }
     static landing() {
         var onions = document.querySelectorAll('.onionContainer');

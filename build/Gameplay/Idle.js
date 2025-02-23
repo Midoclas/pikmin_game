@@ -1,78 +1,82 @@
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var _a, _Idle_instance;
 import ProgressBar from "../ElementsType/ProgressBar.js";
-class Idle extends ProgressBar {
-    constructor(onion) {
+import Onion from "../Onion/Onion.js";
+export default class Idle extends ProgressBar {
+    constructor() {
         let query = "idleProgressBar";
         super(query, false);
-        this.timeoutId = 0;
         this.isHarvestable = false;
-        this.btn = document.getElementById("harvest");
-        this.onion = onion;
-        this.initEventListener();
-        if (this.onion !== null) {
-            this.init();
-        }
-        else {
-            this.repaint();
-        }
+        this.gameplayContainer = document.getElementById("gameplay_content");
+        this.btn = null;
+        this.onion = null;
+        this.init();
     }
-    static get instance() {
-        if (!__classPrivateFieldGet(_a, _a, "f", _Idle_instance)) {
-            __classPrivateFieldSet(_a, _a, new _a(null), "f", _Idle_instance);
-        }
-        return __classPrivateFieldGet(_a, _a, "f", _Idle_instance);
+    init() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.render();
+            this.initElementType();
+            yield Onion.initOnion();
+            this.initEventListener();
+            this.repaint();
+        });
+    }
+    destructor() {
+        const _super = Object.create(null, {
+            destructor: { get: () => super.destructor }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b;
+            if ((_a = this.onion) === null || _a === void 0 ? void 0 : _a.pikmin.id) {
+                localStorage.setItem("idle-pikmin-instance", (_b = this.onion) === null || _b === void 0 ? void 0 : _b.pikmin.id);
+            }
+            ;
+            yield _super.destructor.call(this);
+            this.firstIteration = true;
+        });
     }
     initEventListener() {
-        var _b, _c;
-        super.initEventListener();
-        (_b = this.btn) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => {
+        var _a, _b;
+        (_a = this.btn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
             if (this.onion !== null) {
                 this.harvest();
             }
         });
-        (_c = this.objectElement) === null || _c === void 0 ? void 0 : _c.addEventListener("animationend", () => {
+        (_b = this.objectElement) === null || _b === void 0 ? void 0 : _b.addEventListener("animationend", () => {
             if (this.onion !== null) {
                 this.isHarvestable = true;
                 this.repaint();
             }
         });
         window.addEventListener("beforeunload", () => {
-            var _b, _c;
-            if ((_b = this.onion) === null || _b === void 0 ? void 0 : _b.pikmin.id) {
-                localStorage.setItem("idle-pikmin-instance", (_c = this.onion) === null || _c === void 0 ? void 0 : _c.pikmin.id);
-            }
             this.destructor();
         });
+        super.initEventListener();
     }
-    init() {
-        var _b, _c;
+    start() {
+        var _a, _b;
         this.plant();
-        (_b = document.getElementById('idle-animation')) === null || _b === void 0 ? void 0 : _b.classList.add('plant', ((_c = this.onion) === null || _c === void 0 ? void 0 : _c.pikmin.id) + "_plant_animation", "mx-auto");
+        (_a = document.getElementById('idle-animation')) === null || _a === void 0 ? void 0 : _a.classList.add('plant', ((_b = this.onion) === null || _b === void 0 ? void 0 : _b.pikmin.id) + "_plant_animation", "mx-auto");
     }
     setOnion(onion) {
+        this.resetIdle();
         this.onion = onion;
         if (localStorage.getItem("idle_pikmin_instance") !== this.onion.pikmin.id) {
             this.progression = "";
         }
-        localStorage.setItem("idle_pikmin_instance", this.onion.pikmin.id);
         this.setTimeProgressBar(onion.pikmin.growTime);
-        this.init();
+        this.start();
     }
     resetIdle() {
         this.onion = null;
         this.isHarvestable = false;
-        this.timeoutId = 0;
         var idleAnimation = document.getElementById('idle-animation');
         if (idleAnimation !== null) {
             idleAnimation.className = "";
@@ -93,16 +97,39 @@ class Idle extends ProgressBar {
         }
         return false;
     }
+    render() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (!this.gameplayContainer) {
+                    throw new Error(`Response status: element does not exist`);
+                }
+                this.gameplayContainer.innerHTML = "";
+                var domParser = new DOMParser();
+                const idleGameplayHtml = yield fetch("./src/views/gameplay/idle.html");
+                if (!idleGameplayHtml.ok) {
+                    throw new Error(`Response status: ${idleGameplayHtml.status}`);
+                }
+                var html = yield idleGameplayHtml.text();
+                const parseHtml = domParser.parseFromString(html, "text/html");
+                if (parseHtml.body.firstChild) {
+                    this.gameplayContainer.appendChild(parseHtml.body.firstChild);
+                    if (this.gameplayContainer !== null) {
+                        this.btn = this.gameplayContainer.querySelector("#harvest");
+                    }
+                }
+            }
+            catch (error) {
+                console.error(error.message);
+            }
+        });
+    }
     repaint() {
-        var _b, _c;
+        var _a, _b;
         if (this.isHarvestable) {
-            (_b = this.btn) === null || _b === void 0 ? void 0 : _b.removeAttribute("disabled");
+            (_a = this.btn) === null || _a === void 0 ? void 0 : _a.removeAttribute("disabled");
         }
         else {
-            (_c = this.btn) === null || _c === void 0 ? void 0 : _c.setAttribute("disabled", "");
+            (_b = this.btn) === null || _b === void 0 ? void 0 : _b.setAttribute("disabled", "");
         }
     }
 }
-_a = Idle;
-_Idle_instance = { value: void 0 };
-export default Idle;

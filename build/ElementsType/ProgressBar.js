@@ -1,21 +1,30 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 export default class ProgressBar {
     constructor(query, infinit) {
         this.timeProgressBar = 0;
         this.startTime = 0;
         this.progression = "";
         this.firstIteration = true;
-        this.objectElement = document.getElementById(query);
+        this.query = query;
+        this.objectElement = null;
         this.isInfinit = infinit;
-        if (this.objectElement) {
-            this.objectElement.style.width = "100%";
-        }
         this.initStorage();
         this.initEventListener();
     }
     destructor() {
-        if (localStorage.getItem("is_game_exist") !== null) {
-            this.saveCurrentAnimation();
-        }
+        return __awaiter(this, void 0, void 0, function* () {
+            if (localStorage.getItem("is_game_exist") !== null) {
+                this.saveCurrentAnimation();
+            }
+        });
     }
     saveCurrentAnimation() {
         let curTime = (new Date()).getTime();
@@ -34,12 +43,16 @@ export default class ProgressBar {
         }
         localStorage.setItem("element_progress_bar_progression", progression.toString());
     }
+    initElementType() {
+        this.objectElement = document.getElementById(this.query);
+    }
     initStorage() {
         let storedValue = localStorage.getItem("element_progress_bar_time_progress_bar");
         if (storedValue) {
             this.timeProgressBar = parseFloat(storedValue);
         }
         let progressionStoredValue = localStorage.getItem("element_progress_bar_progression");
+        console.log(progressionStoredValue);
         this.progression = progressionStoredValue ? progressionStoredValue : "";
     }
     initEventListener() {
@@ -55,10 +68,6 @@ export default class ProgressBar {
     }
     setTimeProgressBar(timeProgressBar) {
         this.timeProgressBar = timeProgressBar;
-        if (this.objectElement !== null) {
-            this.objectElement.style.animationName = "progressBar";
-            this.objectElement.style.animationDuration = this.timeProgressBar.toString() + 'ms';
-        }
     }
     getTimeProgressBar() {
         return this.timeProgressBar;
@@ -67,13 +76,13 @@ export default class ProgressBar {
         if (this.objectElement !== null) {
             this.objectElement.style.width = "";
             this.objectElement.style.animationName = "";
+            this.objectElement.style.animationDuration = this.timeProgressBar.toString() + 'ms';
             if (this.firstIteration && this.progression.length > 0) {
                 this.firstIteration = false;
                 this.objectElement.style.animationDelay = -parseInt(this.progression) + 'ms';
                 localStorage.removeItem("element_progress_bar_progression");
             }
             else {
-                this.objectElement.style.animationDuration = this.timeProgressBar.toString() + 'ms';
                 this.objectElement.style.animationDelay = '0ms';
             }
             this.objectElement.offsetHeight;

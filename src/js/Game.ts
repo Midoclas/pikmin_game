@@ -1,14 +1,27 @@
 import Context from "./Context.js";
 import GameplayInterface from "./Gameplay/GameplayInterface.js";
+import Idle from "./Gameplay/Idle.js";
 
 export default class Game {
 
+    static #instance: Game;
     moneyElement = document.querySelectorAll(".money");
+    gameplay: null|GameplayInterface;
 
     context = Context.instance;
 
-    constructor() {
+    constructor(gameplay: GameplayInterface) {
         this.init();
+        this.gameplay = null;
+        this.gameplay = gameplay;
+    }
+
+    public static get instance(): Game {
+        if (!Game.#instance) {
+            Game.#instance = new Game(new Idle);
+        }
+
+        return Game.#instance;
     }
 
     init() {
@@ -22,8 +35,12 @@ export default class Game {
         })
     }
 
-    changeGameplay(gameplay: GameplayInterface) {
-        console.log(gameplay);
+    async destroyGameplay() {
+        this.gameplay?.destructor();
+    }
+
+    async startGameplay(gameplay: GameplayInterface) {
+        this.gameplay = gameplay;
     }
 
     repaint() {

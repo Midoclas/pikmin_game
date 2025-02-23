@@ -1,6 +1,6 @@
 export const objectLocalStorage = {
     global: {
-        money: 3500
+        money: 1000000
     },
     pikmin: {
         RedPikmin: {
@@ -13,7 +13,7 @@ export const objectLocalStorage = {
             },
             static: {
                 position: 1,
-                unlock_cost: 1000,
+                unlock_cost: 500,
             }
         },
         YellowPikmin: {
@@ -39,7 +39,7 @@ export const objectLocalStorage = {
             },
             static: {
                 position: 3,
-                unlock_cost: 1000,
+                unlock_cost: 2000,
             }
         },
         PurplePikmin: {
@@ -52,7 +52,7 @@ export const objectLocalStorage = {
             },
             static: {
                 position: 4,
-                unlock_cost: 1000,
+                unlock_cost: 5000,
             }
         },
         WhitePikmin: {
@@ -65,7 +65,7 @@ export const objectLocalStorage = {
             },
             static: {
                 position: 5,
-                unlock_cost: 1000,
+                unlock_cost: 10000,
             }
         },
     },

@@ -4,10 +4,13 @@ Monaie (Pièce d'or):
 
 Trésor :
     - requiert : un nombre de force pour le transporter
-    - durée
-    - peut clicker pour accéléré le temps ? (1s/click ? coté idle ?)
-    - doit clicker sur un bouton pour récolter
-    - comporte des propriétés qui ne conviennent qu'à certains pikmins
+        - maximum = minimum * 2
+        - Plus on s'approche du maximum, plus c'est rapide
+    - Lancement d'une recherche de trésor
+        - Dure un temps donné (fix)
+    - Lorsque la recherche est fini, un trésor est assigné avec un pourcentage de chance
+    - Les trésors les plus lourd ne sont pas forcément les plus rentable
+    - Nombre limité de recherche ?
     - Donne des pièces d'or
 
 
@@ -33,8 +36,13 @@ Oignons :
         - Augmente le temps de récupération après un combat
 
 Dongeons :
+    - Possède des Attributs
+    - Le calcule du taux de réussite dépend :
+        - Nombre de pikmin
+        - stats des pikmins
+        - Attribut du pikmin
     - Nombre de pikmins recommandé par attribut pour avoir 100% de réussite 
     - pourcentage de réussite selon le nombre de pikmin (diminu très vite jusqu'à 0 (pour moins de 50% des pikmins recommandés ?))
-        - Si echec, perte de pikmin aléatoire
+        - Si echec, perte de pikmin aléatoire en fonction du taux de réussite
     - récompenses : (monaie, trésors, pikmins, oignons) ?
     - Durée
