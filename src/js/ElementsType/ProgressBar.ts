@@ -18,9 +18,7 @@ export default abstract class ProgressBar {
     }
 
     async destructor() {
-        if (localStorage.getItem("is_game_exist") !== null) {
-            this.saveCurrentAnimation();
-        }
+        this.saveCurrentAnimation();
     }
 
     saveCurrentAnimation() {
@@ -43,7 +41,7 @@ export default abstract class ProgressBar {
     }
 
     initElementType() {
-        this.objectElement = document.getElementById(this.query);
+        this.objectElement = document.querySelector(this.query);
     }
 
     initStorage() {

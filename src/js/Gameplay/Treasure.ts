@@ -1,4 +1,4 @@
-import { objectLocalStorage } from "../Default.js";
+import { objectHTMLElement, objectLocalStorage } from "../Default.js";
 import VerticalTouchspin from "../ElementsType/VerticalTouchspin.js";
 import Onion from "../Onion/Onion.js";
 import GameplayInterface from "./GameplayInterface.js";
@@ -11,12 +11,13 @@ export default class Treasure extends VerticalTouchspin implements GameplayInter
         let query = "idleProgressBar";
         super(query);
 
-        this.gameplayContainer = document.getElementById("gameplay_content");
+        this.gameplayContainer = document.querySelector(objectHTMLElement.gameplay_container);
         this.init();
     }    
 
     async init() {
         await this.render();
+        this.initElementType();
         this.initEventListener();
     }
 

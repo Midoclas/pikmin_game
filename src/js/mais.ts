@@ -2,6 +2,7 @@ import Idle from "./Gameplay/Idle.js";
 import LocalStorageManager from "./LocalStorageManager.js";
 import Game from "./Game.js";
 import Treasure from "./Gameplay/Treasure.js";
+import { objectHTMLElement } from "./Default.js";
 
 var game: Game;
 var isGameExist = localStorage.getItem("is_game_exist");
@@ -17,16 +18,16 @@ function init() {
 }
 
 function initEventListener() {
-    document.getElementById("reset")?.addEventListener("click", () => {
+    document.querySelector(objectHTMLElement.global_reset_btn)?.addEventListener("click", () => {
         localStorageManager.reset();
     })
       
-    document.getElementById("start_idle")?.addEventListener("click", async () => {
+    document.querySelector(objectHTMLElement.idle_init_btn)?.addEventListener("click", async () => {
         await game.destroyGameplay();
         game.startGameplay(new Idle());
     })
 
-    document.getElementById("start_treasure")?.addEventListener("click", async () => {
+    document.querySelector(objectHTMLElement.treasure_init_btn)?.addEventListener("click", async () => {
         await game.destroyGameplay();
         game.startGameplay(new Treasure);
     })

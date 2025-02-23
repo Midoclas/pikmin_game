@@ -1,5 +1,9 @@
 import Pikmin from "./Pikmin/Pikmin";
 
+export type ObjectHTMLElementType = {
+    [key: string]: string;
+}
+
 export type GlobalType = {
     money: number;
 }

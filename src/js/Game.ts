@@ -1,18 +1,18 @@
 import Context from "./Context.js";
+import { objectHTMLElement } from "./Default.js";
 import GameplayInterface from "./Gameplay/GameplayInterface.js";
 import Idle from "./Gameplay/Idle.js";
 
 export default class Game {
 
     static #instance: Game;
-    moneyElement = document.querySelectorAll(".money");
+    moneyElement = document.querySelectorAll(objectHTMLElement.global_gold_view);
     gameplay: null|GameplayInterface;
 
     context = Context.instance;
 
     constructor(gameplay: GameplayInterface) {
         this.init();
-        this.gameplay = null;
         this.gameplay = gameplay;
     }
 
@@ -32,6 +32,12 @@ export default class Game {
     initEventListener() {
         document.addEventListener("moneyRefresh", () => {
             this.repaint();
+        })
+
+        window.addEventListener("beforeunload", () => {
+            if (localStorage.getItem("is_game_exist") !== null) {
+                this.gameplay?.destructor();
+            }
         })
     }
 

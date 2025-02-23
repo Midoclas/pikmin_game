@@ -7,17 +7,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { objectHTMLElement } from "../Default.js";
 import VerticalTouchspin from "../ElementsType/VerticalTouchspin.js";
 export default class Treasure extends VerticalTouchspin {
     constructor() {
         let query = "idleProgressBar";
         super(query);
-        this.gameplayContainer = document.getElementById("gameplay_content");
+        this.gameplayContainer = document.querySelector(objectHTMLElement.gameplay_container);
         this.init();
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.render();
+            this.initElementType();
             this.initEventListener();
         });
     }

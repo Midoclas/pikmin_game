@@ -1,13 +1,15 @@
 export default abstract class VerticalTouchspin {
 
     objectElement: HTMLElement | null;
+    query: string;
 
     constructor(query: string) {
-        this.objectElement = document.getElementById(query);
-        this.init();
+        this.query = query;
+        this.objectElement = null;
     }
 
-    init() {
+    initElementType() {
+        this.objectElement = document.querySelector(this.query);
         this.render();
     }
 

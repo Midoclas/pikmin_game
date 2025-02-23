@@ -1,4 +1,27 @@
-import { ObjectLocalStorageType } from "./Typage"
+import { ObjectLocalStorageType, ObjectHTMLElementType } from "./Typage"
+
+export const objectHTMLElement: ObjectHTMLElementType = {
+    gameplay_container: "#gameplay_content",
+    idle_init_btn: "#start_idle",
+    idle_progress_bar: "#idleProgressBar",
+    idle_harvest_btn: "#harvest",
+    idle_pikmin_animation: "#idle-animation",
+    treasure_init_btn: "#start_treasure",
+    onion: "#onion",
+    onion_container: ".onionContainer",
+    onion_unlock: "#onion_unlock",
+    onion_select_btn: ".selectOnion",
+    onion_nb_pikmin: ".nb_pikmin",
+    onion_attack: ".attack",
+    onion_attack_upgrade_btn: ".attack_upgrade",
+    onion_life_point: ".life_point",
+    onion_life_point_upgrade_btn: ".life_point_upgrade",
+    onion_defense: ".defense",
+    onion_defense_upgrade_btn: ".defense_upgrade",
+    onion_image_container: ".onionImgContainer",
+    global_reset_btn: "#reset",
+    global_gold_view: ".money"
+}
 
 export const objectLocalStorage: ObjectLocalStorageType = {
     global: {

@@ -20,13 +20,13 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 };
 var _a, _Game_instance;
 import Context from "./Context.js";
+import { objectHTMLElement } from "./Default.js";
 import Idle from "./Gameplay/Idle.js";
 class Game {
     constructor(gameplay) {
-        this.moneyElement = document.querySelectorAll(".money");
+        this.moneyElement = document.querySelectorAll(objectHTMLElement.global_gold_view);
         this.context = Context.instance;
         this.init();
-        this.gameplay = null;
         this.gameplay = gameplay;
     }
     static get instance() {
@@ -42,6 +42,12 @@ class Game {
     initEventListener() {
         document.addEventListener("moneyRefresh", () => {
             this.repaint();
+        });
+        window.addEventListener("beforeunload", () => {
+            var _b;
+            if (localStorage.getItem("is_game_exist") !== null) {
+                (_b = this.gameplay) === null || _b === void 0 ? void 0 : _b.destructor();
+            }
         });
     }
     destroyGameplay() {

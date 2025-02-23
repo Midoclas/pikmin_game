@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 export default class VerticalTouchspin {
     constructor(query) {
-        this.objectElement = document.getElementById(query);
-        this.init();
+        this.query = query;
+        this.objectElement = null;
     }
-    init() {
+    initElementType() {
+        this.objectElement = document.querySelector(this.query);
         this.render();
     }
     render() {

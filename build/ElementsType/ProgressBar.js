@@ -21,9 +21,7 @@ export default class ProgressBar {
     }
     destructor() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (localStorage.getItem("is_game_exist") !== null) {
-                this.saveCurrentAnimation();
-            }
+            this.saveCurrentAnimation();
         });
     }
     saveCurrentAnimation() {
@@ -44,7 +42,7 @@ export default class ProgressBar {
         localStorage.setItem("element_progress_bar_progression", progression.toString());
     }
     initElementType() {
-        this.objectElement = document.getElementById(this.query);
+        this.objectElement = document.querySelector(this.query);
     }
     initStorage() {
         let storedValue = localStorage.getItem("element_progress_bar_time_progress_bar");
