@@ -1,7 +1,7 @@
 import Idle from "./Gameplay/Idle.js"; 
 import LocalStorageManager from "./LocalStorageManager.js";
 import Game from "./Game.js";
-import Treasure from "./Gameplay/Treasure.js";
+import Treasure from "./Gameplay/Treasure/Treasure.js";
 import { objectHTMLElement } from "./Default.js";
 
 var game: Game;

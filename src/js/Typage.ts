@@ -4,8 +4,18 @@ export type ObjectHTMLElementType = {
     [key: string]: string;
 }
 
+export type ObjectTreasureType = {
+    [key: string]: {
+        name: string;
+        value: number;
+        weight: number;
+        duration_time: number;
+    }
+}
+
 export type GlobalType = {
     money: number;
+    default_time_progress_bar: number;
 }
 
 export type PikminType = {

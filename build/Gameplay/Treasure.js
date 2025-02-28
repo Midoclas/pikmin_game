@@ -39,6 +39,19 @@ export default class Treasure extends VerticalTouchspin {
                     throw new Error(`Response status: element does not exist`);
                 }
                 this.gameplayContainer.innerHTML = "";
+                var domParser = new DOMParser();
+                const idleGameplayHtml = yield fetch("./src/views/gameplay/treasure.html");
+                if (!idleGameplayHtml.ok) {
+                    throw new Error(`Response status: ${idleGameplayHtml.status}`);
+                }
+                var html = yield idleGameplayHtml.text();
+                const parseHtml = domParser.parseFromString(html, "text/html");
+                if (parseHtml.body.firstChild) {
+                    this.gameplayContainer.appendChild(parseHtml.body.firstChild);
+                    // if (this.gameplayContainer !== null) {
+                    //     this.btn = this.gameplayContainer.querySelector(objectHTMLElement.idle_harvest_btn);
+                    // }
+                }
             }
             catch (error) {
                 console.log();

@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { objectLocalStorage } from "../Default.js";
 export default class ProgressBar {
     constructor(query, infinit) {
         this.timeProgressBar = 0;
@@ -39,18 +40,14 @@ export default class ProgressBar {
         else {
             progression = timePassed;
         }
-        localStorage.setItem("element_progress_bar_progression", progression.toString());
+        localStorage.setItem(this.query + "_progression", progression.toString());
     }
     initElementType() {
         this.objectElement = document.querySelector(this.query);
     }
     initStorage() {
-        let storedValue = localStorage.getItem("element_progress_bar_time_progress_bar");
-        if (storedValue) {
-            this.timeProgressBar = parseFloat(storedValue);
-        }
-        let progressionStoredValue = localStorage.getItem("element_progress_bar_progression");
-        console.log(progressionStoredValue);
+        this.timeProgressBar = objectLocalStorage.global.default_time_progress_bar;
+        let progressionStoredValue = localStorage.getItem(this.query + "_progression");
         this.progression = progressionStoredValue ? progressionStoredValue : "";
     }
     initEventListener() {
@@ -78,7 +75,7 @@ export default class ProgressBar {
             if (this.firstIteration && this.progression.length > 0) {
                 this.firstIteration = false;
                 this.objectElement.style.animationDelay = -parseInt(this.progression) + 'ms';
-                localStorage.removeItem("element_progress_bar_progression");
+                localStorage.removeItem(this.query + "_progression");
             }
             else {
                 this.objectElement.style.animationDelay = '0ms';

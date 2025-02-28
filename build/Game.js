@@ -21,7 +21,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var _a, _Game_instance;
 import Context from "./Context.js";
 import { objectHTMLElement } from "./Default.js";
-import Idle from "./Gameplay/Idle.js";
+import Treasure from "./Gameplay/Treasure.js";
 class Game {
     constructor(gameplay) {
         this.moneyElement = document.querySelectorAll(objectHTMLElement.global_gold_view);
@@ -31,7 +31,7 @@ class Game {
     }
     static get instance() {
         if (!__classPrivateFieldGet(_a, _a, "f", _Game_instance)) {
-            __classPrivateFieldSet(_a, _a, new _a(new Idle), "f", _Game_instance);
+            __classPrivateFieldSet(_a, _a, new _a(new Treasure), "f", _Game_instance);
         }
         return __classPrivateFieldGet(_a, _a, "f", _Game_instance);
     }

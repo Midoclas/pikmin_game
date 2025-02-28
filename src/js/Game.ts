@@ -2,6 +2,7 @@ import Context from "./Context.js";
 import { objectHTMLElement } from "./Default.js";
 import GameplayInterface from "./Gameplay/GameplayInterface.js";
 import Idle from "./Gameplay/Idle.js";
+import Treasure from "./Gameplay/Treasure/Treasure.js";
 
 export default class Game {
 
@@ -18,7 +19,7 @@ export default class Game {
 
     public static get instance(): Game {
         if (!Game.#instance) {
-            Game.#instance = new Game(new Idle);
+            Game.#instance = new Game(new Treasure);
         }
 
         return Game.#instance;

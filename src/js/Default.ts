@@ -1,4 +1,4 @@
-import { ObjectLocalStorageType, ObjectHTMLElementType } from "./Typage"
+import { ObjectLocalStorageType, ObjectHTMLElementType, ObjectTreasureType } from "./Typage.js"
 
 export const objectHTMLElement: ObjectHTMLElementType = {
     gameplay_container: "#gameplay_content",
@@ -23,9 +23,14 @@ export const objectHTMLElement: ObjectHTMLElementType = {
     global_gold_view: ".money"
 }
 
+export const objectTreasure: ObjectTreasureType = {
+
+}
+
 export const objectLocalStorage: ObjectLocalStorageType = {
     global: {
-        money: 1000000
+        money: 1000000,
+        default_time_progress_bar: 10000
     },
     pikmin: {
         RedPikmin: {

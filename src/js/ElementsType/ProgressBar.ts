@@ -1,3 +1,5 @@
+import { objectLocalStorage } from "../Default.js";
+
 export default abstract class ProgressBar {
 
     timeProgressBar = 0;
@@ -37,7 +39,7 @@ export default abstract class ProgressBar {
             progression = timePassed;
         }
 
-        localStorage.setItem("element_progress_bar_progression", progression.toString());
+        localStorage.setItem(this.query+"_progression", progression.toString());
     }
 
     initElementType() {
@@ -45,12 +47,8 @@ export default abstract class ProgressBar {
     }
 
     initStorage() {
-        let storedValue = localStorage.getItem("element_progress_bar_time_progress_bar");
-        if (storedValue) {
-            this.timeProgressBar = parseFloat(storedValue);
-        }
-        let progressionStoredValue = localStorage.getItem("element_progress_bar_progression");
-        console.log(progressionStoredValue);
+        this.timeProgressBar = objectLocalStorage.global.default_time_progress_bar;
+        let progressionStoredValue = localStorage.getItem(this.query+"_progression");
         this.progression = progressionStoredValue ? progressionStoredValue : "";
     }
 
@@ -83,7 +81,7 @@ export default abstract class ProgressBar {
             if (this.firstIteration && this.progression.length > 0) {
                 this.firstIteration = false;
                 this.objectElement.style.animationDelay = -parseInt(this.progression)+'ms';
-                localStorage.removeItem("element_progress_bar_progression");
+                localStorage.removeItem(this.query+"_progression");
             } else {
                 this.objectElement.style.animationDelay = '0ms';
             }

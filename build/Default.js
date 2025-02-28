@@ -22,7 +22,8 @@ export const objectHTMLElement = {
 };
 export const objectLocalStorage = {
     global: {
-        money: 1000000
+        money: 1000000,
+        default_time_progress_bar: 10000
     },
     pikmin: {
         RedPikmin: {
