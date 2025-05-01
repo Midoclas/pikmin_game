@@ -21,7 +21,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var _a, _Game_instance;
 import Context from "./Context.js";
 import { objectHTMLElement } from "./Default.js";
-import Treasure from "./Gameplay/Treasure.js";
+import Treasure from "./Gameplay/Treasure/Treasure.js";
 class Game {
     constructor(gameplay) {
         this.moneyElement = document.querySelectorAll(objectHTMLElement.global_gold_view);

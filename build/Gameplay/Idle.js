@@ -85,7 +85,7 @@ export default class Idle extends ProgressBar {
     }
     harvest() {
         if (this.isHarvestable && this.onion !== null) {
-            this.onion.add(1);
+            this.onion.pikmin.add(1);
             this.plant();
             this.progression = "";
             this.onion.repaint();

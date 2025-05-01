@@ -1,12 +1,21 @@
 import { ObjectLocalStorageType, ObjectHTMLElementType, ObjectTreasureType } from "./Typage.js"
 
 export const objectHTMLElement: ObjectHTMLElementType = {
+    //Element Type
+    vertical_touchspin_element_add: ".touchspin_element .addPikmin",
+    vertical_touchspin_element_sub: ".touchspin_element .removePikmin",
+    vertical_touchspin_element_input: ".touchspin_element input",
+
+    // Gameplay
     gameplay_container: "#gameplay_content",
     idle_init_btn: "#start_idle",
     idle_progress_bar: "#idleProgressBar",
     idle_harvest_btn: "#harvest",
     idle_pikmin_animation: "#idle-animation",
+    treasure_container: "#treasure",
     treasure_init_btn: "#start_treasure",
+
+    //Onion
     onion: "#onion",
     onion_container: ".onionContainer",
     onion_unlock: "#onion_unlock",
@@ -19,6 +28,8 @@ export const objectHTMLElement: ObjectHTMLElementType = {
     onion_defense: ".defense",
     onion_defense_upgrade_btn: ".defense_upgrade",
     onion_image_container: ".onionImgContainer",
+
+    //Global
     global_reset_btn: "#reset",
     global_gold_view: ".money"
 }

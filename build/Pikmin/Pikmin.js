@@ -6,6 +6,7 @@ export default class Pikmin {
         this.attack = 0;
         this.lifePoint = 0;
         this.defense = 0;
+        this.nbPikmin = 0;
         this.lock = 1;
         this.id = id;
         this.nextUnlock = null;
@@ -20,6 +21,10 @@ export default class Pikmin {
         let defenseStoredValue = localStorage.getItem('pikmin_' + this.id + '_defense');
         let growTimeStoredValue = localStorage.getItem('pikmin_' + this.id + "_grow_time");
         let lockStoredValue = localStorage.getItem('pikmin_' + this.id + '_lock');
+        let nbPikminStoredValue = localStorage.getItem('pikmin_' + this.id + '_nb_pikmin');
+        if (nbPikminStoredValue !== null) {
+            this.setNbPikmin(parseInt(nbPikminStoredValue));
+        }
         if (growTimeStoredValue !== null) {
             this.growTime = parseInt(growTimeStoredValue);
         }
@@ -44,6 +49,30 @@ export default class Pikmin {
     }
     unlock() {
         this.save('pikmin_' + this.id + '_lock', "0");
+    }
+    getNbPikmin() {
+        return this.nbPikmin;
+    }
+    setNbPikmin(nb) {
+        this.nbPikmin = nb;
+        if (this.nbPikmin < 0) {
+            this.nbPikmin = 0;
+        }
+        this.save('pikmin_' + this.id + '_nb_pikmin', this.nbPikmin.toString());
+    }
+    add(nb) {
+        this.nbPikmin += nb;
+        if (this.nbPikmin < 0) {
+            this.nbPikmin = 0;
+        }
+        this.save('pikmin_' + this.id + '_nb_pikmin', this.nbPikmin.toString());
+    }
+    remove(nb) {
+        this.nbPikmin -= nb;
+        if (this.nbPikmin < 0) {
+            this.nbPikmin = 0;
+        }
+        this.save('pikmin_' + this.id + '_nb_pikmin', this.nbPikmin.toString());
     }
     getPikminUpgrade() {
         return this.id_upgrade;

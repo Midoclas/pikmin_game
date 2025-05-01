@@ -13,7 +13,7 @@ export default class Treasure extends VerticalTouchspin implements GameplayInter
     action: null|TreasureAction;
 
     constructor() {
-        let query = "idleProgressBar";
+        let query = objectHTMLElement.treasure_container;
         super(query);
         
         this.action = null;
@@ -23,11 +23,14 @@ export default class Treasure extends VerticalTouchspin implements GameplayInter
 
     async init() {
         this.initStorage();
-        this.initAction();
-
 
         await this.render();
         this.initElementType();
+        await super.render();
+        super.initEventListener();
+
+        this.initAction();
+
         this.initEventListener();
     }
 
@@ -71,7 +74,7 @@ export default class Treasure extends VerticalTouchspin implements GameplayInter
 
             var domParser = new DOMParser();
             
-            const idleGameplayHtml = await fetch("./src/views/gameplay/treasure.html");
+            const idleGameplayHtml = await fetch("./src/views/gameplay/treasure/treasure.html");
             if (!idleGameplayHtml.ok) {
                 throw new Error(`Response status: ${idleGameplayHtml.status}`);
             }
@@ -82,14 +85,10 @@ export default class Treasure extends VerticalTouchspin implements GameplayInter
             
             if (parseHtml.body.firstChild) {
                 this.gameplayContainer.appendChild(parseHtml.body.firstChild);
-                // if (this.gameplayContainer !== null) {
-                //     this.btn = this.gameplayContainer.querySelector(objectHTMLElement.idle_harvest_btn);
-                // }
             }       
-        } catch (error) {
-            console.log()
+        } catch (error: any) {
+            console.log(error.message)
         }
-        super.render();
     }
 
     repaint(): void {

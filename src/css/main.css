@@ -42,6 +42,20 @@ p {
     animation-timing-function: cubic-bezier(.5,.02,.57,.91), ease-out, cubic-bezier(.74,.23,.65,.84);
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button,
+input[type=number] {
+    appearance: textfield;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    margin: 0;
+}
+
+
+.touchspin_element input {
+    width: 100px;
+}
+
 @keyframes progressBar {
     0% {
         width: 100%;

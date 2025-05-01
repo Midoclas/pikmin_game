@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import Idle from "./Gameplay/Idle.js";
 import LocalStorageManager from "./LocalStorageManager.js";
 import Game from "./Game.js";
-import Treasure from "./Gameplay/Treasure.js";
+import Treasure from "./Gameplay/Treasure/Treasure.js";
 import { objectHTMLElement } from "./Default.js";
 var game;
 var isGameExist = localStorage.getItem("is_game_exist");

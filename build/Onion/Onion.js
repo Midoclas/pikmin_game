@@ -34,25 +34,9 @@ export default class Onion {
     save(id, value) {
         localStorage.setItem(id, value);
     }
-    getNbPikmin() {
-        return this.nbPikmin;
-    }
-    setNbPikmin(nb) {
-        this.nbPikmin = nb;
-        this.save(this.pikmin.id, this.nbPikmin.toString());
-    }
-    add(nb) {
-        this.nbPikmin += nb;
-        this.save(this.pikmin.id, this.nbPikmin.toString());
-    }
-    remove(nb) {
-        this.nbPikmin -= nb;
-        this.save(this.pikmin.id, this.nbPikmin.toString());
-    }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
-            this.initStorage();
             yield this.render();
             if (this.pikminInstanceIdle === this.pikmin.id) {
                 if (Game.instance.gameplay instanceof Idle) {
@@ -63,12 +47,6 @@ export default class Onion {
             this.initEventListener();
             Onion.landing();
         });
-    }
-    initStorage() {
-        let storedValue = localStorage.getItem(this.pikmin.id);
-        if (storedValue !== null) {
-            this.setNbPikmin(parseInt(storedValue));
-        }
     }
     initEventListener() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -224,7 +202,7 @@ export default class Onion {
             var lifePoint = this.selfContainer.querySelector(objectHTMLElement.onion_life_point);
             var defense = this.selfContainer.querySelector(objectHTMLElement.onion_defense);
             if (nbPikmin) {
-                nbPikmin.innerHTML = this.getNbPikmin().toString();
+                nbPikmin.innerHTML = this.pikmin.getNbPikmin().toString();
             }
             if (attack) {
                 attack.innerHTML = this.pikmin.getAttack().toString();
