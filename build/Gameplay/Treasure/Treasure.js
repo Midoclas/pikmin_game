@@ -8,31 +8,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { objectHTMLElement } from "../../Default.js";
-import VerticalTouchspin from "../../ElementsType/VerticalTouchspin.js";
 import TreasureGetting from "./TreasureGetting.js";
 import TreasureHunting from "./TreasureHunting.js";
-export default class Treasure extends VerticalTouchspin {
+export default class Treasure {
     constructor() {
-        let query = objectHTMLElement.treasure_container;
-        super(query);
         this.treasure = "";
         this.treasureFound = "";
+        let query = objectHTMLElement.treasure_container;
         this.action = null;
         this.gameplayContainer = document.querySelector(objectHTMLElement.gameplay_container);
         this.init();
     }
     init() {
-        const _super = Object.create(null, {
-            render: { get: () => super.render },
-            initEventListener: { get: () => super.initEventListener }
-        });
         return __awaiter(this, void 0, void 0, function* () {
             this.initStorage();
             yield this.render();
-            this.initElementType();
-            yield _super.render.call(this);
-            _super.initEventListener.call(this);
             this.initAction();
+            if (this.action) {
+                this.action.render();
+                this.action.initElementType();
+            }
             this.initEventListener();
         });
     }
@@ -56,15 +51,23 @@ export default class Treasure extends VerticalTouchspin {
     }
     destructor() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.setTreasure.length > 0) {
+            var _a;
+            if (this.treasure.length > 0) {
                 localStorage.setItem("instance_treasure", this.treasure);
             }
             else {
                 localStorage.removeItem("instance_treasure");
             }
+            (_a = this.action) === null || _a === void 0 ? void 0 : _a.destructor();
         });
     }
     initEventListener() {
+        var _a;
+        (_a = document.querySelector('#start_treasure_expedition')) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+            if (this.action instanceof TreasureHunting && this.action.isFinish()) {
+                this.action = new TreasureGetting(this.action.getTreasure());
+            }
+        });
     }
     render() {
         return __awaiter(this, void 0, void 0, function* () {

@@ -1,6 +1,6 @@
 import { objectLocalStorage } from "../Default.js";
 
-export default abstract class ProgressBar {
+export default class ProgressBar {
 
     timeProgressBar = 0;
     timeProgressBarIndex: any

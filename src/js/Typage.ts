@@ -4,12 +4,18 @@ export type ObjectHTMLElementType = {
     [key: string]: string;
 }
 
+export type ObjectRarityRate = {
+    [rarity: number]: number
+}
+
 export type ObjectTreasureType = {
     [key: string]: {
         name: string;
-        value: number;
-        weight: number;
-        duration_time: number;
+        search_time: number,
+        get_time: number,
+        weight: number,
+        reward: number,
+        rarity: number
     }
 }
 

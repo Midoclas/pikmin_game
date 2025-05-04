@@ -15,10 +15,25 @@ export default class TreasureGetting {
         this.id_treasure = id_treasure;
         this.render();
     }
+    initElementType() {
+    }
+    getTreasure() {
+        return this.id_treasure;
+    }
+    setTreasure(id_treasure) {
+        this.id_treasure = id_treasure;
+    }
+    isFinish() {
+        return true; // TMP
+    }
     validateTreasure(id_treasure) {
         if (id_treasure.length === 0) {
             throw new Error(`TreasureGetting is call with an empty treasure id`);
         }
+    }
+    destructor() {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
     }
     render() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -28,7 +43,7 @@ export default class TreasureGetting {
                 }
                 this.container.innerHTML = "";
                 var domParser = new DOMParser();
-                const idleGameplayHtml = yield fetch("./src/views/gameplay/treasure/treasure-getting.html");
+                const idleGameplayHtml = yield fetch("./src/views/gameplay/treasure/treasure_getting.html");
                 if (!idleGameplayHtml.ok) {
                     throw new Error(`Response status: ${idleGameplayHtml.status}`);
                 }

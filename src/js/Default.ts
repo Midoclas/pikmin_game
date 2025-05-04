@@ -1,4 +1,4 @@
-import { ObjectLocalStorageType, ObjectHTMLElementType, ObjectTreasureType } from "./Typage.js"
+import { ObjectLocalStorageType, ObjectHTMLElementType, ObjectTreasureType, ObjectRarityRate } from "./Typage.js"
 
 export const objectHTMLElement: ObjectHTMLElementType = {
     //Element Type
@@ -34,8 +34,41 @@ export const objectHTMLElement: ObjectHTMLElementType = {
     global_gold_view: ".money"
 }
 
-export const objectTreasure: ObjectTreasureType = {
+export const objectRarityRate: ObjectRarityRate = {
+    1: 80,
+    2: 95,
+    3: 98,
+    4: 99,
+    5: 99.8,
+    6: 99.99,
+    7: 100
+}
 
+export const objectTreasure: ObjectTreasureType = {
+    capsule: {
+        name: "Capsule",
+        search_time: 120,
+        get_time: 10,
+        weight: 10,
+        reward: 2,
+        rarity: 1
+    },
+    autre: {
+        name: "autre",
+        search_time: 120,
+        get_time: 10,
+        weight: 10,
+        reward: 2,
+        rarity: 1
+    },
+    disk: {
+        name: "Disk",
+        search_time: 180,
+        get_time: 30,
+        weight: 25,
+        reward: 10,
+        rarity: 2
+    }
 }
 
 export const objectLocalStorage: ObjectLocalStorageType = {

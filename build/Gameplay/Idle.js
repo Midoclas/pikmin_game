@@ -10,10 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { objectHTMLElement } from "../Default.js";
 import ProgressBar from "../ElementsType/ProgressBar.js";
 import Onion from "../Onion/Onion.js";
-export default class Idle extends ProgressBar {
+export default class Idle {
     constructor() {
-        super(objectHTMLElement.idle_progress_bar, false);
         this.isHarvestable = false;
+        this.progressBar = new ProgressBar(objectHTMLElement.idle_progress_bar, false);
         this.gameplayContainer = document.querySelector(objectHTMLElement.gameplay_container);
         this.btn = null;
         this.onion = null;
@@ -22,24 +22,21 @@ export default class Idle extends ProgressBar {
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.render();
-            this.initElementType();
+            this.progressBar.initElementType();
             yield Onion.initOnion();
             this.initEventListener();
             this.repaint();
         });
     }
     destructor() {
-        const _super = Object.create(null, {
-            destructor: { get: () => super.destructor }
-        });
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b;
             if ((_a = this.onion) === null || _a === void 0 ? void 0 : _a.pikmin.id) {
                 localStorage.setItem("idle_pikmin_instance", (_b = this.onion) === null || _b === void 0 ? void 0 : _b.pikmin.id);
             }
             ;
-            yield _super.destructor.call(this);
-            this.firstIteration = true;
+            yield this.progressBar.destructor();
+            this.progressBar.firstIteration = true;
         });
     }
     initEventListener() {
@@ -49,23 +46,22 @@ export default class Idle extends ProgressBar {
                 this.harvest();
             }
         });
-        (_b = this.objectElement) === null || _b === void 0 ? void 0 : _b.addEventListener("animationend", () => {
+        (_b = this.progressBar.objectElement) === null || _b === void 0 ? void 0 : _b.addEventListener("animationend", () => {
             if (this.onion !== null) {
                 this.isHarvestable = true;
-                console.log("Je passe par là");
                 this.repaint();
             }
         });
-        super.initEventListener();
+        this.progressBar.initEventListener();
     }
     setOnion(onion) {
         var _a, _b;
         this.resetIdle();
         this.onion = onion;
         if (localStorage.getItem("idle_pikmin_instance") !== this.onion.pikmin.id) {
-            this.progression = "";
+            this.progressBar.progression = "";
         }
-        this.setTimeProgressBar(onion.pikmin.growTime);
+        this.progressBar.setTimeProgressBar(onion.pikmin.growTime);
         this.plant();
         (_a = document.querySelector(objectHTMLElement.idle_pikmin_animation)) === null || _a === void 0 ? void 0 : _a.classList.add('plant', ((_b = this.onion) === null || _b === void 0 ? void 0 : _b.pikmin.id) + "_plant_animation", "mx-auto");
     }
@@ -80,14 +76,14 @@ export default class Idle extends ProgressBar {
     }
     plant() {
         this.isHarvestable = false;
-        this.resetProgressBar();
+        this.progressBar.resetProgressBar();
         this.repaint();
     }
     harvest() {
         if (this.isHarvestable && this.onion !== null) {
             this.onion.pikmin.add(1);
             this.plant();
-            this.progression = "";
+            this.progressBar.progression = "";
             this.onion.repaint();
         }
         return false;

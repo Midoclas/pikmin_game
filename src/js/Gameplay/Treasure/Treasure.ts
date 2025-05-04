@@ -1,35 +1,34 @@
 import { objectHTMLElement, objectLocalStorage } from "../../Default.js";
-import VerticalTouchspin from "../../ElementsType/VerticalTouchspin.js";
 import GameplayInterface from "../GameplayInterface.js";
-import TreasureAction from "./TreasureAction.js";
+import TreasureActionInterface from "./TreasureActionInterface.js";
 import TreasureGetting from "./TreasureGetting.js";
 import TreasureHunting from "./TreasureHunting.js";
 
-export default class Treasure extends VerticalTouchspin implements GameplayInterface {
+export default class Treasure implements GameplayInterface {
 
     gameplayContainer: HTMLElement | null;
     treasure = "";
     treasureFound = "";
-    action: null|TreasureAction;
+    action: null|TreasureActionInterface;
 
     constructor() {
         let query = objectHTMLElement.treasure_container;
-        super(query);
         
         this.action = null;
         this.gameplayContainer = document.querySelector(objectHTMLElement.gameplay_container);
         this.init();
-    }    
+    }
 
     async init() {
         this.initStorage();
 
         await this.render();
-        this.initElementType();
-        await super.render();
-        super.initEventListener();
 
         this.initAction();
+        if (this.action) {
+            this.action.render();
+            this.action.initElementType();
+        }
 
         this.initEventListener();
     }
@@ -55,14 +54,20 @@ export default class Treasure extends VerticalTouchspin implements GameplayInter
     }
 
     async destructor() {
-        if (this.setTreasure.length > 0) {
+        if (this.treasure.length > 0) {
             localStorage.setItem("instance_treasure", this.treasure);
         } else {
             localStorage.removeItem("instance_treasure");
         }
+        this.action?.destructor();
     }
 
     initEventListener(): void {
+        document.querySelector('#start_treasure_expedition')?.addEventListener("click", () => {
+            if (this.action instanceof TreasureHunting && this.action.isFinish()) {
+                this.action = new TreasureGetting(this.action.getTreasure());
+            }
+        })
     }
 
     async render() {

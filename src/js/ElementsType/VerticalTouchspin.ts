@@ -1,7 +1,7 @@
 import PikminMap from "../Pikmin/PikminMap.js";
 import { objectHTMLElement } from "../Default.js";
 
-export default abstract class VerticalTouchspin {
+export default class VerticalTouchspin {
 
     objectElement: HTMLElement | null;
     query: string;
