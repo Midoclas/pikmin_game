@@ -13,11 +13,16 @@ import VerticalTouchspin from "../../ElementsType/VerticalTouchspin.js";
 export default class TreasureHunting {
     constructor() {
         this.query = "#treasure";
-        this.searchingTreasure = "";
+        this.finish = false;
+        this.searchingTreasure = null;
+        this.searchTreasureBtn = null;
         this.container = document.querySelector(objectHTMLElement.treasure_container);
         this.verticalTouchspin = new VerticalTouchspin("#tmp");
         this.progressBar = new ProgressBar("#test", false);
         this.initStorage();
+    }
+    save(id, value) {
+        localStorage.setItem(id, value);
     }
     initVerticalTouchspin() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -30,9 +35,10 @@ export default class TreasureHunting {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
             this.progressBar.initElementType();
-            this.progressBar.resetProgressBar();
             (_a = this.progressBar.objectElement) === null || _a === void 0 ? void 0 : _a.addEventListener("animationend", () => {
-                this.getRandomTreasure();
+                var _a;
+                (_a = this.searchTreasureBtn) === null || _a === void 0 ? void 0 : _a.removeAttribute("disabled");
+                this.finish = true;
             });
             this.progressBar.initEventListener();
         });
@@ -40,20 +46,40 @@ export default class TreasureHunting {
     initElementType() {
         this.container = document.querySelector(this.query);
     }
+    initEventListener() {
+        var _a;
+        (_a = this.searchTreasureBtn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+            var _a;
+            (_a = this.searchTreasureBtn) === null || _a === void 0 ? void 0 : _a.setAttribute("disabled", "true");
+            this.search();
+        });
+    }
     initStorage() {
         let searchingTreasureStoredValue = localStorage.getItem("searching_treasure");
         if (searchingTreasureStoredValue !== null) {
-            this.setTreasure(searchingTreasureStoredValue);
+            let treasure = Object.values(objectTreasure).filter(treasure => treasure.name === searchingTreasureStoredValue)[0];
+            this.setTreasure(treasure);
         }
     }
     setTreasure(treasure) {
         this.searchingTreasure = treasure;
+        this.save("searching_treasure", treasure.name);
     }
     getTreasure() {
         return this.searchingTreasure;
     }
     isFinish() {
         return false; // TMP
+    }
+    search() {
+        if (this.searchingTreasure === null) {
+            let treasure = this.getRandomTreasure();
+            this.setTreasure(treasure);
+        }
+        if (this.searchingTreasure) {
+            this.progressBar.setTimeProgressBar(this.searchingTreasure.search_time);
+            this.progressBar.resetProgressBar();
+        }
     }
     getRandomTreasure() {
         let random = Math.random() * (100 - 0);
@@ -62,11 +88,12 @@ export default class TreasureHunting {
         Object.keys(objectRarityRate).map((key) => {
             console.log(key, random, objectRarityRate[key]);
             if (random > objectRarityRate[key]) {
-                rarity = parseInt(key);
+                rarity = parseInt(key) + 1;
+                console.log(rarity);
             }
         });
         let treasureList = Object.values(objectTreasure).filter(treasure => treasure.rarity === rarity);
-        console.log(rarity, treasureList);
+        return treasureList[Math.floor(Math.random() * treasureList.length)];
     }
     destructor() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -96,6 +123,8 @@ export default class TreasureHunting {
                 else {
                     this.initProgressBar();
                 }
+                this.searchTreasureBtn = document.querySelector(objectHTMLElement.treasure_search_btn);
+                this.initEventListener();
             }
             catch (error) {
                 console.log();

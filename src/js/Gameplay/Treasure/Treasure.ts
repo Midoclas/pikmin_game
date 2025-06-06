@@ -1,4 +1,5 @@
-import { objectHTMLElement, objectLocalStorage } from "../../Default.js";
+import { objectHTMLElement, objectLocalStorage, objectTreasure } from "../../Default.js";
+import { TreasureType } from "../../Typage.js";
 import GameplayInterface from "../GameplayInterface.js";
 import TreasureActionInterface from "./TreasureActionInterface.js";
 import TreasureGetting from "./TreasureGetting.js";
@@ -7,8 +8,8 @@ import TreasureHunting from "./TreasureHunting.js";
 export default class Treasure implements GameplayInterface {
 
     gameplayContainer: HTMLElement | null;
-    treasure = "";
-    treasureFound = "";
+    treasure: TreasureType|null = null;
+    treasureFound: TreasureType|null = null;
     action: null|TreasureActionInterface;
 
     constructor() {
@@ -38,15 +39,17 @@ export default class Treasure implements GameplayInterface {
         let treasureFoundStoredValue = localStorage.getItem("treasure_found");
 
         if (instanceTreasureStoredValue !== null) {
-            this.setTreasure(instanceTreasureStoredValue);
+            let treasure = Object.values(objectTreasure).filter(treasure => treasure.name === instanceTreasureStoredValue)[0];
+            this.setTreasure(treasure);
         }
         if (treasureFoundStoredValue !== null) {
-            this.setTreasureFound(treasureFoundStoredValue);
+            let treasure = Object.values(objectTreasure).filter(treasure => treasure.name === treasureFoundStoredValue)[0];
+            this.setTreasureFound(treasure);
         }
     }
 
     initAction() {
-        if (this.treasure.length > 0) {
+        if (this.treasure !== null) {
             this.action = new TreasureGetting(this.treasure);
         } else {
             this.action = new TreasureHunting();
@@ -54,8 +57,8 @@ export default class Treasure implements GameplayInterface {
     }
 
     async destructor() {
-        if (this.treasure.length > 0) {
-            localStorage.setItem("instance_treasure", this.treasure);
+        if (this.treasure !== null) {
+            localStorage.setItem("instance_treasure", this.treasure.name);
         } else {
             localStorage.removeItem("instance_treasure");
         }
@@ -99,11 +102,11 @@ export default class Treasure implements GameplayInterface {
     repaint(): void {
     }
 
-    setTreasure(treasure: string) {
+    setTreasure(treasure: TreasureType|null) {
         this.treasure = treasure;
     }
 
-    setTreasureFound(treasure: string) {
+    setTreasureFound(treasure: TreasureType|null) {
         this.treasureFound = treasure;
     }
 }

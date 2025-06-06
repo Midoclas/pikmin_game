@@ -2,7 +2,7 @@
   "include" : ["src/js"],
   "compilerOptions": {
     "target": "es2015",
-    "lib" : ["es6", "ES2021.String", "ES2017.Object", "dom"],
+    "lib" : ["es6", "ES2021.String", "ES2017.Object", "dom", "es2022"],
     "outDir": "build",
     "strict": true,                                      /* Enable all strict type-checking options. */
   },

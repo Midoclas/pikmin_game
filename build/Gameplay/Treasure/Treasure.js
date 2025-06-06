@@ -7,13 +7,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { objectHTMLElement } from "../../Default.js";
+import { objectHTMLElement, objectTreasure } from "../../Default.js";
 import TreasureGetting from "./TreasureGetting.js";
 import TreasureHunting from "./TreasureHunting.js";
 export default class Treasure {
     constructor() {
-        this.treasure = "";
-        this.treasureFound = "";
+        this.treasure = null;
+        this.treasureFound = null;
         let query = objectHTMLElement.treasure_container;
         this.action = null;
         this.gameplayContainer = document.querySelector(objectHTMLElement.gameplay_container);
@@ -35,14 +35,16 @@ export default class Treasure {
         let instanceTreasureStoredValue = localStorage.getItem("instance_treasure");
         let treasureFoundStoredValue = localStorage.getItem("treasure_found");
         if (instanceTreasureStoredValue !== null) {
-            this.setTreasure(instanceTreasureStoredValue);
+            let treasure = Object.values(objectTreasure).filter(treasure => treasure.name === instanceTreasureStoredValue)[0];
+            this.setTreasure(treasure);
         }
         if (treasureFoundStoredValue !== null) {
-            this.setTreasureFound(treasureFoundStoredValue);
+            let treasure = Object.values(objectTreasure).filter(treasure => treasure.name === treasureFoundStoredValue)[0];
+            this.setTreasureFound(treasure);
         }
     }
     initAction() {
-        if (this.treasure.length > 0) {
+        if (this.treasure !== null) {
             this.action = new TreasureGetting(this.treasure);
         }
         else {
@@ -52,8 +54,8 @@ export default class Treasure {
     destructor() {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
-            if (this.treasure.length > 0) {
-                localStorage.setItem("instance_treasure", this.treasure);
+            if (this.treasure !== null) {
+                localStorage.setItem("instance_treasure", this.treasure.name);
             }
             else {
                 localStorage.removeItem("instance_treasure");

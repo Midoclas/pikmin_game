@@ -18,7 +18,6 @@ export default class ProgressBar {
         this.objectElement = null;
         this.isInfinit = infinit;
         this.initStorage();
-        this.initEventListener();
     }
     destructor() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -31,8 +30,6 @@ export default class ProgressBar {
             curTime += parseInt(this.progression);
         }
         let timePassed = curTime - this.startTime;
-        console.log(this.progression);
-        console.log(timePassed, timePassed + parseInt(this.progression));
         let progression = 0;
         if (timePassed > this.timeProgressBar) {
             progression = this.timeProgressBar - 1;

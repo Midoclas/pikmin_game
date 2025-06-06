@@ -10,7 +10,12 @@ export const objectHTMLElement = {
     idle_harvest_btn: "#harvest",
     idle_pikmin_animation: "#idle-animation",
     treasure_container: "#treasure",
-    treasure_init_btn: "#start_treasure",
+    treasure_search_btn: "#search_treasure",
+    treasure_information_name: "#treasure-information .name",
+    treasure_information_get_time: "#treasure-information .get_time",
+    treasure_information_weight: "#treasure-information .weight",
+    treasure_information_reward: "#treasure-information .reward",
+    treasure_information_rarity: "#treasure-information .rarity",
     //Onion
     onion: "#onion",
     onion_container: ".onionContainer",
@@ -40,15 +45,7 @@ export const objectRarityRate = {
 export const objectTreasure = {
     capsule: {
         name: "Capsule",
-        search_time: 120,
-        get_time: 10,
-        weight: 10,
-        reward: 2,
-        rarity: 1
-    },
-    autre: {
-        name: "autre",
-        search_time: 120,
+        search_time: 120000,
         get_time: 10,
         weight: 10,
         reward: 2,
@@ -56,7 +53,7 @@ export const objectTreasure = {
     },
     disk: {
         name: "Disk",
-        search_time: 180,
+        search_time: 180000,
         get_time: 30,
         weight: 25,
         reward: 10,

@@ -9,14 +9,16 @@ export type ObjectRarityRate = {
 }
 
 export type ObjectTreasureType = {
-    [key: string]: {
-        name: string;
-        search_time: number,
-        get_time: number,
-        weight: number,
-        reward: number,
-        rarity: number
-    }
+    [key: string]: TreasureType
+}
+
+export type TreasureType = {
+    name: string,
+    search_time: number,
+    get_time: number,
+    weight: number,
+    reward: number,
+    rarity: number
 }
 
 export type GlobalType = {

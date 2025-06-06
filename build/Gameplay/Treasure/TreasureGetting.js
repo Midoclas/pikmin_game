@@ -9,26 +9,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { objectHTMLElement } from "../../Default.js";
 export default class TreasureGetting {
-    constructor(id_treasure) {
+    constructor(treasure) {
+        this.treasure = null;
         this.container = document.querySelector(objectHTMLElement.treasure_container);
-        this.validateTreasure(id_treasure);
-        this.id_treasure = id_treasure;
+        this.validateTreasure(treasure);
+        this.treasure = treasure;
         this.render();
     }
     initElementType() {
     }
     getTreasure() {
-        return this.id_treasure;
+        return this.treasure;
     }
-    setTreasure(id_treasure) {
-        this.id_treasure = id_treasure;
+    setTreasure(treasure) {
+        this.treasure = treasure;
     }
     isFinish() {
         return true; // TMP
     }
-    validateTreasure(id_treasure) {
-        if (id_treasure.length === 0) {
-            throw new Error(`TreasureGetting is call with an empty treasure id`);
+    validateTreasure(treasure) {
+        if (treasure === null) {
+            throw new Error(`TreasureGetting is call with a treasure set to null`);
+        }
+        for (const prop in treasure) {
+            if (!Object.hasOwn(treasure, prop)) {
+                throw new Error(`TreasureGetting is call with an empty treasure object`);
+            }
         }
     }
     destructor() {

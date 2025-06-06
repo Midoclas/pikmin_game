@@ -1,14 +1,15 @@
 import { objectHTMLElement } from "../../Default.js";
+import { TreasureType } from "../../Typage.js";
 import TreasureActionInterface from "./TreasureActionInterface.js";
 
 export default class TreasureGetting implements TreasureActionInterface {
 
-    id_treasure: string;
+    treasure: TreasureType|null = null;
     container = document.querySelector(objectHTMLElement.treasure_container);
 
-    constructor(id_treasure: string) {
-        this.validateTreasure(id_treasure);
-        this.id_treasure = id_treasure;
+    constructor(treasure: TreasureType|null) {
+        this.validateTreasure(treasure);
+        this.treasure = treasure;
 
         this.render();
     }
@@ -17,21 +18,27 @@ export default class TreasureGetting implements TreasureActionInterface {
         
     }
 
-    getTreasure() {
-        return this.id_treasure;
+    getTreasure(): TreasureType|null {
+        return this.treasure;
     }
 
-    setTreasure(id_treasure: string) {
-        this.id_treasure = id_treasure;
+    setTreasure(treasure: TreasureType|null) {
+        this.treasure = treasure;
     }
 
     isFinish() {
         return true; // TMP
     }
 
-    validateTreasure(id_treasure: string) {
-        if (id_treasure.length === 0) {
-            throw new Error(`TreasureGetting is call with an empty treasure id`);
+    validateTreasure(treasure: TreasureType|null) {
+        if (treasure === null) {
+            throw new Error(`TreasureGetting is call with a treasure set to null`);
+        }
+
+        for (const prop in treasure) {
+            if (!Object.hasOwn(treasure, prop)) {
+                throw new Error(`TreasureGetting is call with an empty treasure object`);
+            }
         }
     }
 

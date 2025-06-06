@@ -192,7 +192,7 @@ export default class Onion {
                 onionImgContainer === null || onionImgContainer === void 0 ? void 0 : onionImgContainer.addEventListener("animationend", () => {
                     onionImgContainer === null || onionImgContainer === void 0 ? void 0 : onionImgContainer.classList.add("top-0");
                 });
-            }, position * 500);
+            }, 5000 / position);
         });
     }
     repaint() {

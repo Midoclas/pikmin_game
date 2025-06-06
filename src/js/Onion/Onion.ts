@@ -203,7 +203,7 @@ export default class Onion {
                 onionImgContainer?.addEventListener("animationend", () => {
                     onionImgContainer?.classList.add("top-0")
                 });
-            }, position*500)
+            }, 5000 / position)
         });
     }
 
