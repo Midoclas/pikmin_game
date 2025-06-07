@@ -35,7 +35,6 @@ export default class Idle {
                 localStorage.setItem("idle_pikmin_instance", (_b = this.onion) === null || _b === void 0 ? void 0 : _b.pikmin.id);
             }
             ;
-            yield this.progressBar.destructor();
             this.progressBar.firstIteration = true;
         });
     }
@@ -59,7 +58,7 @@ export default class Idle {
         this.resetIdle();
         this.onion = onion;
         if (localStorage.getItem("idle_pikmin_instance") !== this.onion.pikmin.id) {
-            this.progressBar.progression = "";
+            this.progressBar.restoreInitialState();
         }
         this.progressBar.setTimeProgressBar(onion.pikmin.growTime);
         this.plant();
@@ -83,7 +82,7 @@ export default class Idle {
         if (this.isHarvestable && this.onion !== null) {
             this.onion.pikmin.add(1);
             this.plant();
-            this.progressBar.progression = "";
+            this.progressBar.restoreInitialState();
             this.onion.repaint();
         }
         return false;

@@ -18,7 +18,7 @@ export default class TreasureHunting {
         this.searchTreasureBtn = null;
         this.container = document.querySelector(objectHTMLElement.treasure_container);
         this.verticalTouchspin = new VerticalTouchspin("#tmp");
-        this.progressBar = new ProgressBar("#test", false);
+        this.progressBar = new ProgressBar("#treasure_hunting_progress_bar", false);
         this.initStorage();
     }
     save(id, value) {
@@ -83,13 +83,10 @@ export default class TreasureHunting {
     }
     getRandomTreasure() {
         let random = Math.random() * (100 - 0);
-        console.log(random);
         let rarity = 1;
         Object.keys(objectRarityRate).map((key) => {
-            console.log(key, random, objectRarityRate[key]);
             if (random > objectRarityRate[key]) {
                 rarity = parseInt(key) + 1;
-                console.log(rarity);
             }
         });
         let treasureList = Object.values(objectTreasure).filter(treasure => treasure.rarity === rarity);
@@ -97,7 +94,6 @@ export default class TreasureHunting {
     }
     destructor() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.progressBar.destructor();
         });
     }
     render() {

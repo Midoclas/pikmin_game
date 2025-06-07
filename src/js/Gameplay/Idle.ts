@@ -32,7 +32,6 @@ export default class Idle implements GameplayInterface {
         if (this.onion?.pikmin.id) {
             localStorage.setItem("idle_pikmin_instance", this.onion?.pikmin.id)
         };
-        await this.progressBar.destructor();
         this.progressBar.firstIteration = true;
     }
 
@@ -55,9 +54,10 @@ export default class Idle implements GameplayInterface {
 
     setOnion(onion: Onion) {
         this.resetIdle();
+
         this.onion = onion;
         if (localStorage.getItem("idle_pikmin_instance") !== this.onion.pikmin.id) {
-            this.progressBar.progression = "";
+            this.progressBar.restoreInitialState();
         }
         this.progressBar.setTimeProgressBar(onion.pikmin.growTime);
         this.plant();
@@ -84,7 +84,7 @@ export default class Idle implements GameplayInterface {
         if (this.isHarvestable && this.onion !== null) {
             this.onion.pikmin.add(1);
             this.plant();
-            this.progressBar.progression = "";
+            this.progressBar.restoreInitialState();
             this.onion.repaint();
         }
         return false;

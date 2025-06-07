@@ -87,13 +87,10 @@ export default class TreasureHunting implements TreasureActionInterface {
 
     getRandomTreasure() {
         let random = Math.random() * (100-0);
-        console.log(random);
         let rarity = 1;
         Object.keys(objectRarityRate).map((key) => {
-            console.log(key, random, objectRarityRate[(key as any)]);
             if (random > objectRarityRate[(key as any)]) {
                 rarity =  parseInt(key)+1;
-                console.log(rarity);
             }
         });
         let treasureList = Object.values(objectTreasure).filter(treasure => treasure.rarity === rarity);
@@ -101,7 +98,6 @@ export default class TreasureHunting implements TreasureActionInterface {
     }
 
     async destructor(): Promise<void> {
-        await this.progressBar.destructor();
     }
 
     async render() {

@@ -39,20 +39,21 @@ export const objectHTMLElement: ObjectHTMLElementType = {
     global_gold_view: ".money"
 }
 
+
 export const objectRarityRate: ObjectRarityRate = {
-    1: 80,
-    2: 95,
-    3: 98,
-    4: 99,
-    5: 99.8,
-    6: 99.99,
-    7: 100
+    1: 78.39,      //78.39%
+    2: 93.39,      //15%
+    3: 98.39,      //5%
+    4: 99.39,      //1%
+    5: 99.89,      //0.5%
+    6: 99.99,      //0.1%
+    7: 100         //0.01%
 }
 
 export const objectTreasure: ObjectTreasureType = {
     capsule: {
         name: "Capsule",
-        search_time: 120000,
+        search_time: 12000,
         get_time: 10,
         weight: 10,
         reward: 2,
