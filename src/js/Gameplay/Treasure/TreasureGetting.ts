@@ -26,7 +26,7 @@ export default class TreasureGetting implements TreasureActionInterface {
         this.treasure = treasure;
     }
 
-    isFinish() {
+    isFinished() {
         return true; // TMP
     }
 
@@ -64,11 +64,42 @@ export default class TreasureGetting implements TreasureActionInterface {
 
             const parseHtml = domParser.parseFromString(html, "text/html");
             
-            if (parseHtml.body.firstChild) {
-                this.container.appendChild(parseHtml.body.firstChild);
+            if (parseHtml.body) {
+                this.container.append(...Array.from(parseHtml.body.children))
             }       
-        } catch (error) {
-            console.log()
+        } catch (error: any) {
+            console.log(error.message)
         }
+    }
+
+    renderTreasureInformation(): void {
+        let treasure = this.getTreasure();
+        if (treasure === null || treasure === undefined) {
+            return;
+        }
+
+        let name = this.container?.querySelector(objectHTMLElement.treasure_information_name);
+        let get_time = this.container?.querySelector(objectHTMLElement.treasure_information_get_time);
+        let rarity = this.container?.querySelector(objectHTMLElement.treasure_information_rarity);
+        let reward = this.container?.querySelector(objectHTMLElement.treasure_information_reward);
+        let weight = this.container?.querySelector(objectHTMLElement.treasure_information_weight);
+        
+
+        if (name) {
+            name.innerHTML = treasure.name;
+        }
+        if (get_time) {
+            get_time.innerHTML = treasure.get_time.toString();
+        }
+        if (rarity) {
+            rarity.innerHTML = treasure.rarity.toString();
+        }
+        if (reward) {
+            reward.innerHTML = treasure.reward.toString();
+        }
+        if (weight) {
+            weight.innerHTML = treasure.weight.toString();
+        }
+        
     }
 }

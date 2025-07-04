@@ -9,7 +9,6 @@ export default class Treasure implements GameplayInterface {
 
     gameplayContainer: HTMLElement | null;
     treasure: TreasureType|null = null;
-    treasureFound: TreasureType|null = null;
     action: null|TreasureActionInterface;
 
     constructor() {
@@ -36,16 +35,12 @@ export default class Treasure implements GameplayInterface {
 
     initStorage() {
         let instanceTreasureStoredValue = localStorage.getItem("instance_treasure");
-        let treasureFoundStoredValue = localStorage.getItem("treasure_found");
 
         if (instanceTreasureStoredValue !== null) {
             let treasure = Object.values(objectTreasure).filter(treasure => treasure.name === instanceTreasureStoredValue)[0];
             this.setTreasure(treasure);
         }
-        if (treasureFoundStoredValue !== null) {
-            let treasure = Object.values(objectTreasure).filter(treasure => treasure.name === treasureFoundStoredValue)[0];
-            this.setTreasureFound(treasure);
-        }
+
     }
 
     initAction() {
@@ -67,7 +62,7 @@ export default class Treasure implements GameplayInterface {
 
     initEventListener(): void {
         document.querySelector('#start_treasure_expedition')?.addEventListener("click", () => {
-            if (this.action instanceof TreasureHunting && this.action.isFinish()) {
+            if (this.action instanceof TreasureHunting && this.action.isFinished()) {
                 this.action = new TreasureGetting(this.action.getTreasure());
             }
         })
@@ -91,8 +86,8 @@ export default class Treasure implements GameplayInterface {
 
             const parseHtml = domParser.parseFromString(html, "text/html");
             
-            if (parseHtml.body.firstChild) {
-                this.gameplayContainer.appendChild(parseHtml.body.firstChild);
+            if (parseHtml.body) {
+                this.gameplayContainer.append(...Array.from(parseHtml.body.children));
             }       
         } catch (error: any) {
             console.log(error.message)
@@ -104,9 +99,5 @@ export default class Treasure implements GameplayInterface {
 
     setTreasure(treasure: TreasureType|null) {
         this.treasure = treasure;
-    }
-
-    setTreasureFound(treasure: TreasureType|null) {
-        this.treasureFound = treasure;
     }
 }

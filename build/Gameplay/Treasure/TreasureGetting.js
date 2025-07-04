@@ -24,7 +24,7 @@ export default class TreasureGetting {
     setTreasure(treasure) {
         this.treasure = treasure;
     }
-    isFinish() {
+    isFinished() {
         return true; // TMP
     }
     validateTreasure(treasure) {
@@ -55,13 +55,40 @@ export default class TreasureGetting {
                 }
                 var html = yield idleGameplayHtml.text();
                 const parseHtml = domParser.parseFromString(html, "text/html");
-                if (parseHtml.body.firstChild) {
-                    this.container.appendChild(parseHtml.body.firstChild);
+                if (parseHtml.body) {
+                    this.container.append(...Array.from(parseHtml.body.children));
                 }
             }
             catch (error) {
-                console.log();
+                console.log(error.message);
             }
         });
+    }
+    renderTreasureInformation() {
+        var _a, _b, _c, _d, _e;
+        let treasure = this.getTreasure();
+        if (treasure === null || treasure === undefined) {
+            return;
+        }
+        let name = (_a = this.container) === null || _a === void 0 ? void 0 : _a.querySelector(objectHTMLElement.treasure_information_name);
+        let get_time = (_b = this.container) === null || _b === void 0 ? void 0 : _b.querySelector(objectHTMLElement.treasure_information_get_time);
+        let rarity = (_c = this.container) === null || _c === void 0 ? void 0 : _c.querySelector(objectHTMLElement.treasure_information_rarity);
+        let reward = (_d = this.container) === null || _d === void 0 ? void 0 : _d.querySelector(objectHTMLElement.treasure_information_reward);
+        let weight = (_e = this.container) === null || _e === void 0 ? void 0 : _e.querySelector(objectHTMLElement.treasure_information_weight);
+        if (name) {
+            name.innerHTML = treasure.name;
+        }
+        if (get_time) {
+            get_time.innerHTML = treasure.get_time.toString();
+        }
+        if (rarity) {
+            rarity.innerHTML = treasure.rarity.toString();
+        }
+        if (reward) {
+            reward.innerHTML = treasure.reward.toString();
+        }
+        if (weight) {
+            weight.innerHTML = treasure.weight.toString();
+        }
     }
 }

@@ -59,10 +59,12 @@ export default class ProgressBar {
         return this.timeProgressBar;
     }
     resetProgressBar() {
+        var _a;
         if (this.objectElement !== null) {
             this.objectElement.style.width = "";
             this.objectElement.style.animationName = "";
             this.objectElement.style.animationDuration = this.timeProgressBar.toString() + 'ms';
+            (_a = this.objectElement.parentElement) === null || _a === void 0 ? void 0 : _a.classList.add('init');
             if (this.firstIteration) {
                 this.restoreAnimation();
                 if (this.progression.length > 0) {

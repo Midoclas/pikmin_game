@@ -83,8 +83,8 @@ export default class Idle implements GameplayInterface {
     harvest() {
         if (this.isHarvestable && this.onion !== null) {
             this.onion.pikmin.add(1);
-            this.plant();
             this.progressBar.restoreInitialState();
+            this.plant();
             this.onion.repaint();
         }
         return false;
@@ -108,8 +108,8 @@ export default class Idle implements GameplayInterface {
 
             const parseHtml = domParser.parseFromString(html, "text/html");
             
-            if (parseHtml.body.firstChild) {
-                this.gameplayContainer.appendChild(parseHtml.body.firstChild);
+            if (parseHtml.body) {
+                this.gameplayContainer.append(...Array.from(parseHtml.body.children))
                 if (this.gameplayContainer !== null) {
                     this.btn = this.gameplayContainer.querySelector(objectHTMLElement.idle_harvest_btn);
                 }

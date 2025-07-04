@@ -114,8 +114,8 @@ export default class Onion {
                     .replaceAll('{life_point}', this.pikmin.lifePoint.toString())
                     .replaceAll('{defense}', this.pikmin.defense.toString());
                 const parseHtml = domParser.parseFromString(html, "text/html");
-                if (parseHtml.body.firstChild) {
-                    this.container.appendChild(parseHtml.body.firstChild);
+                if (parseHtml.body) {
+                    this.container.append(...Array.from(parseHtml.body.children));
                     this.selfContainer = document.querySelector('#' + this.id);
                     if (this.selfContainer !== null) {
                         this.selectOnionBtn = this.selfContainer.querySelector(objectHTMLElement.onion_select_btn);
@@ -192,7 +192,7 @@ export default class Onion {
                 onionImgContainer === null || onionImgContainer === void 0 ? void 0 : onionImgContainer.addEventListener("animationend", () => {
                     onionImgContainer === null || onionImgContainer === void 0 ? void 0 : onionImgContainer.classList.add("top-0");
                 });
-            }, 5000 / position);
+            }, position * 500);
         });
     }
     repaint() {

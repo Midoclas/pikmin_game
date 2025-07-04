@@ -5,6 +5,7 @@ export default interface TreasureActionInterface {
     getTreasure(): TreasureType|null;
     setTreasure(id_treasure: TreasureType|null): void;
     render(): void
-    isFinish(): boolean;
+    renderTreasureInformation(): void
+    isFinished(): boolean;
     destructor(): Promise<void>;
 }

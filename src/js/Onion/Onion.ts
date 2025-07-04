@@ -125,8 +125,8 @@ export default class Onion {
                 .replaceAll('{defense}', this.pikmin.defense.toString());
             const parseHtml = domParser.parseFromString(html, "text/html");
 
-            if (parseHtml.body.firstChild) {
-                this.container.appendChild(parseHtml.body.firstChild);
+            if (parseHtml.body) {
+                this.container.append(...Array.from(parseHtml.body.children))
                 this.selfContainer = document.querySelector('#'+this.id);
                 if (this.selfContainer !== null) {
                     this.selectOnionBtn = this.selfContainer.querySelector(objectHTMLElement.onion_select_btn);
@@ -203,7 +203,7 @@ export default class Onion {
                 onionImgContainer?.addEventListener("animationend", () => {
                     onionImgContainer?.classList.add("top-0")
                 });
-            }, 5000 / position)
+            }, position*500)
         });
     }
 

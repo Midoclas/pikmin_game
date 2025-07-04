@@ -13,7 +13,6 @@ import TreasureHunting from "./TreasureHunting.js";
 export default class Treasure {
     constructor() {
         this.treasure = null;
-        this.treasureFound = null;
         let query = objectHTMLElement.treasure_container;
         this.action = null;
         this.gameplayContainer = document.querySelector(objectHTMLElement.gameplay_container);
@@ -33,14 +32,9 @@ export default class Treasure {
     }
     initStorage() {
         let instanceTreasureStoredValue = localStorage.getItem("instance_treasure");
-        let treasureFoundStoredValue = localStorage.getItem("treasure_found");
         if (instanceTreasureStoredValue !== null) {
             let treasure = Object.values(objectTreasure).filter(treasure => treasure.name === instanceTreasureStoredValue)[0];
             this.setTreasure(treasure);
-        }
-        if (treasureFoundStoredValue !== null) {
-            let treasure = Object.values(objectTreasure).filter(treasure => treasure.name === treasureFoundStoredValue)[0];
-            this.setTreasureFound(treasure);
         }
     }
     initAction() {
@@ -66,7 +60,7 @@ export default class Treasure {
     initEventListener() {
         var _a;
         (_a = document.querySelector('#start_treasure_expedition')) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-            if (this.action instanceof TreasureHunting && this.action.isFinish()) {
+            if (this.action instanceof TreasureHunting && this.action.isFinished()) {
                 this.action = new TreasureGetting(this.action.getTreasure());
             }
         });
@@ -85,8 +79,8 @@ export default class Treasure {
                 }
                 var html = yield idleGameplayHtml.text();
                 const parseHtml = domParser.parseFromString(html, "text/html");
-                if (parseHtml.body.firstChild) {
-                    this.gameplayContainer.appendChild(parseHtml.body.firstChild);
+                if (parseHtml.body) {
+                    this.gameplayContainer.append(...Array.from(parseHtml.body.children));
                 }
             }
             catch (error) {
@@ -98,8 +92,5 @@ export default class Treasure {
     }
     setTreasure(treasure) {
         this.treasure = treasure;
-    }
-    setTreasureFound(treasure) {
-        this.treasureFound = treasure;
     }
 }

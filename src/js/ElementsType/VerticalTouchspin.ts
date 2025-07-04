@@ -92,6 +92,7 @@ export default class VerticalTouchspin {
             if (this.objectElement === null) {
                 throw new Error(`Response status: element does not exist`);
             }
+            this.objectElement.classList.remove("d-none");
             const html = await fetch("./src/views/element_type/vertical_touchspin.html");
             const htmlElement = await fetch("./src/views/element_type/vertical_touchspin_element.html");
             if (!html.ok) {
@@ -106,8 +107,8 @@ export default class VerticalTouchspin {
             const parseHtml = new DOMParser().parseFromString(htmlContent, "text/html");
 
             this.objectElement.textContent = "";
-            if (parseHtml.body.firstChild) {
-                this.objectElement.appendChild(parseHtml.body.firstChild);
+            if (parseHtml.body) {
+                this.objectElement.append(...Array.from(parseHtml.body.children));
                 let pikminMap = new PikminMap();
                 for (const key in pikminMap.mapping) {
                     let copyHtml = htmlElementContent

@@ -9,8 +9,19 @@ p {
     margin-bottom: 0;
 }
 
+.card {
+    padding: 1rem !important;
+}
+
 #idle {
     background-image: linear-gradient(to top, var(--bs-c-primary), transparent 20%), url("../img/idle-bg.png");
+    background-position: 50% 40%;
+    background-size: cover;
+    height: 40vh;
+}
+
+#treasure {
+    background-image: linear-gradient(to top, var(--bs-c-primary), transparent 20%), url("../img/treasure-bg-real.jpg");
     background-position: 50% 40%;
     background-size: cover;
     height: 40vh;
@@ -21,12 +32,16 @@ p {
 }
 
 .progressBarContainer {
-    background: var(--rainbow);
+    background-color: #2a2a2a;
     height: 1rem;
     margin: 0.5rem;
     border-radius: 50rem;
     display: flex;
     justify-content: end;
+}
+
+.progressBarContainer.init {
+    background: var(--rainbow);
 }
 
 .progressBar {
@@ -36,7 +51,12 @@ p {
     border-radius: 50rem;
 }
 
+.onionImgContainer {
+    opacity: 0;
+}
+
 .landing {
+    opacity: 1;
     animation-name: landingX, landingY, landingRotate;
     animation-duration: 5s;
     animation-timing-function: cubic-bezier(.5,.02,.57,.91), ease-out, cubic-bezier(.74,.23,.65,.84);
@@ -90,7 +110,11 @@ input[type=number] {
 
 @keyframes landingY {
     from {
+        opacity: 0;
         top: -1000px;
+    }
+    25% {
+        opacity: 1;
     }
 
     to {
