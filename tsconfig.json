@@ -1,8 +1,11 @@
 {
-  "include" : ["src/js"],
+  "include" : ["src/ts", "bootstrap.d.ts"],
   "compilerOptions": {
+    "paths": {
+      "bootstrap": ["./node_modules/bootstrap/dist/js/bootstrap.esm.js"]
+    },
     "target": "es2015",
-    "lib" : ["es6", "ES2021.String", "ES2017.Object", "dom", "es2022"],
+    "lib" : ["dom", "dom.iterable", "es6", "ES2021.String", "ES2017.Object", "dom", "es2022"],
     "outDir": "build",
     "strict": true,                                      /* Enable all strict type-checking options. */
   },

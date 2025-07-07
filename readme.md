@@ -11,5 +11,5 @@ sass src/scss/assets.scss src/css/assets.css
 
 # TypeScript
 ```bash
-npx tsc
+npm run build
 ```
