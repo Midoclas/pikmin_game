@@ -46,3 +46,7 @@ Dongeons :
         - Si echec, perte de pikmin aléatoire en fonction du taux de réussite
     - récompenses : (monaie, trésors, pikmins, oignons) ?
     - Durée
+
+
+// TODO
+// Sauvegarder instance de trésor pour getting si changement de fenêtre

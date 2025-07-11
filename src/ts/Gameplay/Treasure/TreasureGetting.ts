@@ -5,6 +5,7 @@ import PikminMap from "../../Pikmin/PikminMap";
 import { TreasureType } from "../../Typage";
 import TreasureActionInterface from "./TreasureActionInterface";
 import Toast from "../../Utils/Toast";
+import { expeditionFinish } from "../../GlobalEvent";
 
 export default class TreasureGetting implements TreasureActionInterface {
 
@@ -21,7 +22,7 @@ export default class TreasureGetting implements TreasureActionInterface {
         this.treasure = treasure;
 
         this.verticalTouchspin = new VerticalTouchspin(objectHTMLElement.treasure_getting_vertical_touchspin);
-        this.progressBar = new ProgressBar(objectHTMLElement.treasure_getting_progress_bar, false);
+        this.progressBar = new ProgressBar(objectHTMLElement.treasure_getting_progress_bar, false);        
     }
 
     initElementAfterRendering(): void {
@@ -31,51 +32,51 @@ export default class TreasureGetting implements TreasureActionInterface {
 
     initEventListener() {
         this.startExpeditionBtn?.addEventListener("click", () => {
-            console.log("oui");
             let isValid = this.validator();
             if (typeof isValid == "string") {
                 new Toast("danger", isValid);
+                return;
             }
+            this.start();
         })
     }
 
     validator(): boolean|string{
         let data = this.verticalTouchspin.getData();
-        let strengh = 0;
+        let strength = 0;
 
         if (!this.treasure) {
-            throw new Error(`Validator is call with an empty treasure object`);
+            throw new Error(`TreasureGetting Validator is call with an empty treasure object`);
         }
 
-        return "Les valeurs négatives ne sont pas autorisé pour : ";
-        // if (data) {
-        //     let pikminMap = new PikminMap();
-        //     for (const key in pikminMap.mapping) {
-        //         if (pikminMap.mapping.hasOwnProperty(key)) {
-        //             let pikmin = pikminMap.mapping[key];
-        //             let dataValue = data.get(pikmin.id);
-        //             if (typeof dataValue === 'string') {
-        //                 let intDataValue = parseInt(dataValue);
+        if (data) {
+            let pikminMap = new PikminMap();
+            for (const key in pikminMap.mapping) {
+                if (pikminMap.mapping.hasOwnProperty(key)) {
+                    let pikmin = pikminMap.mapping[key];
+                    let dataValue = data.get(pikmin.id);
+                    if (typeof dataValue === 'string') {
+                        let intDataValue = parseInt(dataValue);
 
-        //                 if (intDataValue < 0)  {
-        //                     return "Les valeurs négatives ne sont pas autorisé pour : " + pikmin.id;
-        //                 }
+                        if (intDataValue < 0)  {
+                            return "negative values are not allowed: " + pikmin.id;
+                        }
 
-        //                 if (intDataValue > pikmin.nbPikmin)  {
-        //                     return "Le nombre de pikmin demandé est trop élevé pour " + pikmin.id;
-        //                 }
+                        if (intDataValue > pikmin.nbPikmin)  {
+                            return "You don't have enough Pikmin:" + pikmin.id;
+                        }
 
-        //                 strengh += (pikmin.getAttack() * intDataValue);
-        //             }
-        //         }
-        //     }
+                        strength += (pikmin.getAttack() * intDataValue);
+                    }
+                }
+            }
 
-        //     if (strengh < this.treasure.weight) {
-        //         return "Vos troupes ne sont pas assez fortes pour porter le trésor";
-        //     }
-        // }
+            if (strength < this.treasure.weight) {
+                return "You don't have the strength to start expedition.";
+            }
+        }
         
-        // return true
+        return true
     }
 
     async initVerticalTouchspin() {
@@ -83,6 +84,28 @@ export default class TreasureGetting implements TreasureActionInterface {
         await this.verticalTouchspin.render();
         this.verticalTouchspin.initEventListener();
         this.validator();
+    }
+
+    async initProgressBar() {
+        this.progressBar.initElementType();
+
+        this.progressBar.objectElement?.addEventListener("animationend", () => {
+            if (this.treasure !== null) {
+                this.finish = true;
+                document.dispatchEvent(expeditionFinish);
+            } else {
+                throw new Error(`No treasure found when progress bars end`);
+            }
+        })
+
+        this.progressBar.initEventListener();
+    }
+
+    start() {
+        if (this.treasure) {
+            this.progressBar.setTimeProgressBar(this.treasure.search_time);
+            this.progressBar.resetProgressBar();
+        }
     }
 
     getTreasure(): TreasureType|null {
@@ -94,7 +117,7 @@ export default class TreasureGetting implements TreasureActionInterface {
     }
 
     isFinished() {
-        return this.finish; // TMP
+        return this.finish;
     }
 
     validateTreasure(treasure: TreasureType|null) {
@@ -110,7 +133,8 @@ export default class TreasureGetting implements TreasureActionInterface {
     }
 
     async destructor(): Promise<void> {
-        
+        localStorage.removeItem("treasure");
+        this.progressBar.restoreInitialState();
     }
 
     async render() {
@@ -149,6 +173,7 @@ export default class TreasureGetting implements TreasureActionInterface {
             }
             this.initElementAfterRendering();
             this.initEventListener();
+            this.initProgressBar();
         } catch (error: any) {
             console.log(error.message);
         }
@@ -181,7 +206,6 @@ export default class TreasureGetting implements TreasureActionInterface {
         }
         if (weight) {
             weight.innerHTML = treasure.weight.toString();
-        }
-        
+        } 
     }
 }

@@ -6,6 +6,7 @@ export default class Toast {
     toastElement = document.querySelector(objectHTMLElement.toast);
     toast: any;
 
+    idTimer: ReturnType<typeof setTimeout>|null = null;
     message: string;
     type: string;
 
@@ -19,6 +20,7 @@ export default class Toast {
         this.createToast();
 
         this.toast = new Alert(objectHTMLElement.toast);
+        this.addEventListener();
         this.show();
         this.startTimer();
     }
@@ -45,16 +47,21 @@ export default class Toast {
         this.toastElement = errorToast;
     }
 
+    addEventListener() {
+        this.toastElement?.addEventListener("mouseover", () => {
+            this.startTimer();
+        });
+    }
+
     show() {
         this.toastElement?.classList.add("show");
     }
 
-    hide() {
-        
-    }
-
     startTimer() {
-        setTimeout(() => {
+        if (this.idTimer !== null) {
+            clearTimeout(this.idTimer);
+        }
+        this.idTimer = setTimeout(() => {
             this.toast.close();
         }, 5000);
     }

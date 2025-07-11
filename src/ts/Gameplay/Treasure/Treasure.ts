@@ -69,6 +69,13 @@ export default class Treasure implements GameplayInterface {
                 this.renderAction();
             }
         })
+        document.addEventListener("expeditionFinish", () => {
+            if (this.action instanceof TreasureGetting && this.action.isFinished()) {
+                this.action.destructor();
+                this.action = new TreasureHunting();
+                this.renderAction();
+            }
+        })
     }
 
     async render() {

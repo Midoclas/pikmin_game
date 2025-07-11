@@ -8261,6 +8261,13 @@ class Treasure {
                 this.renderAction();
             }
         });
+        document.addEventListener("expeditionFinish", () => {
+            if (this.action instanceof _TreasureGetting__WEBPACK_IMPORTED_MODULE_1__["default"] && this.action.isFinished()) {
+                this.action.destructor();
+                this.action = new _TreasureHunting__WEBPACK_IMPORTED_MODULE_2__["default"]();
+                this.renderAction();
+            }
+        });
     }
     render() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -8311,7 +8318,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Default__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Default */ "./src/ts/Default.ts");
 /* harmony import */ var _ElementsType_ProgressBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../ElementsType/ProgressBar */ "./src/ts/ElementsType/ProgressBar.ts");
 /* harmony import */ var _ElementsType_VerticalTouchspin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../ElementsType/VerticalTouchspin */ "./src/ts/ElementsType/VerticalTouchspin.ts");
-/* harmony import */ var _Utils_Toast__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utils/Toast */ "./src/ts/Utils/Toast.ts");
+/* harmony import */ var _Pikmin_PikminMap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Pikmin/PikminMap */ "./src/ts/Pikmin/PikminMap.ts");
+/* harmony import */ var _Utils_Toast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Utils/Toast */ "./src/ts/Utils/Toast.ts");
+/* harmony import */ var _GlobalEvent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../GlobalEvent */ "./src/ts/GlobalEvent.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8321,6 +8330,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
+
 
 
 
@@ -8344,43 +8355,43 @@ class TreasureGetting {
     initEventListener() {
         var _a;
         (_a = this.startExpeditionBtn) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
-            console.log("oui");
             let isValid = this.validator();
             if (typeof isValid == "string") {
-                new _Utils_Toast__WEBPACK_IMPORTED_MODULE_3__["default"]("danger", isValid);
+                new _Utils_Toast__WEBPACK_IMPORTED_MODULE_4__["default"]("danger", isValid);
+                return;
             }
+            this.start();
         });
     }
     validator() {
         let data = this.verticalTouchspin.getData();
-        let strengh = 0;
+        let strength = 0;
         if (!this.treasure) {
-            throw new Error(`Validator is call with an empty treasure object`);
+            throw new Error(`TreasureGetting Validator is call with an empty treasure object`);
         }
-        return "Les valeurs négatives ne sont pas autorisé pour : ";
-        // if (data) {
-        //     let pikminMap = new PikminMap();
-        //     for (const key in pikminMap.mapping) {
-        //         if (pikminMap.mapping.hasOwnProperty(key)) {
-        //             let pikmin = pikminMap.mapping[key];
-        //             let dataValue = data.get(pikmin.id);
-        //             if (typeof dataValue === 'string') {
-        //                 let intDataValue = parseInt(dataValue);
-        //                 if (intDataValue < 0)  {
-        //                     return "Les valeurs négatives ne sont pas autorisé pour : " + pikmin.id;
-        //                 }
-        //                 if (intDataValue > pikmin.nbPikmin)  {
-        //                     return "Le nombre de pikmin demandé est trop élevé pour " + pikmin.id;
-        //                 }
-        //                 strengh += (pikmin.getAttack() * intDataValue);
-        //             }
-        //         }
-        //     }
-        //     if (strengh < this.treasure.weight) {
-        //         return "Vos troupes ne sont pas assez fortes pour porter le trésor";
-        //     }
-        // }
-        // return true
+        if (data) {
+            let pikminMap = new _Pikmin_PikminMap__WEBPACK_IMPORTED_MODULE_3__["default"]();
+            for (const key in pikminMap.mapping) {
+                if (pikminMap.mapping.hasOwnProperty(key)) {
+                    let pikmin = pikminMap.mapping[key];
+                    let dataValue = data.get(pikmin.id);
+                    if (typeof dataValue === 'string') {
+                        let intDataValue = parseInt(dataValue);
+                        if (intDataValue < 0) {
+                            return "negative values are not allowed: " + pikmin.id;
+                        }
+                        if (intDataValue > pikmin.nbPikmin) {
+                            return "You don't have enough Pikmin:" + pikmin.id;
+                        }
+                        strength += (pikmin.getAttack() * intDataValue);
+                    }
+                }
+            }
+            if (strength < this.treasure.weight) {
+                return "You don't have the strength to start expedition.";
+            }
+        }
+        return true;
     }
     initVerticalTouchspin() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -8390,6 +8401,29 @@ class TreasureGetting {
             this.validator();
         });
     }
+    initProgressBar() {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            this.progressBar.initElementType();
+            (_a = this.progressBar.objectElement) === null || _a === void 0 ? void 0 : _a.addEventListener("animationend", () => {
+                if (this.treasure !== null) {
+                    this.finish = true;
+                    document.dispatchEvent(_GlobalEvent__WEBPACK_IMPORTED_MODULE_5__.expeditionFinish);
+                }
+                else {
+                    throw new Error(`No treasure found when progress bars end`);
+                }
+            });
+            this.progressBar.initEventListener();
+        });
+    }
+    start() {
+        console.log("Je start");
+        if (this.treasure) {
+            this.progressBar.setTimeProgressBar(this.treasure.search_time);
+            this.progressBar.resetProgressBar();
+        }
+    }
     getTreasure() {
         return this.treasure;
     }
@@ -8397,7 +8431,7 @@ class TreasureGetting {
         this.treasure = treasure;
     }
     isFinished() {
-        return this.finish; // TMP
+        return this.finish;
     }
     validateTreasure(treasure) {
         if (treasure === null) {
@@ -8411,6 +8445,8 @@ class TreasureGetting {
     }
     destructor() {
         return __awaiter(this, void 0, void 0, function* () {
+            localStorage.removeItem("treasure");
+            this.progressBar.restoreInitialState();
         });
     }
     render() {
@@ -8443,6 +8479,7 @@ class TreasureGetting {
                 }
                 this.initElementAfterRendering();
                 this.initEventListener();
+                this.initProgressBar();
             }
             catch (error) {
                 console.log(error.message);
@@ -8586,6 +8623,7 @@ class TreasureHunting {
     }
     destructor() {
         return __awaiter(this, void 0, void 0, function* () {
+            this.progressBar.restoreInitialState();
             localStorage.removeItem("searching_treasure");
         });
     }
@@ -8633,6 +8671,7 @@ class TreasureHunting {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   expeditionFinish: () => (/* binding */ expeditionFinish),
 /* harmony export */   moneyRefresh: () => (/* binding */ moneyRefresh),
 /* harmony export */   onionRender: () => (/* binding */ onionRender),
 /* harmony export */   treasureFound: () => (/* binding */ treasureFound)
@@ -8640,6 +8679,7 @@ __webpack_require__.r(__webpack_exports__);
 const moneyRefresh = new Event("moneyRefresh");
 const onionRender = new Event("onionRender");
 const treasureFound = new Event("treasureFound");
+const expeditionFinish = new Event("expeditionFinish");
 
 
 /***/ }),
@@ -9276,6 +9316,7 @@ __webpack_require__.r(__webpack_exports__);
 class Toast {
     constructor(type, message) {
         this.toastElement = document.querySelector(_Default__WEBPACK_IMPORTED_MODULE_1__.objectHTMLElement.toast);
+        this.idTimer = null;
         this.type = type;
         this.message = message;
         if (this.toastElement) {
@@ -9283,6 +9324,7 @@ class Toast {
         }
         this.createToast();
         this.toast = new bootstrap__WEBPACK_IMPORTED_MODULE_0__.Alert(_Default__WEBPACK_IMPORTED_MODULE_1__.objectHTMLElement.toast);
+        this.addEventListener();
         this.show();
         this.startTimer();
     }
@@ -9303,14 +9345,21 @@ class Toast {
         document.body.appendChild(errorToast);
         this.toastElement = errorToast;
     }
+    addEventListener() {
+        var _a;
+        (_a = this.toastElement) === null || _a === void 0 ? void 0 : _a.addEventListener("mouseover", () => {
+            this.startTimer();
+        });
+    }
     show() {
         var _a;
         (_a = this.toastElement) === null || _a === void 0 ? void 0 : _a.classList.add("show");
     }
-    hide() {
-    }
     startTimer() {
-        setTimeout(() => {
+        if (this.idTimer !== null) {
+            clearTimeout(this.idTimer);
+        }
+        this.idTimer = setTimeout(() => {
             this.toast.close();
         }, 5000);
     }

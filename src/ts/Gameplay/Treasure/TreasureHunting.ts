@@ -93,6 +93,7 @@ export default class TreasureHunting implements TreasureActionInterface {
     }
 
     async destructor(): Promise<void> {
+        this.progressBar.restoreInitialState();
         localStorage.removeItem("searching_treasure");
     }
 
